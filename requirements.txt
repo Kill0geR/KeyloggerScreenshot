@@ -1,0 +1,3 @@
+BetterPrinting
+pyaudio
+pyautogui
