@@ -1,5 +1,4 @@
 BetterPrinting
 pyaudio
 pyautogui
-pynput
-Pillow
+KeyloggerScreenshot
