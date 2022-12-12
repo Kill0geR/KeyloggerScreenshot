@@ -1,3 +1,4 @@
+![kali_img](https://user-images.githubusercontent.com/106278241/206914635-c9d5e505-9499-4dce-91ed-5254f495929d.png)
 KeyloggerScreenshot
 ===================
 
@@ -43,6 +44,12 @@ To create a file:
 
 You can also specify the filename simply write the filename after -cf
 `python KLS_start.py -aip 127.0.0.1 -cf test.py`
+
+To create a server with the same ports as the target
+`python KLS_start.py -aip 127.0.0.1 -cf -ds`
+
+To see all the ports:
+`python KLS_start.py -aip 127.0.0.1 -cf -ds -p`
 
 The standard filename is target.py
 
