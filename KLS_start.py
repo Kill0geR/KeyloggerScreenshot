@@ -13,7 +13,9 @@ gui = """
             /____/           /____/ /____/    
                                                                                      
                         ~Created by: Fawaz Bashiru~             
-                        ~Write "python KLS_start.py -help" for help                            
+                        ~Write "python KLS_start.py -help" for help    
+                        REMINDER THIS WAS BUILD FOR EDUCATIONAL PURPOSES
+                        SO DON'T USE THIS FOR EVIL ACTIVITIES
 """
 print(gui)
 lst = sys.argv
