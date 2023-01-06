@@ -333,6 +333,20 @@ class ServerPhotos:
         self.port = port
 
     def start(self):
+        gui = """
+    __ __              __                                 _____                                       __            __ 
+   / //_/___   __  __ / /____   ____ _ ____ _ ___   _____/ ___/ _____ _____ ___   ___   ____   _____ / /_   ____   / /_
+  / ,<  / _ \ / / / // // __ \ / __ `// __ `// _ \ / ___/\__ \ / ___// ___// _ \ / _ \ / __ \ / ___// __ \ / __ \ / __/
+ / /| |/  __// /_/ // // /_/ // /_/ // /_/ //  __// /   ___/ // /__ / /   /  __//  __// / / /(__  )/ / / // /_/ // /_  
+/_/ |_|\___/ \__, //_/ \____/ \__, / \__, / \___//_/   /____/ \___//_/    \___/ \___//_/ /_//____//_/ /_/ \____/ \__/  
+            /____/           /____/ /____/    
+
+                        ~Created by: Fawaz Bashiru~             
+                        REMINDER THIS WAS BUILD FOR EDUCATIONAL PURPOSES  
+                        SO DON'T USE THIS FOR EVIL ACTIVITIES                        
+        """
+
+        print(gui)
         bp.color("Cyan: ServerPhotos", "cyan")
         bp.color("Blue: ServerKeylogger", "magenta")
         bp.color("Green: ServerListener", "green")
@@ -420,8 +434,8 @@ class Timer:
         self.port = port
 
     def countdown(self, seconds):
-        minuten = seconds / 60
-        minutes = math.floor(minuten)
+        minutes = seconds // 60
+        # Calculates the floor
         false_second = minutes * 60
         exact_seconds = seconds - false_second
 
