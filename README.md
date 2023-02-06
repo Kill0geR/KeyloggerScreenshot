@@ -27,7 +27,7 @@ Continue by writing:
 
 Install all requirements:
 
-`pip install -r requirements.txt`
+`python requirements.py`
 
 If there is any problem with the server than check out the other method on:
 
