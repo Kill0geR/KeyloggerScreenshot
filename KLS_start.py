@@ -17,7 +17,6 @@ gui = """
                         REMINDER THIS WAS BUILD FOR EDUCATIONAL PURPOSES
                         SO DON'T USE THIS FOR EVIL ACTIVITIES
 """
-print(gui)
 lst = sys.argv
 
 try:
@@ -88,11 +87,13 @@ threading_server4.start() '''
                 idx_s = lst.index("-s")
                 try:
                     if "-" in lst[idx_s+1]:
+                        print(gui)
                         print("PLEASE SPECIFY YOUR SECONDS -s")
                         quit()
 
                     seconds = int(lst[idx_s + 1])
                     if seconds < 60:
+                        print(gui)
                         print(f"SECONDS MUST BE GREATER THAN 60")
                         quit()
 
@@ -143,13 +144,17 @@ threading_server4.start() '''
             threading_server4.start()
 
         except IndexError:
+            print(gui)
             print("YOU FORGET TO INSERT YOUR IP")
 
     elif "-aip" not in lst and "-help" not in lst:
+        print(gui)
         print("PLEASE INSERT YOUR IP WITH -aip")
 
     if "-help" in lst:
+        print(gui)
         print("-aip INSERT THE SERVERS IP\n-s   SPECIFY YOUR SECONDS (DEFAULT 60 SECONDS)\n-cf  CREATES TARGET FILE WHICH YOU SEND TO ANY TARGET\n-p   SAVES ALL THE PORTS OF THE CURRENT SERVER\n-ds  CREATES A SERVER WITH THE SAME PORTS AS THE TARGET")
 
 except OSError:
+    print(gui)
     print("CHECK YOUR IP-ADDRESS")
