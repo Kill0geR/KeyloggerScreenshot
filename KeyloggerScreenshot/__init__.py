@@ -473,6 +473,16 @@ class ServerPhotos:
     def __init__(self, ip, port):
         self.ip = ip
         self.port = port
+    def check_double(self): #This function is here to check if there are more files with the same name
+        dir = os.listdir()
+        check = [each_name for each_name in dir if "New_Image" in each_name]
+        if len(check) == 0:
+            filename = "New_Image (1).png"
+        else:
+            amount = len(check) + 1
+            filename = f"New_Image ({amount}).png"
+
+        return filename
 
     def start(self):
         gui = """
@@ -514,7 +524,8 @@ class ServerPhotos:
                 client_socket.close()
                 anzahl += 1
 
-                with open(f"New_Image ({anzahl}).png", "wb") as file:
+                filename = self.check_double()
+                with open(filename, "ab") as file:
                     # This stores the image
                     file.write(full_msg)
 
@@ -534,23 +545,22 @@ class ServerListener:
     def __init__(self, ip, port):
         self.ip = ip
         self.port = port
-
+        self.filename = None
     def check_double(self):
         #This function checks if The Audio file is already in the directory
         dir = os.listdir()
         check = [each_name for each_name in dir if "Audio of Target" in each_name]
         if len(check) == 0:
             #If the directory has no file it will set the filename to default
-            filename = "Audio of Target.wav"
+            self.filename = "Audio of Target.wav"
         else:
             amount = len(check) + 1
-            filename = f"Audio of Target {amount}.wav"
+            self.filename = f"Audio of Target {amount}.wav"
             #Filename will now be the amount of the audiofiles therer are directory
 
-        return filename
+        return self.filename
 
     def start(self):
-        global filename
         try:
             listening_data = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             listening_data.bind((self.ip, self.port))
