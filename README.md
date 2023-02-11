@@ -27,7 +27,7 @@ Continue by writing:
 
 Install all requirements:
 
-`pip install -r requirements.txt`
+`python requirements.py`
 
 If there is any problem with the server than check out the other method on:
 
@@ -50,6 +50,9 @@ To create a server with the same ports as the target
 
 To see all the ports:
 `python KLS_start.py -aip 127.0.0.1 -cf -ds -p`
+
+To activate simulation:
+`python KLS_start.py -aip 127.0.0.1 -cf -ds -p -sim`
 
 The standard filename is target.py
 
