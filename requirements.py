@@ -25,6 +25,8 @@ if platform == "linux":
         print(f"sudo apt-get install portaudio19-dev python3-pyaudio")
         os.system(f"sudo apt-get install portaudio19-dev python3-pyaudio")
         audio()
+        print("sudo apt-get install scrot")
+        os.system("sudo apt-get install scrot")
 
     else: print(f"{pip_quest} is not a pip version. Pleease choose between pip and pip3")
 
