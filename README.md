@@ -46,6 +46,8 @@ Write your IP-Address in KLS_start.py
 To create a file: 
 `python KLS_start.py -aip 127.0.0.1 -cf`
 
+You can send the created file to your target
+
 You can also specify the filename simply write the filename after -cf
 `python KLS_start.py -aip 127.0.0.1 -cf test.py`
 
