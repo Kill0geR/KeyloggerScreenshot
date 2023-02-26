@@ -11,9 +11,9 @@ https://pypi.org/project/KeyloggerScreenshot/
 
 I would suggest to run KeyloggerScreenshot on Kali linux. But it works on every linux distro
 
-If you are a Linux user then write.
+If you are a Linux user. Change to root.
 
-To change root:
+To change root write:
 
 `sudo -i`
 
