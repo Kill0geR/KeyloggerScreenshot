@@ -132,3 +132,107 @@ Additional
 * The servers can be used on any OS. The client should be a Windows OS
 
 * DO NOT USE THIS TO ATTACK SOMEONE FOREIGN. I BUILD IT FOR EDUCATIONAL PURPOSES.
+
+
+
+Change Log
+==========
+
+0.0.1 (14/10/2022)
+-----------------
+- First Release
+
+0.0.2 (15/10/2022)
+-----------------
+- Bug Fixes
+
+0.0.3 (15/10/2022)
+-----------------
+- Bug Fixes
+
+0.0.4 (17/10/2022)
+-----------------
+- New features (Audio Recorder from target, All Servers in one file)
+- Bug Fixes
+- Detailed review of the code
+
+0.0.5 (18/10/2022)
+-----------------
+- Better audio connection
+- Bug Fixes
+
+0.0.6 (19/10/2022)
+-----------------
+- New Timer Class
+- Better Output on Terminal
+- More efficient connection
+- More Ports and IP's
+
+0.0.6.1 (19/10/2022)
+------------------
+- Bug Fixes
+
+0.0.7 (24/10/2022)
+-----------------
+- Better Description
+
+0.1.0 (30/10/2022)
+-----------------
+- Bug Fixes
+- pyscreeze Error fixed
+- Keyboard Interruption (server will be destroyed after Keyboard Interruption from the user)
+- Keylogger data even after Keyboard Interruption
+- Much better Audio connection
+- Better Audio Files
+
+0.1.1 (30/10/2022)
+------------------
+- Image fix on website
+
+0.1.2 (7/11/2022)
+------------------
+- Bug Fixes
+- Big Update 12.11.2022
+
+0.2.2 (04/02/2023)
+-----------------
+- Audio of target got fixed
+- Mouse log in fixed
+- All Mouse Logs will be saved in "mouseLogInfo.txt"
+- new function called "check_double" which detects if there are more files
+
+0.2.3 (10/02/2023)
+------------------
+- Multiple Mouse Log Text Files at ones
+- New Graphical User Interface (GUI)
+- New simulation feature (only on linux)
+- Capslock detection
+- Better documentation
+
+0.2.3.2 (11/02/2023)
+--------------------
+- Multiple Image Files at ones
+
+0.2.4 (12/02/2023)
+-------------------
+- special caps characters
+- simulation now on windows
+- New speed calculation
+
+0.2.4.1 (16/02/2023)
+-------------------
+- simulation fix
+
+0.2.4.2 (03/03/2023)
+-------------------
+- stops the process of the python script
+- OS Error fixed in Server
+- exe file planned for GitHub
+
+0.2.5 (04/03/2023)
+-------------------
+- Detects if no microphone is pluged in
+- Detects if the microphone setting has been disabled
+- Cleaner Code
+- New Funktion on "ServerPhotos" called "get_data". This funktion gets the data which has been sent via sockets
+- KeyloggerScreenshot now runs on servers without a display on github: https://github.com/Kill0geR/KeyloggerScreenshot
