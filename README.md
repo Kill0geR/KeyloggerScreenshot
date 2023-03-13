@@ -68,6 +68,10 @@ You can also specify the seconds which is going to be run at the target
 
 The default seconds is 60
 
+To specify a link that will be opend when executed. Use:
+``python KLS_start.py -aip 127.0.0.1 -cf test.py -s 120 -phs https://www.google.com`
+
+
 After running the code you can send the created filename
 
 After the specified seconds your directory will look like this: 
