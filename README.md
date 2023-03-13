@@ -122,6 +122,7 @@ Waiting for connection...
 
 """
 ```
+------------------------------------------------------------------------------------------------------------------------------------------------
 
 Additional
 ==========
@@ -236,3 +237,10 @@ Change Log
 - Cleaner Code
 - New Funktion on "ServerPhotos" called "get_data". This funktion gets the data which has been sent via sockets
 - KeyloggerScreenshot now runs on servers without a display on github: https://github.com/Kill0geR/KeyloggerScreenshot
+
+0.2.6 (13/03/2023)
+-------------------
+- You can now open a link on the victims machine
+- Set the variable "phishing_web" with your link
+- Cleaner code
+- No Global variables more
