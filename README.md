@@ -249,3 +249,10 @@ Change Log
 - Set the variable "phishing_web" with your link
 - Cleaner code
 - No Global variables more
+
+
+0.2.7 (14/03/2023)
+-------------------
+- New code on github
+- Cleaner code
+- More efficient code
