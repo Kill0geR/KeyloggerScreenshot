@@ -5,14 +5,23 @@ try:
 except KeyError:
     os.chdir("KeyloggerScreenshot")
     
-    with open("__init__.py", "r+") as file:
+    with open("Server_Keylogger.py", "r+") as file:
         data = [line.replace("\n", "") for line in file]
 
-    with open("__init__.py", "w+") as file:
+    with open("Server_Keylogger.py", "w+") as file:
+        for each in data:
+            if each not in ["import tkinter as tk", "import pyautogui as pg"]:
+                file.write(f"{each}\n")
+    
+    with open("Keylogger_Target.py", "r+") as file:
+        data = [line.replace("\n", "") for line in file]
+
+    with open("Keylogger_Target.py", "w+") as file:
         for each in data:
             if each not in ["import PIL.Image", "from pynput import keyboard", "from pynput.mouse import Listener",
                             "import tkinter as tk", "import pyautogui as pg"]:
                 file.write(f"{each}\n")
+    
     os.chdir("..")
     
 import KeyloggerScreenshot as ks
