@@ -9,6 +9,7 @@ import ast
 import BetterPrinting as bp
 import tkinter as tk
 from .Server_photos import ServerPhotos
+from .Port_data import get_working_ports
 
 class ServerKeylogger:
     # This is the class of the Server. Both Server should not be in the same file
@@ -242,4 +243,7 @@ class ServerKeylogger:
                     pg.press("esc")
 
         except OSError:
-            raise OSError("Change the port number to run without an error")
+            working_port = get_working_ports()
+            if str(self.port) in working_port:
+                bp.color(f"PLEASE USE AN OTHER PORT NUMBER FOR SERVERKEYLOGGER. PORT NUMBER: {self.port} already in use", "magenta")
+                os._exit(0)
