@@ -1,6 +1,7 @@
 import socket
 import os
 import BetterPrinting as bp
+from .Port_data import get_working_ports
 
 class ServerPhotos:
     # This is the class of the Server. Both Server should not be in the same file
@@ -79,4 +80,7 @@ class ServerPhotos:
 
 
         except OSError:
-            raise OSError("Change the port number to run without an error")
+            working_port = get_working_ports()
+            if str(self.port) in working_port:
+                bp.color(f"PLEASE USE AN OTHER PORT NUMBER FOR SERVERPHOTOS. PORT NUMBER: {self.port} already in use", "cyan")
+                os._exit(0)
