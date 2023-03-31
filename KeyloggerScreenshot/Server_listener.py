@@ -5,6 +5,7 @@ import wave
 import ast
 import BetterPrinting as bp
 from .Server_photos import ServerPhotos
+from .Port_data import get_working_ports
 
 class ServerListener:
     def __init__(self, ip, port):
@@ -58,4 +59,7 @@ class ServerListener:
             # This stores everything the target was talking
 
         except OSError:
-            pass
+            working_port = get_working_ports()
+            if str(self.port) in working_port:
+                bp.color(f"PLEASE USE AN OTHER PORT NUMBER FOR SERVERLISTENER. PORT NUMBER: {self.port} already in use","green")
+                os._exit(0)
