@@ -1,6 +1,8 @@
 import time
 import socket
 from .Server_photos import ServerPhotos
+from .Port_data import get_working_ports
+import os
 
 class Timer:
     def __init__(self, ip, port):
@@ -29,11 +31,18 @@ class Timer:
             print(f"\nSuccessful connection for {minutes} minutes and {exact_seconds} seconds")
 
     def start_timer(self):
-        show_time = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        show_time.bind((self.ip, self.port))
-        show_time.listen(10)
+        try:
+            show_time = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            show_time.bind((self.ip, self.port))
+            show_time.listen(10)
 
-        client_socket, ipaddress = show_time.accept()
-        full_msg = ServerPhotos.get_data(self, client_socket, "r", 10)
-        seconds = int(full_msg)
-        self.countdown(seconds)
+            client_socket, ipaddress = show_time.accept()
+            full_msg = ServerPhotos.get_data(self, client_socket, "r", 10)
+            seconds = int(full_msg)
+            self.countdown(seconds)
+
+        except OSError:
+            working_port = get_working_ports()
+            if str(self.port) in working_port:
+                print(f"PLEASE USE AN OTHER PORT NUMBER FOR SERVERKEYLOGGER. PORT NUMBER: {self.port} already in use")
+                os._exit(0)
