@@ -261,3 +261,11 @@ Change Log
 -------------------
 - Port number fixed
 - Already used ports will now be shown
+
+0.2.9 (03/04/2023)
+-------------------
+- Better Port documentation
+- New File "Simulation_code.py" (This stores the code for the simulation. Only on GitHub!!!)
+- Cleaner ServerKeylogger code
+- New help instruction on KLS_start on GitHub
+
