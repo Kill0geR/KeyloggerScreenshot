@@ -6,6 +6,7 @@ import ast
 import time
 import PIL.Image
 import tkinter as tk
+import BetterPrinting as bp
 
 def countdown():
     global seconds
@@ -108,12 +109,16 @@ def start_simulation():
     pg.sleep(4)
     for image in img_files:
         im = PIL.Image.open(image)
-        #Opens the image
-        im.show()
-        time.sleep(2)
-        pg.press("f11")
-        # Makes the image in the perfect resolution
-        for x, y in every_coordinate:
-            pg.moveTo(x, y, 0.3)
-            time.sleep(sleep)
-        pg.press("esc")
+        try:
+            #Opens the image
+            im.show()
+            time.sleep(2)
+            pg.press("f11")
+            # Makes the image in the perfect resolution
+            for x, y in every_coordinate:
+                pg.moveTo(x, y, 0.3)
+                time.sleep(sleep)
+            pg.press("esc")
+        except RuntimeError:
+            bp.color('\n\nTry to run "python Simulation_code.py" in your terminal', "red")
+            os._exit(0)
