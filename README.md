@@ -269,3 +269,7 @@ Change Log
 - Cleaner ServerKeylogger code
 - New help instruction on KLS_start on GitHub
 
+0.2.9.1 (15/04/2023)
+--------------------
+- Data which the target has pasted will now be shown on the server
+- Documentation incoming
