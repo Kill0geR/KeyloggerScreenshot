@@ -164,5 +164,4 @@ class Simulation:
             except RuntimeError:
                 bp.color('\n\nTry to run "python Simulation_code.py" in your terminal.\nIf this did not work try to clone my project on github: https://github.com/Kill0geR/KeyloggerScreenshot',"red")
                 os._exit(0)
-
-Simulation.start_simulation()
+                
