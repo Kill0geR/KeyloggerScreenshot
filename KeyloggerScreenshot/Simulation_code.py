@@ -134,11 +134,6 @@ class Simulation:
             esc = 0.1
             this_img = all_cor + open_img + esc
             seconds = round(this_img * len(img_files))
-
-        duration_seconds = one_coordinate * len(every_coordinate)
-        one_image = duration_seconds + img_seconds
-        summed_up = one_image * len(img_files)
-        seconds = round(summed_up)
         # This calculates the amount it will take
 
         print(f"\nThe target has clicked {len(every_coordinate)} times on his screen")
