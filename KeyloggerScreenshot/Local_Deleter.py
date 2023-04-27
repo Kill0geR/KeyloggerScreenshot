@@ -10,8 +10,8 @@ class DeleteList:
 
     @staticmethod
     def countdown(seconds):
-        # 15 seconds more than the regular time
-        seconds += 15
+        # 5 seconds more than the regular time
+        seconds += 5
         
         while seconds:
             time.sleep(1)
