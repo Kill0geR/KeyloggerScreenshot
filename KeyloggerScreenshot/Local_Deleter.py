@@ -39,7 +39,7 @@ class DeleteList:
             elif full_msg == "done":
                 if DeleteList.lst:
                     os.chdir("..")
-                    for idx, each in enumerate(DeleteList.lst):
+                    for each in DeleteList.lst:
                         os.rmdir(each)
                 os._exit(0)
 
