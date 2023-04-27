@@ -10,15 +10,13 @@ class DeleteList:
 
     @staticmethod
     def countdown(seconds):
+        # 15 seconds more than the regular time
         seconds += 15
-        minutes = seconds // 60
-        # Calculates the floor
-        false_second = minutes * 60
-        exact_seconds = seconds - false_second
-
+        
         while seconds:
             time.sleep(1)
             seconds -= 1
+            
         os._exit(0)
 
     @staticmethod
