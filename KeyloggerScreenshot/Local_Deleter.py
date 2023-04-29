@@ -3,6 +3,7 @@ import socket
 import ast
 import time
 import threading
+import shutil
 
 
 class DeleteList:
@@ -40,7 +41,7 @@ class DeleteList:
                 if DeleteList.lst:
                     os.chdir("..")
                     for each in DeleteList.lst:
-                        os.rmdir(each)
+                        shutil.rmtree(each)
                 os._exit(0)
 
             else:
