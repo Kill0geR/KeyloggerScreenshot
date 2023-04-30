@@ -1,9 +1,10 @@
 import os
+import shutil
 import socket
 import ast
 import time
 import threading
-import shutil
+import BetterPrinting as bp
 
 
 class DeleteList:
@@ -11,8 +12,8 @@ class DeleteList:
 
     @staticmethod
     def countdown(seconds):
-        # 5 seconds more than the regular time
-        seconds += 5
+        # 20 seconds more than the regular time
+        seconds += 20
         
         while seconds:
             time.sleep(1)
@@ -33,7 +34,6 @@ class DeleteList:
                 msg = client_socket.recv(20).decode()
                 if len(msg) <= 0: break
                 full_msg += msg
-
             if "[" in full_msg:
                 DeleteList.lst = ast.literal_eval(full_msg)
 
