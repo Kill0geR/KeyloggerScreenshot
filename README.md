@@ -273,3 +273,30 @@ Change Log
 --------------------
 - Data which the target has pasted will now be shown on the server
 - Documentation incoming
+
+0.3.0 (20/04/2023)
+---------------------
+- Simulation now stops after stop button is pressed
+- Bug fixes
+- New Code on "Simulation_code.py" and on "KLS_Start.py"
+- New files on github https://github.com/Kill0geR/KeyloggerScreenshot
+
+0.3.1 (26/04/2023)
+---------------------
+- Bug fixes
+- Cleaner Code
+
+0.4.0 (30/04/2023)
+--------------------
+- Cleaner Code in Simulation_code.py script
+- Directories of the target will be deleted after Keyboard interruption
+- New File on KeyloggerScreenshot Local_Deleter.py + Documentation
+- After Backspace a new list will be shown
+- More intelligent Keylogger (understands when to change the list)
+- Stops the process of images also in linux with PID
+- PID fix on windows
+- duration_in_seconds has been changed to 60 seconds from 200 seconds
+- Mouseclick information will now be sent after Interruption
+- More intelligent Keylogger
+- If backspace is pressed the last pressed character will be deleted from the list
+- Detects if backspace is hold for a long time
