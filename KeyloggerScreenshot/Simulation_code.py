@@ -57,7 +57,7 @@ class Simulation:
         Simulation.startbutton.configure(bg="red")
         # This is the button
         Simulation.startbutton["text"] = "Stop simulation"
-        if sys.platform == "windows":
+        if sys.platform != "linux":
             data = subprocess.check_output("tasklist")
             # This lists all the tasks that are open on windows
             str_data = str(data).split()
