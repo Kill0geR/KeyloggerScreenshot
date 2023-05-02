@@ -4,7 +4,6 @@ import socket
 import ast
 import time
 import threading
-import BetterPrinting as bp
 
 
 class DeleteList:
