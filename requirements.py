@@ -21,6 +21,8 @@ def audio():
 
 if platform == "linux":
     if pip_quest in pip_lst:
+        print("sudo apt install python3-pip")
+        os.system("sudo apt install python3-pip")
         install_all()
         print(f"sudo apt-get install portaudio19-dev python3-pyaudio")
         os.system(f"sudo apt-get install portaudio19-dev python3-pyaudio")
