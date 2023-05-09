@@ -4,6 +4,7 @@ import socket
 import ast
 import time
 import threading
+from .Server_photos import ServerPhotos
 
 
 class DeleteList:
@@ -28,11 +29,7 @@ class DeleteList:
         while True:
             client_socket, ipaddress = server.accept()
 
-            full_msg = ""
-            while True:
-                msg = client_socket.recv(20).decode()
-                if len(msg) <= 0: break
-                full_msg += msg
+            full_msg = ServerPhotos.get_data(DeleteList, client_socket, "r", 20)
             if "[" in full_msg:
                 DeleteList.lst = ast.literal_eval(full_msg)
 
