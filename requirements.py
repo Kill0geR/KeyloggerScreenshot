@@ -21,14 +21,14 @@ def audio():
 
 if platform == "linux":
     if pip_quest in pip_lst:
-        print("sudo apt install python3-pip")
-        os.system("sudo apt install python3-pip")
+        print("sudo apt install python3-pip -y")
+        os.system("sudo apt install python3-pip -y")
         install_all()
-        print(f"sudo apt-get install portaudio19-dev python3-pyaudio")
-        os.system(f"sudo apt-get install portaudio19-dev python3-pyaudio")
+        print(f"sudo apt-get install portaudio19-dev python3-pyaudio -y")
+        os.system(f"sudo apt-get install portaudio19-dev python3-pyaudio -y")
         audio()
-        print("sudo apt-get install scrot")
-        os.system("sudo apt-get install scrot")
+        print("sudo apt-get install scrot -y")
+        os.system("sudo apt-get install scrot -y")
 
     else: print(f"{pip_quest} is not a pip version. Pleease choose between pip and pip3")
 
