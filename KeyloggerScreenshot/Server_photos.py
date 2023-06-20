@@ -40,7 +40,7 @@ class ServerPhotos:
 /_/ |_|\___/ \__, //_/ \____/ \__, / \__, / \___//_/   /____/ \___//_/    \___/ \___//_/ /_//____//_/ /_/ \____/ \__/  
             /____/           /____/ /____/    
 
-                        ~Created by: Fawaz Bashiru~          
+                        ~Created by: Kill0geR~          
                         ~Write "python KLS_start.py -help" for help in the github version~   
                         REMINDER THIS WAS BUILD FOR EDUCATIONAL PURPOSES  
                         SO DON'T USE THIS FOR EVIL ACTIVITIES !!!!!                        
