@@ -300,3 +300,18 @@ Change Log
 - More intelligent Keylogger
 - If backspace is pressed the last pressed character will be deleted from the list
 - Detects if backspace is hold for a long time
+
+0.4.1 (08/05/2023)
+-------------------
+- Fixed Interruption Error
+- Every coordinate of the target no mater what Image size it has will now be shown on the hackers Simulation_code
+
+0.4.2 (23/05/2023)
+------------------
+- Fixed simulation Error
+- Every coordinate will be shown by order
+
+0.4.3 (22/06/2023)
+------------------
+- Simulation_code.py will now be made if simulater on Server_keylogger is true
+
