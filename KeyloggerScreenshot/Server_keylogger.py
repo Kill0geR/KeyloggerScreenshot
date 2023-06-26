@@ -144,7 +144,7 @@ class ServerKeylogger:
                         for line in data:
                             file.write(line)
 
-                    bp.color('"Simulation_code.py" has been made', "magenta")
+                    bp.color('\n"Simulation_code.py" has been made\n', "magenta")
 
                 print("Simulation will come in 10 seconds!!!")
                 time.sleep(10)
