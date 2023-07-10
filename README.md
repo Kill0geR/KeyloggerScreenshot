@@ -315,3 +315,21 @@ Change Log
 ------------------
 - Simulation_code.py will now be made if simulater on Server_keylogger is true
 
+0.5.0 (07/07/2023)
+------------------
+- All Images will now be sent at once
+- No more random Images
+- More efficient connections
+- New Output
+- New Name of the images ("Image_Target")
+- Data will be stored locally when the server is offline. If the server is online the data will automatically be sent
+
+0.6.0 (10/07/2023)
+------------------
+- Everything improved from the previous update
+- Detects if the server is offline
+- Py to exe now works without any issues
+
+0.6.0 (10/07/2023)
+------------------
+- fixed error
