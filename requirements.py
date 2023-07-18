@@ -13,6 +13,8 @@ def install_all():
     os.system(f"{pip_quest} install pyautogui")
     print(f"{pip_quest} install Pillow")
     os.system(f"{pip_quest} install Pillow")
+    print(f"{pip_quest} install requests")
+    os.system(f"{pip_quest} install requests")
 def audio():
     print(f"{pip_quest} install pyaudio")
     os.system(f"{pip_quest} install pyaudio")
