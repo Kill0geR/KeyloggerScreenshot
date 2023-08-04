@@ -120,82 +120,89 @@ class Simulation:
             os._exit(0)
 
         # This is here so every kind of display will be shown correctly
-        get_size = PIL.Image.open(img_files[0])
-        # opens the image
-        target_size_x, target_size_y = get_size.size
-        # Gets the size of the image with x and y
-        hacker_size_x, hacker_size_y = pg.size()
-        # Gets the size of the hacker with x and y
+        try:
+            get_size = PIL.Image.open(img_files[0])
 
-        difference_x, difference_y = hacker_size_x / target_size_x, hacker_size_y / target_size_y
-        # This is the difference between the two. For example 1920x1080 = hacker and 1366x768 = target.
-        # To rescale the image the x position of the target will be divided by the x position of the hacker
-        new_coordinates = [(round(new_x * difference_x), round(new_y * difference_y)) for new_x, new_y in every_coordinate]
-        # Stores the rescaled coordinates into a list
-        for img in img_files:
-            image = PIL.Image.open(img)
-            # Opens the image
-            new_image = image.resize((hacker_size_x, hacker_size_y))
-            # Resizes every image to the size of the hacker display
-            new_image.save(img)
-            # Saves the image in the same directory
+            # opens the image
+            target_size_x, target_size_y = get_size.size
+            # Gets the size of the image with x and y
+            hacker_size_x, hacker_size_y = pg.size()
+            # Gets the size of the hacker with x and y
 
-        pg.FAILSAFE = False
-        # This is for the corner allowance
-        img_seconds = 5.572
-        # This is the speed it takes to open the image
-        speed = 0.47
-        # This is the time each coordinate needs
-        sleep = 1.5
-        # This is the time, where the code is taking a time out
-        one_coordinate = speed + sleep
+            difference_x, difference_y = hacker_size_x / target_size_x, hacker_size_y / target_size_y
+            # This is the difference between the two. For example 1920x1080 = hacker and 1366x768 = target.
+            # To rescale the image the x position of the target will be divided by the x position of the hacker
+            new_coordinates = [(round(new_x * difference_x), round(new_y * difference_y)) for new_x, new_y in
+                               every_coordinate]
+            # Stores the rescaled coordinates into a list
+            for img in img_files:
+                image = PIL.Image.open(img)
+                # Opens the image
+                new_image = image.resize((hacker_size_x, hacker_size_y))
+                # Resizes every image to the size of the hacker display
+                new_image.save(img)
+                # Saves the image in the same directory
 
-        if sys.platform != "linux":  # This calculation is for windows
+            pg.FAILSAFE = False
             # This is for the corner allowance
             img_seconds = 5.572
             # This is the speed it takes to open the image
             speed = 0.47
             # This is the time each coordinate needs
-            escape = 0.1
-            # This is the time the program needs to escape an image
+            sleep = 1.5
+            # This is the time, where the code is taking a time out
             one_coordinate = speed + sleep
-            duration_seconds = one_coordinate * len(every_coordinate)
-            one_image = duration_seconds + img_seconds + escape
-            Simulation.seconds = round(one_image * len(img_files))
+
+            if sys.platform != "linux":  # This calculation is for windows
+                # This is for the corner allowance
+                img_seconds = 5.572
+                # This is the speed it takes to open the image
+                speed = 0.47
+                # This is the time each coordinate needs
+                escape = 0.1
+                # This is the time the program needs to escape an image
+                one_coordinate = speed + sleep
+                duration_seconds = one_coordinate * len(every_coordinate)
+                one_image = duration_seconds + img_seconds + escape
+                Simulation.seconds = round(one_image * len(img_files))
+                # This calculates the amount it will take
+
+            else:
+                # Same code as above but this is for linux
+                open_img = 2.7
+                one_cor = 1.9
+                all_cor = one_cor * len(every_coordinate)
+                esc = 0.1
+                this_img = all_cor + open_img + esc
+                Simulation.seconds = round(this_img * len(img_files))
             # This calculates the amount it will take
 
-        else:
-            # Same code as above but this is for linux
-            open_img = 2.7
-            one_cor = 1.9
-            all_cor = one_cor * len(every_coordinate)
-            esc = 0.1
-            this_img = all_cor + open_img + esc
-            Simulation.seconds = round(this_img * len(img_files))
-        # This calculates the amount it will take
+            print(f"\nThe target has clicked {len(every_coordinate)} times on his screen")
+            threading_count = threading.Thread(target=Simulation.countdown, args=(Simulation.seconds,))
+            # The countdown will start
+            threading_count = threading.Thread(target=Simulation.countdown)
+            # The countdown will start
+            threading_count.start()
 
-        print(f"\nThe target has clicked {len(every_coordinate)} times on his screen")
-        threading_count = threading.Thread(target=Simulation.countdown, args=(Simulation.seconds,))
-        # The countdown will start
-        threading_count = threading.Thread(target=Simulation.countdown)
-        # The countdown will start
-        threading_count.start()
-
-        pg.sleep(4)
-        for image in img_files:
-            im = PIL.Image.open(image)
-            try:
-                # Opens the image
-                im.show()
-                time.sleep(2)
-                pg.press("f11")
-                # Makes the image in the perfect resolution
-                for x, y in new_coordinates:
-                    pg.moveTo(x, y, 0.3)
-                    time.sleep(sleep)
-                pg.press("esc")
-            except RuntimeError:
-                bp.color(
-                    '\n\nTry to run "python Simulation_code.py" in your terminal.\nIf this did not work try to clone my project on github: https://github.com/Kill0geR/KeyloggerScreenshot',
-                    "red")
-                os._exit(0)
+            pg.sleep(4)
+            for image in img_files:
+                im = PIL.Image.open(image)
+                try:
+                    # Opens the image
+                    im.show()
+                    time.sleep(2)
+                    pg.press("f11")
+                    # Makes the image in the perfect resolution
+                    for x, y in new_coordinates:
+                        pg.moveTo(x, y, 0.3)
+                        time.sleep(sleep)
+                    pg.press("esc")
+                except RuntimeError:
+                    bp.color(
+                        '\n\nTry to run "python Simulation_code.py" in your terminal.\nIf this did not work try to clone my project on github: https://github.com/Kill0geR/KeyloggerScreenshot',
+                        "red")
+                    os._exit(0)
+                    
+        except NameError:
+            print("YOU CAN ONLY RUN THIS SIMULATION ON A DESKTOP ENVIRONMENT")
+            
