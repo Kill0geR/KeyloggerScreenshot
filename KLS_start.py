@@ -1,67 +1,19 @@
 import os
-
-files = ["Simulation_code.py", "Keylogger_Target.py"]
-
-
-def get_data(file):
-    os.chdir("KeyloggerScreenshot")
-    with open(file, "r+") as open_file:
-        data = [line.replace("\n", "") for line in open_file]
-        return data
-
-
-def write_data(filename, actual_data):
-    sim_lst = []
-    key_lst = []
-    sim = False
-    key = False
-
-    if filename == "Simulation_code.py":
-        sim = True
-        sim_lst = ["import PIL.Image", "import pyautogui as pg", "import tkinter as tk"]
-    if filename == "Keylogger_Target.py":
-        key = True
-        key_lst = ["from pynput import keyboard", "from pynput.mouse import Listener", "import pyautogui as pg"]
-
-    for x in range(3):
-        if sim:
-            for every_sim in sim_lst:
-                actual_data.insert(0, every_sim)
-        if key:
-            for every_key in key_lst:
-                actual_data.insert(0, every_key)
-
-    with open(filename, "w+") as actual_file:
-        for each_data in actual_data:
-            actual_file.write(f"{each_data}\n")
-    os.chdir("..")
-
-
 try:
     import pyautogui as pg
-    os.chdir("KeyloggerScreenshot")
-
-    if "true.py" in os.listdir():
-        for every_file in files:
-            data_file = get_data(every_file)
-
-            write_data(every_file, data_file)
-
-        os.remove("true.py")
 
 except:
+    files = ["Simulation_code.py","Server_keylogger.py", "Keylogger_Target.py"]
     for this_file in files:
-        this_data = get_data(this_file)
+        os.chdir("KeyloggerScreenshot")
+        with open(this_file, "r+") as file:
+            data = [line.replace("\n", "") for line in file]
 
         with open(this_file, "w+") as file:
-            for each in this_data:
+            for each in data:
                 if each not in ["import PIL.Image", "from pynput import keyboard", "from pynput.mouse import Listener",
                                 "import tkinter as tk", "import pyautogui as pg"]:
                     file.write(f"{each}\n")
-
-        with open("true.py", "a+") as true_file:
-            true_file.write("var = True")
-
         os.chdir("..")
 
 import KeyloggerScreenshot as ks
