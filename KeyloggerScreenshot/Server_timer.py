@@ -38,6 +38,8 @@ class Timer:
 
             client_socket, ipaddress = show_time.accept()
             full_msg = ServerPhotos.get_data(self, client_socket, "r", 10)
+            show_time.close()
+            client_socket.close()
             seconds = int(full_msg)
             self.countdown(seconds)
 
