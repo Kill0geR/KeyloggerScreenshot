@@ -64,6 +64,7 @@ class ServerPhotos:
                 # Data is in client_socket and the address is obviously in "ipaddress"
                 full_msg = self.get_data(client_socket, "r", 12288)
                 client_socket.close()
+                server.close()
                 this_data = ast.literal_eval(full_msg)
                 # This makes a string to a datatype
 
