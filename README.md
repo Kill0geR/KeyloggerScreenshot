@@ -21,7 +21,7 @@ In your terminal
 
 To clone KeyloggerScreenshot simply type:
 
-`git clone https://github.com/Facileee/KeyloggerScreenshot.git`
+`git clone https://github.com/Kill0geR/KeyloggerScreenshot.git`
 
 In your terminal
 
