@@ -141,6 +141,8 @@ Additional
 
 * Simulation_code.py wont work properly on Virtual Machine
 
+* Server will shutdown automatically after everything has been sent to the server.
+
 
 
 Change Log
