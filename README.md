@@ -334,7 +334,12 @@ Change Log
 - Detects if the server is offline
 - Py to exe now works without any issues
 
-0.6.0 (10/07/2023)
+0.6.1 (10/07/2023)
 ------------------
 - fixed error
+
+0.6.2 (07/09/2023)
+------------------
+- fixed README on Pypi
+
 
