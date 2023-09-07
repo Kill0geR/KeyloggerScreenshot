@@ -338,4 +338,3 @@ Change Log
 ------------------
 - fixed error
 
-<img src="https://t.bkit.co/w_64dc6e52a0b37.gif" />
