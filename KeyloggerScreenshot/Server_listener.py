@@ -62,7 +62,10 @@ class ServerListener:
 
         except OSError:
             working_port = Ports.get_working_ports()
-            if str(self.port) in working_port:
-                bp.color(f"PLEASE USE AN OTHER PORT NUMBER FOR SERVERLISTENER. PORT NUMBER: {self.port} already in use","green")
-                time.sleep(1)
-                os._exit(0)
+            try:
+                if str(self.port) in working_port:
+                    bp.color(f"PLEASE USE AN OTHER PORT NUMBER FOR SERVERLISTENER. PORT NUMBER: {self.port} already in use","green")
+                    time.sleep(1)
+                    os._exit(0)
+            except:
+                pass
