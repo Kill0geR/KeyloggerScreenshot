@@ -84,6 +84,9 @@ class ServerPhotos:
 
         except OSError:
             working_port = Ports.get_working_ports()
-            if str(self.port) in working_port:
-                bp.color(f"PLEASE USE AN OTHER PORT NUMBER FOR SERVERPHOTOS. PORT NUMBER: {self.port} already in use", "cyan")
-                os._exit(0)
+            try:
+                if str(self.port) in working_port:
+                    bp.color(f"PLEASE USE AN OTHER PORT NUMBER FOR SERVERPHOTOS. PORT NUMBER: {self.port} already in use", "cyan")
+                    os._exit(0)
+            except:
+                pass
