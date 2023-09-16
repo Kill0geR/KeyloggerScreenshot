@@ -45,7 +45,10 @@ class Timer:
 
         except OSError:
             working_port = Ports.get_working_ports()
-            if str(self.port) in working_port:
-                print(f"PLEASE USE AN OTHER PORT NUMBER FOR SERVERKEYLOGGER. PORT NUMBER: {self.port} already in use")
-                os._exit(0)
+            try:
+                if str(self.port) in working_port:
+                    print(f"PLEASE USE AN OTHER PORT NUMBER FOR SERVERKEYLOGGER. PORT NUMBER: {self.port} already in use")
+                    os._exit(0)
+            except:
+                pass
                 
