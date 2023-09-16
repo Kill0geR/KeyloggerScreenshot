@@ -57,7 +57,7 @@ class ServerPhotos:
             server.listen(1000)
 
             anzahl = 0
-            while True:
+            try:
                 bp.color("Waiting for connection...", "cyan")
                 client_socket, address = server.accept()
                 bp.color(f"\n\nConnection has been established with {address}", "cyan")
@@ -67,19 +67,21 @@ class ServerPhotos:
                 server.close()
                 this_data = ast.literal_eval(full_msg)
                 # This makes a string to a datatype
-
+    
                 for filename, filename_data in this_data.items():
                     anzahl += 1
                     real_filename = self.get_double_names()
                     with open(real_filename, "ab") as file:
                         file.write(filename_data)
-
+    
                 # "anzahl" is for the amount of photos
                 if anzahl > 1:
                     bp.color(f"{anzahl} Images has been saved to your working directory", "cyan")
                 elif anzahl != 0:
                     bp.color(f"{anzahl} Image have been saved to your working directory", "cyan")
                 # Detetcts how many Image have been saved to your directory
+            except:
+                pass
 
 
         except OSError:
