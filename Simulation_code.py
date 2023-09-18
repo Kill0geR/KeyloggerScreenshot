@@ -207,5 +207,5 @@ class Simulation:
             print("YOU CAN ONLY RUN THIS SIMULATION ON A DESKTOP ENVIRONMENT")
             
 
-
-Simulation.start_simulation()
+simulation = Simulation()
+simulation.start_simulation()
