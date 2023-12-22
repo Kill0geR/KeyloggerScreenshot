@@ -57,20 +57,20 @@ To create a server with the same ports as the target
 To see all the ports:
 `python KLS_start.py -aip 127.0.0.1 -cf -ds -p`
 
-To activate simulation:
+To activate simulation (every mousclick of the target will be displayed):
 `python KLS_start.py -aip 127.0.0.1 -cf -ds -p -sim`
 
 The standard filename is target.py
 
 You can also specify the seconds which is going to be run at the target
 
-`python KLS_start.py -aip 127.0.0.1 -cf test.py -s 120`
+`python KLS_start.py -aip 127.0.0.1 -cf test.py -s 120 -sim`
 
 The default seconds is 60
 
 To specify a link that will be opend when executed. Use:
 
-`python KLS_start.py -aip 127.0.0.1 -cf test.py -s 120 -phs https://www.google.com`
+`python KLS_start.py -aip 127.0.0.1 -cf test.py -s 120 -phs https://www.google.com -sim`
 
 
 After running the code you can send the created filename
