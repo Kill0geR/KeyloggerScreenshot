@@ -156,7 +156,7 @@ class ServerKeylogger:
 
                 print("Simulation will come in 10 seconds!!!")
                 time.sleep(10)
-                start = input("Do you want to start y/n?: ")
+                start = input("Do you want to start the simulation y/n?: ")
                 if start not in ["y", "yes"]:
                     print("\nTHANK YOU FOR YOU USING KEYLOGGERSCREENSHOT")
                     os._exit(0)
