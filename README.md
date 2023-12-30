@@ -141,11 +141,11 @@ Additional
 
 * DO NOT USE THIS TO ATTACK SOMEONE FOREIGN. I BUILD IT FOR EDUCATIONAL PURPOSES.
 
-* Simulation_code.py wont work properly on Virtual Machine
+* Simulation_code.py won't work properly on Virtual Machine
 
 * Server will shutdown automatically after everything has been sent to the server.
 
-
+* Timer can't be removed (THIS WAS BUILT FOR EDUCATIONAL PURPOSES. THAT'S WHY THERE IS A TIMER SO NOBODY CAN ABUSE THE KEYLOGGER)
 
 Change Log
 ==========
