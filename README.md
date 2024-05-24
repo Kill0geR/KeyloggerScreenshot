@@ -14,7 +14,7 @@ If you are a Linux user. Change to root.
 
 To change root write:
 
-`sudo -i`
+`sudo su`
 
 In your terminal
 
