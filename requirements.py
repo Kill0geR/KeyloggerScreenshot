@@ -2,7 +2,7 @@ import os
 from sys import platform
 
 pip_lst = ["pip", "pip3"]
-pip_quest = input("Which pip is working for you?: ")
+pip_quest = input("Which pip is working for you (pip or pip3)?: ")
 
 
 def install_all():
