@@ -8,7 +8,7 @@ The Keylogger allows the attacker to get all the information the target was typi
 check out my pypi page:
 https://pypi.org/project/KeyloggerScreenshot/
 
-I would suggest to run KeyloggerScreenshot on Kali linux. But it works on every linux distro
+I would suggest to run KeyloggerScreenshot on Kali linux. But it works on every linux distro (also Windows)
 
 If you are a Linux user. Change to root.
 
